@@ -7,39 +7,139 @@ using UnityEngine.UI;
 public class SOLOHandler : MonoBehaviour
 {
     public Text effectTipText;
+    public Text contentText;
 
     private static int count = 0;
+
+    private List<short> pathData = new List<short>();
+
+    public double FireTime;
+    private double fireTime;
+    private bool isDown = false;
+    private bool isUp = false;
+
 
     void Start()
     {
         //unity嵌入Android时显示手写板
-//        if (Application.platform == RuntimePlatform.Android)
-//        {
-//            ShowHWRModule();
-//        }
+        //        if (Application.platform == RuntimePlatform.Android)
+        //        {
+        //            ShowHWRModule();
+        //        }
+        fireTime = FireTime;
+        ShowHWRModule();
     }
 
     void Update()
     {
         //unity嵌入Android隐藏手写板
-//        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape))
-//        {
-//            HideHWRModule();
-//        }
+        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideHWRModule();
+        }
+
+
+        //直接在unity中获取点的位置，出现的问题得多出一些点，在点击按钮的时候的那个笔记也被记录下来
+        /*      if (Input.touchCount > 0)
+              {
+                  Touch touch = Input.GetTouch(0);
+                  Vector2 v = touch.position;
+                  switch (touch.phase)
+                  {
+                      case TouchPhase.Began:
+      //                    pathData.Add((short) v.x);
+      //                    pathData.Add((short) v.y);
+                          break;
+                      case TouchPhase.Moved:
+
+                          pathData.Add((short) v.x);
+                          pathData.Add((short) v.y);
+                          break;
+                      case TouchPhase.Ended:
+                          pathData.Add(-1);
+                          pathData.Add(0);
+                          break;
+                  }
+
+                  Debug.Log(v.x + " " + v.y);
+              }*/
+
+        //根据时间间隔提交
+
+        /* if (Input.touchCount > 0)
+         {
+             Touch touch = Input.GetTouch(0);
+             switch (touch.phase)
+             {
+                 case TouchPhase.Began:
+                     isWrited = true;
+                     break;
+             }
+         }
+ 
+         if (isWrited)
+         {
+             if (Input.touchCount > 0)
+             {
+                 fireTime = FireTime;
+             }
+             else
+             {
+                 fireTime--;
+                 if (fireTime <= 0)
+                 {
+                     TestHWRRec();
+                     fireTime = FireTime;
+                     isWrited = false;
+                 }
+             }
+         }*/
+        if (isDown && isUp)
+        {
+            fireTime -= Time.deltaTime;
+            if (fireTime <= 0)
+            {
+                TestHWRRec();
+                fireTime = FireTime;
+                isDown = false;
+                isUp = false;
+            }
+        }
+        else
+        {
+            fireTime = FireTime;
+        }
+    }
+
+    public void SetTimerStart(String state)
+    {
+        if ("Down".Equals(state))
+        {
+            isDown = true;
+        }
+        else if ("Move".Equals(state))
+        {
+            isUp = false;
+            fireTime = FireTime;
+        }
+        else if ("Up".Equals(state))
+        {
+            isUp = true;
+        }
     }
 
     public void HideHWRModule()
     {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        jo.Call("hideHWRModule");
+        jo.Call("removeHandWriteBroad");
     }
 
     private void ShowHWRModule()
     {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        jo.Call("showHWRModule");
+        jo.Call("addHandWriteBroad");
     }
 
     public void ShowEffect(String result)
@@ -49,28 +149,31 @@ public class SOLOHandler : MonoBehaviour
 
     public void TestHWRRec()
     {
-        short[] s = new short[]
+        String result = HWRRecog();
+        effectTipText.text = "第" + ++count + "次识别:" + result;
+        if (result != null && result.Length >= 1)
         {
-            383, 174, 373, 188, 356, 213, 332, 248, 304, 286, 277, 322, 254, 355, 235, 378, 221, 402, 211, 421, 207,
-            435, 207, 445, 208, 451, 210, 453, 217, 458, 227, 466, 242, 479, 264, 499, 289, 523, 314, 551, 339, 586,
-            364, 619, 384, 649, 404, 678, 420, 702, 431, 721, 441, 739, 447, 751, 450, 758, 451, 763, 451, 764, -1, 0,
-            415, 415, 410, 416, 393, 445, 363, 499, 330, 557, 295, 610, 262, 659, 232, 698, 212, 721, 198, 733, 189,
-            737, 184, 739, 185, 738, -1, 0, 159, 401, 176, 397, 219, 392, 274, 384, 325, 379, 374, 374, 417, 369, 449,
-            366, 469, 364, 483, 363, 486, 363, 487, 363, -1, 0, 649, 227, 663, 224, 683, 224, 705, 224, 726, 228, 743,
-            232, 757, 240, 767, 252, 770, 270, 764, 304, 752, 338, 739, 370, 729, 393, 722, 414, 719, 429, 718, 442,
-            718, 448, 720, 451, 722, 457, 727, 467, 729, 481, 732, 498, 734, 519, 732, 551, 729, 591, 727, 628, 724,
-            655, 722, 681, 719, 702, 716, 719, 716, 730, 714, 736, 713, 740, 711, 744, 708, 745, 703, 743, 689, 738,
-            657, 715, 621, 682, 595, 648, 572, 619, 568, 614, -1, 0, 531, 468, 551, 465, 587, 463, 635, 461, 685, 460,
-            742, 459, 793, 457, 833, 457, 863, 458, 884, 460, 898, 461, 904, 463, 905, 463, -1, 0, -1, -1
-        };
-        String result = HWRRecog(s);
-        effectTipText.text = "第" + count++ + "次识别:" + result;
+            contentText.text += result.Substring(0, 1) + " ";
+        }
+
+        pathData.Clear();
     }
 
-    public String HWRRecog(short[] s)
+    public String HWRRecog()
     {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        return jo.Call<String>("hwrRec", s);
+        return jo.Call<String>("hwrRec");
+    }
+
+    private void PrintArray(short[] ss)
+    {
+        string result = "";
+        foreach (var s in ss)
+        {
+            result += s + ",";
+        }
+
+        print(result.Substring(0, result.Length - 1));
     }
 }
