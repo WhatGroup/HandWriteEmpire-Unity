@@ -11,7 +11,6 @@ public class ButtonStatusManagr : MonoBehaviour
     public ImageManager btnIconDefensen;
     public ImageManager btnIconAttach;
     public ImageManager btnIconCure;
-    public float waitTime;
 
     public void setAllNormal()
     {

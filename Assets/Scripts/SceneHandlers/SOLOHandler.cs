@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class SOLOHandler : MonoBehaviour
 {
-    public Text effectTipText;
-    public Text contentText;
-
     private static int count = 0;
 
     private List<short> pathData = new List<short>();
@@ -18,8 +15,15 @@ public class SOLOHandler : MonoBehaviour
     private bool isDown = false;
     private bool isUp = false;
 
+    public Text chinesePinYin;
+    public Text chineseContent;
+    public Text chineseCurrentPinYin;
+
+    private String[] pinYinArray;
+    private String[] contentArray;
+    private int currentCharacter = 0;
+
     public ButtonStatusManagr btnManager;
-    private ChineseInfo chinese = new ChineseInfo("pinyin", "拼音", "把两个或两个以上的音素结合起来成为一个复合的音");
 
 
     void Start()
@@ -31,6 +35,7 @@ public class SOLOHandler : MonoBehaviour
         //        }
         fireTime = FireTime;
         ShowHWRModule();
+        SetChineseInfo(new ChineseInfo("pin yin", "拼 音", "把两个或两个以上的音素结合起来成为一个复合的音"));
     }
 
     void Update()
@@ -51,7 +56,6 @@ public class SOLOHandler : MonoBehaviour
                 fireTime = FireTime;
                 isDown = false;
                 isUp = false;
-                btnManager.setAllActive();
             }
         }
         else
@@ -89,16 +93,33 @@ public class SOLOHandler : MonoBehaviour
 
     public void ShowEffect(String result)
     {
-        effectTipText.text = result;
     }
 
+    //测试后手写识别的功能
     public void TestHWRRec()
     {
         String result = HWRRecog();
-        effectTipText.text = "第" + ++count + "次识别:" + result;
+//        effectTipText.text = "第" + ++count + "次识别:" + result;
         if (result != null && result.Length >= 1)
         {
-            contentText.text += result.Substring(0, 1) + " ";
+//            contentText.text += result.Substring(0, 1) + " ";
+            String[] results = result.Split(';');
+            print("识别到的结果:" + results);
+            foreach (var s in results)
+            {
+                print("进行对比" + s + "," + contentArray[currentCharacter]);
+                if (s == contentArray[currentCharacter])
+                {
+                    btnManager.setAllActive();
+                    AddCharacter(s);
+                    currentCharacter++;
+                    SetNewPinYin();
+                    if (currentCharacter == contentArray.Length)
+                    {
+                        getNewChineseInfo();
+                    }
+                }
+            }
         }
 
         pathData.Clear();
@@ -118,5 +139,31 @@ public class SOLOHandler : MonoBehaviour
         }
 
         print(result.Substring(0, result.Length - 1));
+    }
+
+    public void SetChineseInfo(ChineseInfo chinese)
+    {
+        currentCharacter = 0;
+        pinYinArray = chinese.Pinyin.Split(' ');
+        contentArray = chinese.Content.Split(' ');
+        print("拼音: " + AssistFun.printArray(pinYinArray));
+        print("内容: " + AssistFun.printArray(contentArray));
+
+        chinesePinYin.text = chinese.Pinyin;
+        chineseCurrentPinYin.text = pinYinArray[currentCharacter];
+    }
+
+    public void AddCharacter(String s)
+    {
+        chineseContent.text += s + " ";
+    }
+
+    public void SetNewPinYin()
+    {
+        chineseCurrentPinYin.text = pinYinArray[currentCharacter];
+    }
+
+    public void getNewChineseInfo()
+    {
     }
 }
