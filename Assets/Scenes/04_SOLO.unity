@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 240995478}
   - component: {fileID: 240995477}
   - component: {fileID: 240995476}
+  - component: {fileID: 240995479}
   m_Layer: 5
   m_Name: AttachBtn
   m_TagString: Untagged
@@ -224,6 +225,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 240995474}
+--- !u!114 &240995479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 240995474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1491666360}
+          m_MethodName: selectAttach
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1491666360}
+          m_MethodName: recoverNormal
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &465484254
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,8 +418,9 @@ GameObject:
   - component: {fileID: 651658703}
   - component: {fileID: 651658705}
   - component: {fileID: 651658704}
+  - component: {fileID: 651658706}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: CureIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -428,6 +477,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 651658702}
+--- !u!114 &651658706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 651658702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4062cf74dfc5d7498a98434091e56f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 651658704}
+  normal: {fileID: 21300000, guid: a901900ad01705e47850077b0d010950, type: 3}
+  active: {fileID: 21300000, guid: b14fa1296bd8f8344bd0a3e1d36d27ac, type: 3}
+  select: {fileID: 21300000, guid: d906962d5c0ef8b43b3a59bab07414f2, type: 3}
 --- !u!1 &974333050
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +503,7 @@ GameObject:
   - component: {fileID: 974333054}
   - component: {fileID: 974333053}
   - component: {fileID: 974333052}
+  - component: {fileID: 974333055}
   m_Layer: 5
   m_Name: DefensenBtn
   m_TagString: Untagged
@@ -539,6 +604,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 974333050}
+--- !u!114 &974333055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974333050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1491666360}
+          m_MethodName: selectDefensen
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1491666360}
+          m_MethodName: recoverNormal
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1132750500
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,8 +729,9 @@ GameObject:
   - component: {fileID: 1140727427}
   - component: {fileID: 1140727430}
   - component: {fileID: 1140727429}
+  - component: {fileID: 1140727428}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: DefensenIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -642,6 +755,21 @@ RectTransform:
   m_AnchoredPosition: {x: 10.328548, y: 10}
   m_SizeDelta: {x: 192, y: 172}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1140727428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1140727426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4062cf74dfc5d7498a98434091e56f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 1140727429}
+  normal: {fileID: 21300000, guid: 258e92eea443afc4982fdff362902a6a, type: 3}
+  active: {fileID: 21300000, guid: 198e2856138f1a246aba7dd694d76e81, type: 3}
+  select: {fileID: 21300000, guid: 819c0772923de204a93f8a90d0b17a76, type: 3}
 --- !u!114 &1140727429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,6 +1178,7 @@ GameObject:
   - component: {fileID: 1491666357}
   - component: {fileID: 1491666358}
   - component: {fileID: 1491666359}
+  - component: {fileID: 1491666360}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1084,6 +1213,7 @@ MonoBehaviour:
   effectTipText: {fileID: 620139651}
   contentText: {fileID: 1172575435}
   FireTime: 0.7
+  btnManager: {fileID: 1491666360}
 --- !u!114 &1491666359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,6 +1225,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065ec18142b454e4b920e324fada7888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1491666360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1491666356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a052df4c2b63c40951407b23439cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  btnDefensen: {fileID: 974333052}
+  btnAttach: {fileID: 240995476}
+  btnCure: {fileID: 2046416176}
+  btnIconDefensen: {fileID: 1140727428}
+  btnIconAttach: {fileID: 2126647375}
+  btnIconCure: {fileID: 651658706}
+  waitTime: 1
 --- !u!1 &2046416174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,6 +1254,7 @@ GameObject:
   - component: {fileID: 2046416178}
   - component: {fileID: 2046416177}
   - component: {fileID: 2046416176}
+  - component: {fileID: 2046416179}
   m_Layer: 5
   m_Name: CureBtn
   m_TagString: Untagged
@@ -1206,6 +1355,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2046416174}
+--- !u!114 &2046416179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2046416174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1491666360}
+          m_MethodName: selectCure
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1491666360}
+          m_MethodName: recoverNormal
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &2126647371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,8 +1412,9 @@ GameObject:
   - component: {fileID: 2126647372}
   - component: {fileID: 2126647374}
   - component: {fileID: 2126647373}
+  - component: {fileID: 2126647375}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: AttachIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1274,3 +1471,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2126647371}
+--- !u!114 &2126647375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2126647371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4062cf74dfc5d7498a98434091e56f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 2126647373}
+  normal: {fileID: 21300000, guid: 1442cfa23184b5947a7a50c90203bde4, type: 3}
+  active: {fileID: 21300000, guid: d0c50d5227af0954ea4491dd34335de3, type: 3}
+  select: {fileID: 21300000, guid: 6b492e4d0fe18284191ec4242fa14977, type: 3}

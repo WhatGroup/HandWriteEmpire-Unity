@@ -18,6 +18,9 @@ public class SOLOHandler : MonoBehaviour
     private bool isDown = false;
     private bool isUp = false;
 
+    public ButtonStatusManagr btnManager;
+    private ChineseInfo chinese = new ChineseInfo("pinyin", "拼音", "把两个或两个以上的音素结合起来成为一个复合的音");
+
 
     void Start()
     {
@@ -48,6 +51,7 @@ public class SOLOHandler : MonoBehaviour
                 fireTime = FireTime;
                 isDown = false;
                 isUp = false;
+                btnManager.setAllActive();
             }
         }
         else
