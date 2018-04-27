@@ -22,6 +22,7 @@ public class SOLOHandler : MonoBehaviour
     private String[] pinYinArray;
     private String[] contentArray;
     private int currentCharacter = 0;
+    private String regResult;
 
     public ButtonStatusManagr btnManager;
 

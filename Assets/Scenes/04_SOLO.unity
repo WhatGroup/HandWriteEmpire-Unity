@@ -1212,7 +1212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726302817a4a27f4791f56cf96974d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireTime: 0.7
+  FireTime: 0.5
   chinesePinYin: {fileID: 1172575435}
   chineseContent: {fileID: 1626068649}
   chineseCurrentPinYin: {fileID: 1871592799}

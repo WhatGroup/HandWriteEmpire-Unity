@@ -34,21 +34,33 @@ public class ButtonStatusManagr : MonoBehaviour
 
     public void selectDefensen()
     {
-        btnIconDefensen.setSelect();
+        if (btnDefensen.interactable)
+        {
+            btnIconDefensen.setSelect();
+        }
     }
 
     public void selectAttach()
     {
-        btnIconAttach.setSelect();
+        if (btnAttach.interactable)
+        {
+            btnIconAttach.setSelect();
+        }
     }
 
     public void selectCure()
     {
-        btnIconCure.setSelect();
+        if (btnCure.interactable)
+        {
+            btnIconCure.setSelect();
+        }
     }
 
     public void recoverNormal()
     {
-        setAllNormal();
+        if (btnDefensen.interactable)
+        {
+            setAllNormal();
+        }
     }
 }
