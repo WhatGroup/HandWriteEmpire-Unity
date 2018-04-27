@@ -63,4 +63,13 @@ public class ButtonStatusManagr : MonoBehaviour
             setAllNormal();
         }
     }
+    public bool IsAllActive()
+    {
+        if(btnAttach.interactable&&btnCure.interactable&&btnDefensen.interactable)
+            return true;
+        else
+        {
+            return false;
+        }
+    }
 }

@@ -6,57 +6,63 @@ using UnityEngine.UI;
 
 public class SOLOHandler : MonoBehaviour
 {
-    private static int count = 0;
-
-    private List<short> pathData = new List<short>();
-
     public double FireTime;
     private double fireTime;
-    private bool isDown = false;
+    private bool isStartWrite = false;
     private bool isUp = false;
 
+    public ChineseInfo[] infos;
+    public int currentChinese = 0;
     public Text chinesePinYin;
     public Text chineseContent;
     public Text chineseCurrentPinYin;
 
-    private String[] pinYinArray;
-    private String[] contentArray;
+    private string[] pinYinArray;
+    private string[] contentArray;
     private int currentCharacter = 0;
-    private String regResult;
+    private string regResult;
 
     public ButtonStatusManagr btnManager;
 
 
-    void Start()
+    private void Start()
     {
         //unity嵌入Android时显示手写板
         //        if (Application.platform == RuntimePlatform.Android)
         //        {
         //            ShowHWRModule();
         //        }
+        RequestInfo();
+
         fireTime = FireTime;
         ShowHWRModule();
-        SetChineseInfo(new ChineseInfo("pin yin", "拼 音", "把两个或两个以上的音素结合起来成为一个复合的音"));
+        UpdateChineseInfo(infos[currentChinese]);
     }
 
-    void Update()
+    private void RequestInfo()
+    {
+        infos = new ChineseInfo[4];
+        infos[0] = new ChineseInfo("ni hao", "你 好", "用于有礼貌的打招呼或表示与人见面时的问候");
+        infos[1] = new ChineseInfo("ke ji", "科 技", "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题");
+        infos[2] = new ChineseInfo("xian zai", "现 在", "现世,今生;眼前一刹那");
+        infos[3] = new ChineseInfo("wei lai", "未 来", "从现在往后的时间");
+    }
+
+    private void Update()
     {
         //unity嵌入Android隐藏手写板
-        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape))
-        {
-            HideHWRModule();
-        }
+        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape)) HideHWRModule();
 
 
-        if (isDown && isUp)
+        if (isStartWrite && isUp)
         {
             fireTime -= Time.deltaTime;
             if (fireTime <= 0)
             {
-                TestHWRRec();
                 fireTime = FireTime;
-                isDown = false;
+                isStartWrite = false;
                 isUp = false;
+                TestHWRRec();
             }
         }
         else
@@ -65,11 +71,12 @@ public class SOLOHandler : MonoBehaviour
         }
     }
 
-    public void SetTimerStart(String state)
+    public void SetTimerStart(string state)
     {
         if ("Down".Equals(state))
         {
-            isDown = true;
+            //当按下的时候表示开始写字
+            isStartWrite = true;
         }
         else if ("Move".Equals(state))
         {
@@ -92,71 +99,79 @@ public class SOLOHandler : MonoBehaviour
         AndroidUtil.Call("addHandWriteBroad");
     }
 
-    public void ShowEffect(String result)
-    {
-    }
 
-    //测试后手写识别的功能
+    //测试手写识别的功能
     public void TestHWRRec()
     {
-        String result = HWRRecog();
+        var results = HWRRecog();
 //        effectTipText.text = "第" + ++count + "次识别:" + result;
-        if (result != null && result.Length >= 1)
+        if (results != null && results.Length >= 1)
         {
 //            contentText.text += result.Substring(0, 1) + " ";
-            String[] results = result.Split(';');
-            print("识别到的结果:" + results);
-            foreach (var s in results)
+            var resultArr = results.Split(';');
+            AndroidUtil.Log("识别到的结果:" + results);
+            if (resultArr.Length > 0)
             {
-                print("进行对比" + s + "," + contentArray[currentCharacter]);
-                if (s == contentArray[currentCharacter])
-                {
+                AddCharacter(resultArr[0]);
+                currentCharacter++;
+                if (currentCharacter == contentArray.Length)
                     btnManager.setAllActive();
-                    AddCharacter(s);
-                    currentCharacter++;
+                else
                     SetNewPinYin();
-                    if (currentCharacter == contentArray.Length)
-                    {
-                        getNewChineseInfo();
-                    }
-                }
             }
         }
-
-        pathData.Clear();
     }
 
-    public String HWRRecog()
+    public string HWRRecog()
     {
-        return AndroidUtil.Call<String>("hwrRec");
+        return AndroidUtil.Call<string>("hwrRec");
     }
 
-    private void PrintArray(short[] ss)
+    public void ResultJudge()
     {
-        string result = "";
-        foreach (var s in ss)
+        if (btnManager.IsAllActive())
         {
-            result += s + ",";
-        }
+            if (!chineseContent.text.Equals(infos[currentChinese].Content))
+                AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
+                                  infos[currentChinese].Content);
+            else
+            {
+                AndroidUtil.Toast("攻击效果!!!");
+            }
 
-        print(result.Substring(0, result.Length - 1));
+            currentChinese++;
+            if (currentChinese == infos.Length)
+            {
+                //TODO 游戏结束
+                AndroidUtil.Toast("游戏结束");
+                HideHWRModule();
+            }
+            else
+            {
+                UpdateChineseInfo(infos[currentChinese]);
+            }
+        }
     }
 
-    public void SetChineseInfo(ChineseInfo chinese)
+    public void UpdateChineseInfo(ChineseInfo chinese)
     {
         currentCharacter = 0;
         pinYinArray = chinese.Pinyin.Split(' ');
         contentArray = chinese.Content.Split(' ');
-        print("拼音: " + AssistFun.printArray(pinYinArray));
-        print("内容: " + AssistFun.printArray(contentArray));
+        AndroidUtil.Log("拼音: " + GeneralTools.printArray(pinYinArray));
+        AndroidUtil.Log("内容: " + GeneralTools.printArray(contentArray));
 
         chinesePinYin.text = chinese.Pinyin;
+        chineseContent.text = "";
         chineseCurrentPinYin.text = pinYinArray[currentCharacter];
     }
 
-    public void AddCharacter(String s)
+    public void AddCharacter(string s)
     {
-        chineseContent.text += s + " ";
+        if (chineseContent.text.Length > 0)
+            chineseContent.text += " " + s;
+        else
+            chineseContent.text += s;
     }
 
     public void SetNewPinYin()
@@ -164,7 +179,8 @@ public class SOLOHandler : MonoBehaviour
         chineseCurrentPinYin.text = pinYinArray[currentCharacter];
     }
 
-    public void getNewChineseInfo()
+    public void ShowDetialContent()
     {
+        AndroidUtil.Toast(infos[currentChinese].Detail, 0, 0);
     }
 }

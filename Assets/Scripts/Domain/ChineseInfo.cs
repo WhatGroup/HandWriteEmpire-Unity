@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ChineseInfo
 {
     private string pinyin;
     private string content;
-    private string tip;
+    private string detail;
 
-    public ChineseInfo(string pinyin, string content, string tip)
+    public ChineseInfo(string pinyin, string content, string detail)
     {
         this.pinyin = pinyin;
         this.content = content;
-        this.tip = tip;
+        this.detail = detail;
     }
 
     public string Pinyin
@@ -27,11 +28,12 @@ public class ChineseInfo
         set { content = value; }
     }
 
-    public string Tip
+    public string Detail
     {
-        get { return tip; }
-        set { tip = value; }
+        get { return detail; }
+        set { detail = value; }
     }
+
     public int getLength()
     {
         return content.Length;

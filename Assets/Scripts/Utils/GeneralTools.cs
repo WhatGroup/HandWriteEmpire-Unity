@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssistFun
+public class GeneralTools
 {
     public static String printArray(string[] arr)
     {
