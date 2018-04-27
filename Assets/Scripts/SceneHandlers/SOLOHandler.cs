@@ -115,7 +115,7 @@ public class SOLOHandler : MonoBehaviour
                 AddCharacter(resultArr[0]);
                 currentCharacter++;
                 if (currentCharacter == contentArray.Length)
-                    btnManager.setAllActive();
+                    btnManager.SetAllInteractable();
                 else
                     SetNewPinYin();
             }
@@ -129,27 +129,24 @@ public class SOLOHandler : MonoBehaviour
 
     public void ResultJudge()
     {
-        if (btnManager.IsAllActive())
+        if (!chineseContent.text.Equals(infos[currentChinese].Content))
+            AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
+                              infos[currentChinese].Content);
+        else
         {
-            if (!chineseContent.text.Equals(infos[currentChinese].Content))
-                AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
-                                  infos[currentChinese].Content);
-            else
-            {
-                AndroidUtil.Toast("攻击效果!!!");
-            }
+            AndroidUtil.Toast("攻击效果!!!");
+        }
 
-            currentChinese++;
-            if (currentChinese == infos.Length)
-            {
-                //TODO 游戏结束
-                AndroidUtil.Toast("游戏结束");
-                HideHWRModule();
-            }
-            else
-            {
-                UpdateChineseInfo(infos[currentChinese]);
-            }
+        currentChinese++;
+        if (currentChinese == infos.Length)
+        {
+            //TODO 游戏结束
+            AndroidUtil.Toast("游戏结束");
+            HideHWRModule();
+        }
+        else
+        {
+            UpdateChineseInfo(infos[currentChinese]);
         }
     }
 
