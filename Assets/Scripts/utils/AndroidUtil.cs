@@ -68,6 +68,10 @@ public class AndroidUtil
                         toast.GetStatic<int>("LENGTH_SHORT")).Call("show");
                 }));
         }
+        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            Debug.Log(content);
+        }
     }
 
     //相对于屏幕中心的位置
@@ -79,7 +83,7 @@ public class AndroidUtil
                 new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
 
             var toast = new AndroidJavaClass("android.widget.Toast");
-            var gravity=new AndroidJavaClass("android.view.Gravity");
+            var gravity = new AndroidJavaClass("android.view.Gravity");
             mainActivity.Call("runOnUiThread",
                 new AndroidJavaRunnable(() =>
                 {
@@ -88,6 +92,10 @@ public class AndroidUtil
                     t.Call("setGravity", gravity.GetStatic<int>("CENTER"), x, y);
                     t.Call("show");
                 }));
+        }
+        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            Debug.Log(content);
         }
     }
 
@@ -100,6 +108,10 @@ public class AndroidUtil
                 new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
             var log = new AndroidJavaClass("android.util.Log");
             log.CallStatic<int>("d", "HandWriteEmpire", content);
+        }
+        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            Debug.Log(content);
         }
     }
 }

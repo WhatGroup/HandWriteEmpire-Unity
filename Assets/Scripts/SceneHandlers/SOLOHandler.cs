@@ -62,7 +62,7 @@ public class SOLOHandler : MonoBehaviour
                 fireTime = FireTime;
                 isStartWrite = false;
                 isUp = false;
-                TestHWRRec();
+                HWRRec();
             }
         }
         else
@@ -99,11 +99,15 @@ public class SOLOHandler : MonoBehaviour
         AndroidUtil.Call("addHandWriteBroad");
     }
 
-
-    //测试手写识别的功能
-    public void TestHWRRec()
+    public string CallHWRRec()
     {
-        var results = HWRRecog();
+        return AndroidUtil.Call<string>("hwrRec");
+    }
+
+    //手写识别的功能
+    public void HWRRec()
+    {
+        var results = CallHWRRec();
 //        effectTipText.text = "第" + ++count + "次识别:" + result;
         if (results != null && results.Length >= 1)
         {
@@ -122,10 +126,17 @@ public class SOLOHandler : MonoBehaviour
         }
     }
 
-    public string HWRRecog()
+    //用于Unity下调试手写识别功能
+    public void TestHWRRec(String character)
     {
-        return AndroidUtil.Call<string>("hwrRec");
+        AddCharacter(character);
+        currentCharacter++;
+        if (currentCharacter == contentArray.Length)
+            btnManager.SetAllInteractable();
+        else
+            SetNewPinYin();
     }
+
 
     public void ResultJudge()
     {
