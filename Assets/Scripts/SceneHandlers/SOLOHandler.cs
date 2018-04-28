@@ -27,11 +27,6 @@ public class SOLOHandler : MonoBehaviour
 
     private void Start()
     {
-        //unity嵌入Android时显示手写板
-        //        if (Application.platform == RuntimePlatform.Android)
-        //        {
-        //            ShowHWRModule();
-        //        }
         RequestInfo();
 
         fireTime = FireTime;
@@ -39,6 +34,7 @@ public class SOLOHandler : MonoBehaviour
         UpdateChineseInfo(infos[currentChinese]);
     }
 
+    //请求网络数据
     private void RequestInfo()
     {
         infos = new ChineseInfo[4];
@@ -89,16 +85,19 @@ public class SOLOHandler : MonoBehaviour
         }
     }
 
+    //隐藏手写模块
     public void HideHWRModule()
     {
         AndroidUtil.Call("removeHandWriteBroad");
     }
 
+    //显示手写模块
     private void ShowHWRModule()
     {
         AndroidUtil.Call("addHandWriteBroad");
     }
 
+    //获取Android手写识别后的结果
     public string CallHWRRec()
     {
         return AndroidUtil.Call<string>("hwrRec");
@@ -107,13 +106,12 @@ public class SOLOHandler : MonoBehaviour
     //手写识别的功能
     public void HWRRec()
     {
+        //TODO 限制输入的个数以及实现修改功能
         var results = CallHWRRec();
-//        effectTipText.text = "第" + ++count + "次识别:" + result;
+        AndroidUtil.Log("识别到的结果:" + results);
         if (results != null && results.Length >= 1)
         {
-//            contentText.text += result.Substring(0, 1) + " ";
             var resultArr = results.Split(';');
-            AndroidUtil.Log("识别到的结果:" + results);
             if (resultArr.Length > 0)
             {
                 AddCharacter(resultArr[0]);
@@ -126,12 +124,13 @@ public class SOLOHandler : MonoBehaviour
         }
     }
 
-    //用于Unity下调试手写识别功能
+    //用于Unity下调试手写识别结果反馈
     public void TestHWRRec(String results)
     {
+        AndroidUtil.Log("识别到的结果:" + results);
         if (results != null && results.Length >= 1)
         {
-            AddCharacter(results.Substring(0,1));
+            AddCharacter(results.Substring(0, 1));
             currentCharacter++;
             if (currentCharacter == contentArray.Length)
                 btnManager.SetAllInteractable();
@@ -140,14 +139,17 @@ public class SOLOHandler : MonoBehaviour
         }
     }
 
-
     public void ResultJudge()
     {
         if (!chineseContent.text.Equals(infos[currentChinese].Content))
+        {
+            //TODO 错误效果
             AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
                               infos[currentChinese].Content);
+        }
         else
         {
+            //TODO 攻击效果
             AndroidUtil.Toast("攻击效果!!!");
         }
 

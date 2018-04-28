@@ -7,6 +7,7 @@ public class ManagerHandler : MonoBehaviour {
 
     public void OnClickResourceBtn()
     {
+        //将场景添加到返回栈，实现在Unity下通过返回键返回上一个场景
         BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("02_Resource");
     }

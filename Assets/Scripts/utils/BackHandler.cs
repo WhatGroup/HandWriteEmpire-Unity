@@ -8,7 +8,7 @@ public class BackHandler
 {
     public static BackHandler _instance = new BackHandler();
 
-    //已加载的场景
+    //场景栈，存放加载过的场景
     private Stack<string> sceneOrder = new Stack<string>();
     
     public void PopScene()

@@ -2,6 +2,7 @@
 using UnityEngine;
 using Application = UnityEngine.Application;
 
+//Android专用工具
 public class AndroidUtil
 {
     public static void Call(string methedName, params object[] args)
@@ -104,8 +105,6 @@ public class AndroidUtil
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            var mainActivity =
-                new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
             var log = new AndroidJavaClass("android.util.Log");
             log.CallStatic<int>("d", "HandWriteEmpire", content);
         }
