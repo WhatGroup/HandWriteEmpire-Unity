@@ -127,14 +127,17 @@ public class SOLOHandler : MonoBehaviour
     }
 
     //用于Unity下调试手写识别功能
-    public void TestHWRRec(String character)
+    public void TestHWRRec(String results)
     {
-        AddCharacter(character);
-        currentCharacter++;
-        if (currentCharacter == contentArray.Length)
-            btnManager.SetAllInteractable();
-        else
-            SetNewPinYin();
+        if (results != null && results.Length >= 1)
+        {
+            AddCharacter(results.Substring(0,1));
+            currentCharacter++;
+            if (currentCharacter == contentArray.Length)
+                btnManager.SetAllInteractable();
+            else
+                SetNewPinYin();
+        }
     }
 
 

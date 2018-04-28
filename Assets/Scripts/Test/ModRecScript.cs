@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class ModRecScript : MonoBehaviour
 {
-    public Text editText;
+    [TextArea] public string results;
     public SOLOHandler soloHandler;
 
     public void TestHWRRec()
     {
-        soloHandler.TestHWRRec(editText.text);
-        editText.text = "";
+        soloHandler.TestHWRRec(results);
+        results = "";
     }
 }
