@@ -38,10 +38,10 @@ public class SOLOHandler : MonoBehaviour
     private void RequestInfo()
     {
         infos = new ChineseInfo[4];
-        infos[0] = new ChineseInfo("ni hao", "你 好", "用于有礼貌的打招呼或表示与人见面时的问候");
-        infos[1] = new ChineseInfo("ke ji", "科 技", "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题");
-        infos[2] = new ChineseInfo("xian zai", "现 在", "现世,今生;眼前一刹那");
-        infos[3] = new ChineseInfo("wei lai", "未 来", "从现在往后的时间");
+        infos[0] = new ChineseInfo("nǐ hǎo", "你 好", "用于有礼貌的打招呼或表示与人见面时的问候");
+        infos[1] = new ChineseInfo("kē jì", "科 技", "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题");
+        infos[2] = new ChineseInfo("xiàn zài", "现 在", "现世,今生;眼前一刹那");
+        infos[3] = new ChineseInfo("wèi lái", "未 来", "从现在往后的时间");
     }
 
     private void Update()
