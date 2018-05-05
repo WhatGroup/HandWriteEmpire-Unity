@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class ModRecScript : MonoBehaviour
 {
     [TextArea] public string results;
-    public SOLOHandler soloHandler;
+    public AdventureHandler AdventureHandler;
 
     public void TestHWRRec()
     {
-        soloHandler.TestHWRRec(results);
+        AdventureHandler.TestHWRRec(results);
         results = "";
     }
 }
