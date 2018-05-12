@@ -36,6 +36,9 @@ public class AdventureHandler : MonoBehaviour
 
     public UnityArmatureComponent attachRole;
 
+    //是否是新的识别
+    private bool isNewRec = false;
+
 
     private void Start()
     {
@@ -197,16 +200,24 @@ public class AdventureHandler : MonoBehaviour
         }
 
         currentChinese++;
+        isNewRec = true;
+    }
+
+    private void JudgeGameOver()
+    {
         if (currentChinese == infos.Length)
         {
-            //TODO 游戏结束
+            //TODO 游戏结束,此方法应该写在动画回调之后，需要修改
             AndroidUtil.Toast("游戏结束");
             HideHWRModule();
+            GameSetting._instance.GameOver(true);
         }
         else
         {
             UpdateChineseInfo(infos[currentChinese]);
         }
+
+        isNewRec = false;
     }
 
     public void UpdateChineseInfo(ChineseInfo chinese)
@@ -244,6 +255,11 @@ public class AdventureHandler : MonoBehaviour
     void OnAnimationEventHandler(string type, EventObject eventObject)
     {
         attachRole.animation.Play("normal");
+        if (isNewRec)
+        {
+            JudgeGameOver();
+            isNewRec = false;
+        }
     }
 
     public void AttachRoles()
