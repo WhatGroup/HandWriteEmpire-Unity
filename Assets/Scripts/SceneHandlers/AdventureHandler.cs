@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using DragonBones;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AdventureHandler : MonoBehaviour
 {
-    public double FireTime;
+    //书写冷却时间
+    public double writeFireTime;
     private double fireTime;
+
+    //敌人攻击冷却时间
+
+
     private bool isStartWrite = false;
     private bool isUp = false;
 
@@ -24,14 +31,19 @@ public class AdventureHandler : MonoBehaviour
 
     public ButtonStatusManager btnManager;
 
+    public UnityArmatureComponent attachRole;
+
 
     private void Start()
     {
         RequestInfo();
 
-        fireTime = FireTime;
+        fireTime = writeFireTime;
         ShowHWRModule();
         UpdateChineseInfo(infos[currentChinese]);
+
+        //设置动画监听
+        attachRole.AddDBEventListener(EventObject.COMPLETE, OnAnimationEventHandler);
     }
 
     //请求网络数据
@@ -55,7 +67,7 @@ public class AdventureHandler : MonoBehaviour
             fireTime -= Time.deltaTime;
             if (fireTime <= 0)
             {
-                fireTime = FireTime;
+                fireTime = writeFireTime;
                 isStartWrite = false;
                 isUp = false;
                 HWRRec();
@@ -63,7 +75,7 @@ public class AdventureHandler : MonoBehaviour
         }
         else
         {
-            fireTime = FireTime;
+            fireTime = writeFireTime;
         }
     }
 
@@ -77,7 +89,7 @@ public class AdventureHandler : MonoBehaviour
         else if ("Move".Equals(state))
         {
             isUp = false;
-            fireTime = FireTime;
+            fireTime = writeFireTime;
         }
         else if ("Up".Equals(state))
         {
@@ -139,18 +151,32 @@ public class AdventureHandler : MonoBehaviour
         }
     }
 
-    public void ResultJudge()
+    public void ResultJudge(String btnName)
     {
         if (!chineseContent.text.Equals(infos[currentChinese].Content))
         {
             //TODO 错误效果
+            attachRole.animation.FadeIn("fail", 0.2f, 1);
+//            attachRole.animation.Play("normal");
             AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
                               infos[currentChinese].Content);
         }
         else
         {
             //TODO 攻击效果
-            AndroidUtil.Toast("攻击效果!!!");
+            if ("AttachBtn".Equals(btnName))
+            {
+                attachRole.animation.FadeIn("attack", 0.2f, 1);
+//            attachRole.animation.Play("normal");
+                AndroidUtil.Toast("攻击效果!!!");
+            }else if ("CureBtn".Equals(btnName))
+            {
+                AndroidUtil.Toast("治疗效果!!!");
+            }
+            else if("DefensenBtn".Equals(btnName))
+            {
+                AndroidUtil.Toast("防御效果!!!");
+            }
         }
 
         currentChinese++;
@@ -195,5 +221,11 @@ public class AdventureHandler : MonoBehaviour
     public void ShowDetialContent()
     {
         AndroidUtil.Toast(infos[currentChinese].Detail, 0, 0);
+    }
+
+    //动画完成后切换回默认动画
+    void OnAnimationEventHandler(string type, EventObject eventObject)
+    {
+        attachRole.animation.Play("normal");
     }
 }
