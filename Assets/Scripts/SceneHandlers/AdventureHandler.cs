@@ -9,10 +9,13 @@ using UnityEngine.UI;
 public class AdventureHandler : MonoBehaviour
 {
     //书写冷却时间
-    public double writeFireTime;
-    private double fireTime;
+    public double WriteFireTime;
+    private double writeFireTime;
 
     //敌人攻击冷却时间
+    public double BossFireTime;
+    private double bossFireTime;
+    public Text timeText;
 
 
     private bool isStartWrite = false;
@@ -38,7 +41,9 @@ public class AdventureHandler : MonoBehaviour
     {
         RequestInfo();
 
-        fireTime = writeFireTime;
+        bossFireTime = BossFireTime;
+
+        writeFireTime = WriteFireTime;
         ShowHWRModule();
         UpdateChineseInfo(infos[currentChinese]);
 
@@ -64,10 +69,10 @@ public class AdventureHandler : MonoBehaviour
 
         if (isStartWrite && isUp)
         {
-            fireTime -= Time.deltaTime;
-            if (fireTime <= 0)
+            writeFireTime -= Time.deltaTime;
+            if (writeFireTime <= 0)
             {
-                fireTime = writeFireTime;
+                writeFireTime = WriteFireTime;
                 isStartWrite = false;
                 isUp = false;
                 HWRRec();
@@ -75,9 +80,20 @@ public class AdventureHandler : MonoBehaviour
         }
         else
         {
-            fireTime = writeFireTime;
+            writeFireTime = WriteFireTime;
         }
+
+        //Boss攻击
+        bossFireTime -= Time.deltaTime;
+        if (bossFireTime <= 0)
+        {
+            bossFireTime = BossFireTime;
+            AttachRoles();
+        }
+
+        timeText.text = bossFireTime.ToString("Boss : 0.00s");
     }
+
 
     public void SetTimerStart(string state)
     {
@@ -89,7 +105,7 @@ public class AdventureHandler : MonoBehaviour
         else if ("Move".Equals(state))
         {
             isUp = false;
-            fireTime = writeFireTime;
+            writeFireTime = WriteFireTime;
         }
         else if ("Up".Equals(state))
         {
@@ -169,11 +185,12 @@ public class AdventureHandler : MonoBehaviour
                 attachRole.animation.FadeIn("attack", 0.2f, 1);
 //            attachRole.animation.Play("normal");
                 AndroidUtil.Toast("攻击效果!!!");
-            }else if ("CureBtn".Equals(btnName))
+            }
+            else if ("CureBtn".Equals(btnName))
             {
                 AndroidUtil.Toast("治疗效果!!!");
             }
-            else if("DefensenBtn".Equals(btnName))
+            else if ("DefensenBtn".Equals(btnName))
             {
                 AndroidUtil.Toast("防御效果!!!");
             }
@@ -227,5 +244,10 @@ public class AdventureHandler : MonoBehaviour
     void OnAnimationEventHandler(string type, EventObject eventObject)
     {
         attachRole.animation.Play("normal");
+    }
+
+    public void AttachRoles()
+    {
+        attachRole.animation.FadeIn("behurt", 0.2f, 1);
     }
 }
