@@ -120,7 +120,7 @@ public class AdventureHandler : MonoBehaviour
     }
 
     //显示手写模块
-    private void ShowHWRModule()
+    public void ShowHWRModule()
     {
         AndroidUtil.Call("addHandWriteBroad");
     }
