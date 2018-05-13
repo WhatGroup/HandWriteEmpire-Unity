@@ -34,13 +34,14 @@ public class AdventureHandler : MonoBehaviour
 
     public ButtonStatusManager btnManager;
 
-    public UnityArmatureComponent attachRole;
+    public UnityArmatureComponent attackRole;
 
     //是否是新的识别
     private bool isNewRec = false;
 
     //是否是新的动画
-//    private bool isNewAnim = false;
+    private bool isNewAnim = false;
+    private string newAnimName = "";
 
     //Boss攻击是否计时
     private bool isCalcTime = true;
@@ -57,7 +58,7 @@ public class AdventureHandler : MonoBehaviour
         UpdateChineseInfo(infos[currentChinese]);
 
         //设置动画监听
-        attachRole.AddDBEventListener(EventObject.COMPLETE, OnAnimationEventHandler);
+        attackRole.AddDBEventListener(EventObject.COMPLETE, OnAnimationEventHandler);
     }
 
     //请求网络数据
@@ -100,7 +101,7 @@ public class AdventureHandler : MonoBehaviour
             {
                 isCalcTime = false;
                 bossFireTime = BossFireTime;
-                AttachRoles();
+                FadeInRoleAnim(attackRole, "behurt");
             }
         }
 
@@ -166,7 +167,7 @@ public class AdventureHandler : MonoBehaviour
     }
 
     //用于Unity下调试手写识别结果反馈
-    public void TestHWRRec(String results)
+    public void TestHWRRec(string results)
     {
         AndroidUtil.Log("识别到的结果:" + results);
         if (results != null && results.Length >= 1)
@@ -180,13 +181,13 @@ public class AdventureHandler : MonoBehaviour
         }
     }
 
-    public void ResultJudge(String btnName)
+    public void ResultJudge(string btnName)
     {
         if (!chineseContent.text.Equals(infos[currentChinese].Content))
         {
             //TODO 错误效果
-            attachRole.animation.FadeIn("fail", 0.2f, 1);
-//            attachRole.animation.Play("normal");
+            FadeInRoleAnim(attackRole, "fail");
+//            attackRole.animation.Play("normal");
             AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
                               infos[currentChinese].Content);
         }
@@ -195,21 +196,21 @@ public class AdventureHandler : MonoBehaviour
             //TODO 攻击效果
             if ("AttachBtn".Equals(btnName))
             {
-                attachRole.animation.FadeIn("attack", 0.2f, 1);
-//            attachRole.animation.Play("normal");
+                FadeInRoleAnim(attackRole, "attack");
+//              attackRole.animation.Play("normal");
                 AndroidUtil.Toast("攻击效果!!!");
             }
             else if ("CureBtn".Equals(btnName))
             {
                 //TODO 需要修改成对应对象的动画
-                attachRole.animation.FadeIn("attack", 0.2f, 1);
+                FadeInRoleAnim(attackRole, "attack");
 
                 AndroidUtil.Toast("治疗效果!!!");
             }
             else if ("DefensenBtn".Equals(btnName))
             {
                 //TODO 需要修改成对应对象的动画
-                attachRole.animation.FadeIn("attack", 0.2f, 1);
+                attackRole.animation.FadeIn("attack", 0.2f, 1);
 
                 AndroidUtil.Toast("防御效果!!!");
             }
@@ -269,20 +270,51 @@ public class AdventureHandler : MonoBehaviour
     }
 
     //动画完成后切换回默认动画
-    void OnAnimationEventHandler(string type, EventObject eventObject)
+    private void OnAnimationEventHandler(string type, EventObject eventObject)
     {
-        attachRole.animation.Play("normal");
-        if (isNewRec)
+        if (isNewAnim)
         {
-            JudgeGameOver();
-            isNewRec = false;
+            isNewAnim = false;
+            if (!"".Equals(newAnimName))
+            {
+                StartCoroutine(DelayAnimPlay(attackRole, newAnimName));
+                newAnimName = "";
+            }
         }
+        else
+        {
+            PlayRoleAnim(attackRole, "normal");
+            if (isNewRec)
+            {
+                JudgeGameOver();
+                isNewRec = false;
+            }
 
-        isCalcTime = true;
+            isCalcTime = true;
+        }
     }
 
-    public void AttachRoles()
+    public void FadeInRoleAnim(UnityArmatureComponent role, String animName)
     {
-        attachRole.animation.FadeIn("behurt", 0.2f, 1);
+        if (role.animation.lastAnimationName != "normal")
+        {
+            isNewAnim = true;
+            newAnimName = animName;
+        }
+        else
+        {
+            role.animation.FadeIn(animName, 0.2f, 1);
+        }
+    }
+
+    public void PlayRoleAnim(UnityArmatureComponent role, String animName)
+    {
+        role.animation.Play(animName, 1);
+    }
+
+    IEnumerator DelayAnimPlay(UnityArmatureComponent role, String animName)
+    {
+        yield return new WaitForSeconds(0.5f);
+        PlayRoleAnim(role, animName);
     }
 }
