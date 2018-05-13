@@ -40,10 +40,10 @@ public class AdventureHandler : MonoBehaviour
     private bool isNewRec = false;
 
     //是否是新的动画
-    private bool isNewAnim = false;
+//    private bool isNewAnim = false;
 
     //Boss攻击是否计时
-//    private bool isCalcTime = true;
+    private bool isCalcTime = true;
 
 
     private void Start()
@@ -92,12 +92,16 @@ public class AdventureHandler : MonoBehaviour
             writeFireTime = WriteFireTime;
         }
 
-        //Boss攻击
-        bossFireTime -= Time.deltaTime;
-        if (bossFireTime <= 0)
+        if (isCalcTime)
         {
-            bossFireTime = BossFireTime;
-            AttachRoles();
+            //Boss攻击
+            bossFireTime -= Time.deltaTime;
+            if (bossFireTime <= 0)
+            {
+                isCalcTime = false;
+                bossFireTime = BossFireTime;
+                AttachRoles();
+            }
         }
 
         timeText.text = bossFireTime.ToString("Boss : 0.00s");
@@ -197,16 +201,23 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("CureBtn".Equals(btnName))
             {
+                //TODO 需要修改成对应对象的动画
+                attachRole.animation.FadeIn("attack", 0.2f, 1);
+
                 AndroidUtil.Toast("治疗效果!!!");
             }
             else if ("DefensenBtn".Equals(btnName))
             {
+                //TODO 需要修改成对应对象的动画
+                attachRole.animation.FadeIn("attack", 0.2f, 1);
+
                 AndroidUtil.Toast("防御效果!!!");
             }
         }
 
         currentChinese++;
         isNewRec = true;
+        isCalcTime = false;
     }
 
     private void JudgeGameOver()
@@ -260,37 +271,18 @@ public class AdventureHandler : MonoBehaviour
     //动画完成后切换回默认动画
     void OnAnimationEventHandler(string type, EventObject eventObject)
     {
-        if (isNewAnim)
+        attachRole.animation.Play("normal");
+        if (isNewRec)
         {
-            isNewAnim = false;
-            StartCoroutine(delayAnimaPlay("behurt"));
+            JudgeGameOver();
+            isNewRec = false;
         }
-        else
-        {
-            attachRole.animation.Play("normal");
-            if (isNewRec)
-            {
-                JudgeGameOver();
-                isNewRec = false;
-            }
-        }
+
+        isCalcTime = true;
     }
 
     public void AttachRoles()
     {
-        if (attachRole.animation.lastAnimationName != "normal")
-        {
-            isNewAnim = true;
-        }
-        else
-        {
-            attachRole.animation.FadeIn("behurt", 0.2f, 1);
-        }
-    }
-
-    IEnumerator delayAnimaPlay(String animName)
-    {
-        yield return new WaitForSeconds(0.5f);
-        attachRole.animation.Play(animName, 1);
+        attachRole.animation.FadeIn("behurt", 0.2f, 1);
     }
 }
