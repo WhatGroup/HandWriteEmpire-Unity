@@ -54,7 +54,7 @@ public class AdventureHandler : MonoBehaviour
         bossFireTime = BossFireTime;
 
         writeFireTime = WriteFireTime;
-        ShowHWRModule();
+
         UpdateChineseInfo(infos[currentChinese]);
 
         //设置动画监听
@@ -74,7 +74,8 @@ public class AdventureHandler : MonoBehaviour
     private void Update()
     {
         //unity嵌入Android隐藏手写板
-        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape)) HideHWRModule();
+//        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape)) 
+//              HideHWRModule();
 
 
         if (isStartWrite && isUp)
@@ -125,18 +126,6 @@ public class AdventureHandler : MonoBehaviour
         {
             isUp = true;
         }
-    }
-
-    //隐藏手写模块
-    public void HideHWRModule()
-    {
-        AndroidUtil.Call("removeHandWriteBroad");
-    }
-
-    //显示手写模块
-    public void ShowHWRModule()
-    {
-        AndroidUtil.Call("addHandWriteBroad");
     }
 
     //获取Android手写识别后的结果
@@ -227,8 +216,7 @@ public class AdventureHandler : MonoBehaviour
         {
             //TODO 游戏结束,此方法应该写在动画回调之后，需要修改
             AndroidUtil.Toast("游戏结束");
-            HideHWRModule();
-            GameSetting._instance.GameOver(true);
+            GameSetting._instance.SetGameOver(true);
         }
         else
         {
