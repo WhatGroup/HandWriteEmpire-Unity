@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackListener : MonoBehaviour
+public class NormalBackListener : MonoBehaviour
 {
     void Update()
     {
