@@ -39,6 +39,12 @@ public class AdventureHandler : MonoBehaviour
     //是否是新的识别
     private bool isNewRec = false;
 
+    //是否是新的动画
+    private bool isNewAnim = false;
+
+    //Boss攻击是否计时
+//    private bool isCalcTime = true;
+
 
     private void Start()
     {
@@ -254,16 +260,37 @@ public class AdventureHandler : MonoBehaviour
     //动画完成后切换回默认动画
     void OnAnimationEventHandler(string type, EventObject eventObject)
     {
-        attachRole.animation.Play("normal");
-        if (isNewRec)
+        if (isNewAnim)
         {
-            JudgeGameOver();
-            isNewRec = false;
+            isNewAnim = false;
+            StartCoroutine(delayAnimaPlay("behurt"));
+        }
+        else
+        {
+            attachRole.animation.Play("normal");
+            if (isNewRec)
+            {
+                JudgeGameOver();
+                isNewRec = false;
+            }
         }
     }
 
     public void AttachRoles()
     {
-        attachRole.animation.FadeIn("behurt", 0.2f, 1);
+        if (attachRole.animation.lastAnimationName != "normal")
+        {
+            isNewAnim = true;
+        }
+        else
+        {
+            attachRole.animation.FadeIn("behurt", 0.2f, 1);
+        }
+    }
+
+    IEnumerator delayAnimaPlay(String animName)
+    {
+        yield return new WaitForSeconds(0.5f);
+        attachRole.animation.Play(animName, 1);
     }
 }
