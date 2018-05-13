@@ -73,11 +73,6 @@ public class AdventureHandler : MonoBehaviour
 
     private void Update()
     {
-        //unity嵌入Android隐藏手写板
-//        if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape)) 
-//              HideHWRModule();
-
-
         if (isStartWrite && isUp)
         {
             writeFireTime -= Time.deltaTime;
@@ -129,16 +124,20 @@ public class AdventureHandler : MonoBehaviour
     }
 
     //获取Android手写识别后的结果
-    public string CallHWRRec()
+    public void CallHWRRec()
     {
-        return AndroidUtil.Call<string>("hwrRec");
+        AndroidUtil.Call("hwrRec");
     }
 
     //手写识别的功能
     public void HWRRec()
     {
         //TODO 限制输入的个数以及实现修改功能
-        var results = CallHWRRec();
+        CallHWRRec();
+    }
+    //手写模块识别结果回调，在Anroid那边调用
+    public void OnGetRecResult(string results)
+    {
         AndroidUtil.Log("识别到的结果:" + results);
         if (results != null && results.Length >= 1)
         {

@@ -18,11 +18,11 @@ public class GameSetting : MonoBehaviour
 
     //暂停面板
     public GameObject pausePanel;
-    public bool isPause = false;
+    [HideInInspector] public bool isPause = false;
 
     //游戏结束面板
     public GameObject gameOverPanel;
-    public bool isGameOver = false;
+    [HideInInspector] public bool isGameOver = false;
 
     //退出面板
     public GameObject exitGamePanel;
@@ -69,13 +69,13 @@ public class GameSetting : MonoBehaviour
         {
             ShowExitGamePanel(false);
             isShowExitPanel = false;
-            SetHWRModule(true);  //显示手写模块
+            SetHWRModule(true); //显示手写模块
         }
         else
         {
             ShowExitGamePanel(true);
             isShowExitPanel = true;
-            SetHWRModule(false);  //隐藏手写模块
+            SetHWRModule(false); //隐藏手写模块
         }
     }
 
