@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection.Emit;
 using DragonBones;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AdventureHandler : MonoBehaviour
 {
+    public static AdventureHandler _instance;
+
     //书写冷却时间
     public double WriteFireTime;
     private double writeFireTime;
@@ -34,8 +37,18 @@ public class AdventureHandler : MonoBehaviour
     private string newAnimName = "";
 
     //Boss攻击是否计时
-    private bool isCalcTime = true;
+    [HideInInspector] public bool isCalcTime = false;
 
+    //演示显示游戏结束面板的时间
+    public float delayShowGameOverTime = 2f;
+
+    //当动画冲突时两个动画的播放间隔时间
+    public float delayAnimPlayTime = 1f;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -121,10 +134,7 @@ public class AdventureHandler : MonoBehaviour
         if (results != null && results.Length >= 1)
         {
             var resultArr = results.Split(';');
-            if (resultArr.Length > 0)
-            {
-                WordHandler._instance.SetCharacter(resultArr[0]);
-            }
+            if (resultArr.Length > 0) WordHandler._instance.SetCharacter(resultArr[0]);
         }
     }
 
@@ -132,10 +142,7 @@ public class AdventureHandler : MonoBehaviour
     public void TestHWRRec(string results)
     {
         AndroidUtil.Log("识别到的结果:" + results);
-        if (results != null && results.Length >= 1)
-        {
-            WordHandler._instance.SetCharacter(results.Substring(0, 1));
-        }
+        if (results != null && results.Length >= 1) WordHandler._instance.SetCharacter(results.Substring(0, 1));
     }
 
     public void JudgeResult(string btnName)
@@ -179,19 +186,14 @@ public class AdventureHandler : MonoBehaviour
     private void SetNewWord()
     {
         if (WordHandler._instance.JudgeGameOver())
-        {
-//            AndroidUtil.Toast("游戏结束");
-            StartCoroutine(DelayShowGameOverPanel(1f));
-        }
+            StartCoroutine(DelayShowGameOverPanel(delayShowGameOverTime));
         else
-        {
             WordHandler._instance.UpdateWordInfo();
-        }
 
         isNewRec = false;
     }
 
-    IEnumerator DelayShowGameOverPanel(float second)
+    private IEnumerator DelayShowGameOverPanel(float second)
     {
         yield return new WaitForSeconds(second);
         GameSetting._instance.SetGameOver(true);
@@ -206,7 +208,7 @@ public class AdventureHandler : MonoBehaviour
             isNewAnim = false;
             if (!"".Equals(newAnimName))
             {
-                StartCoroutine(DelayAnimPlay(attackRole, newAnimName));
+                StartCoroutine(DelayAnimPlay(attackRole, newAnimName, delayAnimPlayTime));
                 newAnimName = "";
             }
         }
@@ -223,7 +225,7 @@ public class AdventureHandler : MonoBehaviour
         }
     }
 
-    public void FadeInRoleAnim(UnityArmatureComponent role, String animName)
+    public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
     {
         if (role.animation.lastAnimationName != "normal")
         {
@@ -236,14 +238,14 @@ public class AdventureHandler : MonoBehaviour
         }
     }
 
-    public void PlayRoleAnim(UnityArmatureComponent role, String animName)
+    public void PlayRoleAnim(UnityArmatureComponent role, string animName)
     {
         role.animation.Play(animName, 1);
     }
 
-    IEnumerator DelayAnimPlay(UnityArmatureComponent role, String animName)
+    private IEnumerator DelayAnimPlay(UnityArmatureComponent role, string animName, float delayTime)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(delayTime);
         PlayRoleAnim(role, animName);
     }
 }

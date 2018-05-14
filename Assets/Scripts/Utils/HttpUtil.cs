@@ -28,7 +28,7 @@ public class HttpUtil : MonoBehaviour
     {
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
-            yield return www.Send();
+            yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
             {
                 callBack.OnRequestError(www.error);

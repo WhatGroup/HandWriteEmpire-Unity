@@ -35,6 +35,9 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     private bool isCharacterFull = false;
     private bool isBtnActivite = false;
 
+
+    //网络连接失败时，重新请求网络的时间
+    public float retryNetWorkTime=4f;
     private void Awake()
     {
         _instance = this;
@@ -46,7 +49,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     {
         gridNums = characterGrids.Length;
         RequestInfo();
-//        UpdateWordInfo(infos[currentWord]);在请求数据之后调用
+        ClearText();
     }
 
     private void Update()
@@ -67,6 +70,17 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         }
     }
 
+    private void ClearText()
+    {
+        for (int i = 0; i < gridNums; i++)
+        {
+            characterGrids[i].pinyin.text = "";
+            characterGrids[i].content.text = "";
+        }
+
+        currentPinYin.text = "";
+    }
+
     public void SetBtnStateValue(bool state)
     {
         isBtnActivite = state;
@@ -77,21 +91,34 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     {
         //随机请求一个文件
         //其中6.json只有两个词，7.json只有一个词
-        HttpUtil._instance.Get(HttpUtil.DOMAIN + new Random().Next(8) + ".json", this);
+        int fileName = new Random().Next(7) + 1;
+        HttpUtil._instance.Get(HttpUtil.DOMAIN + fileName + ".json", this);
+        AndroidUtil.Log("文件名: " + fileName + ".json");
     }
 
-    //网络请求失败回调
+    //网络请求失败回调,如果请求失败则反复请求网络，直到成功
     public void OnRequestError(string error)
     {
         AndroidUtil.Toast("网络出错!\n" + error);
+        StartCoroutine(LaterRequest(retryNetWorkTime));
+    }
+
+    IEnumerator LaterRequest(float second)
+    {
+        yield return new WaitForSeconds(second);
+        RequestInfo();
     }
 
     //网络请求成功回调
     public void OnRequestSuccess(string response)
     {
+        AdventureHandler._instance.isCalcTime = true;
         WordInfoArray infoArray = JsonUtility.FromJson<WordInfoArray>(response);
         infos = infoArray.infos;
+        //更新输入框中的信息
         UpdateWordInfo(infos[currentWord]);
+        //显示手写识别模块
+        GameSetting._instance.ShowHWRModule();
         //TODO 提示信息，需要删除
         AndroidUtil.Toast("该组长度:" + infos.Length);
     }

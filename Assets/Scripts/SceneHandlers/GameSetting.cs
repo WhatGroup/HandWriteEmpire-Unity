@@ -13,7 +13,6 @@ public class GameSetting : MonoBehaviour
     {
         //每次进入到冒险模式场景的时候都会调用一次改方法，都会初始化_instance
         _instance = this;
-        ShowHWRModule();
     }
 
     //暂停面板
