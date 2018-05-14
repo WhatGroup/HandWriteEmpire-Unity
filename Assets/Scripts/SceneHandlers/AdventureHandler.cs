@@ -14,25 +14,15 @@ public class AdventureHandler : MonoBehaviour
 
     //敌人攻击冷却时间
     public double BossFireTime;
+
     private double bossFireTime;
+
+    //Boss攻击倒计时显示
     public Text timeText;
 
 
     private bool isStartWrite = false;
     private bool isUp = false;
-
-    public ChineseInfo[] infos;
-    public int currentChinese = 0;
-    public Text chinesePinYin;
-    public Text chineseContent;
-    public Text chineseCurrentPinYin;
-
-    private string[] pinYinArray;
-    private string[] contentArray;
-    private int currentCharacter = 0;
-    private string regResult;
-
-    public ButtonStatusManager btnManager;
 
     public UnityArmatureComponent attackRole;
 
@@ -49,27 +39,15 @@ public class AdventureHandler : MonoBehaviour
 
     private void Start()
     {
-        RequestInfo();
-
         bossFireTime = BossFireTime;
 
         writeFireTime = WriteFireTime;
 
-        UpdateChineseInfo(infos[currentChinese]);
 
         //设置动画监听
         attackRole.AddDBEventListener(EventObject.COMPLETE, OnAnimationEventHandler);
     }
 
-    //请求网络数据
-    private void RequestInfo()
-    {
-        infos = new ChineseInfo[4];
-        infos[0] = new ChineseInfo("nǐ hǎo", "你 好", "用于有礼貌的打招呼或表示与人见面时的问候");
-        infos[1] = new ChineseInfo("kē jì", "科 技", "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题");
-        infos[2] = new ChineseInfo("xiàn zài", "现 在", "现世,今生;眼前一刹那");
-        infos[3] = new ChineseInfo("wèi lái", "未 来", "从现在往后的时间");
-    }
 
     private void Update()
     {
@@ -135,6 +113,7 @@ public class AdventureHandler : MonoBehaviour
         //TODO 限制输入的个数以及实现修改功能
         CallHWRRec();
     }
+
     //手写模块识别结果回调，在Anroid那边调用
     public void OnGetRecResult(string results)
     {
@@ -144,12 +123,7 @@ public class AdventureHandler : MonoBehaviour
             var resultArr = results.Split(';');
             if (resultArr.Length > 0)
             {
-                AddCharacter(resultArr[0]);
-                currentCharacter++;
-                if (currentCharacter == contentArray.Length)
-                    btnManager.SetAllInteractable();
-                else
-                    SetNewPinYin();
+                WordHandler._instance.SetCharacter(resultArr[0]);
             }
         }
     }
@@ -160,24 +134,17 @@ public class AdventureHandler : MonoBehaviour
         AndroidUtil.Log("识别到的结果:" + results);
         if (results != null && results.Length >= 1)
         {
-            AddCharacter(results.Substring(0, 1));
-            currentCharacter++;
-            if (currentCharacter == contentArray.Length)
-                btnManager.SetAllInteractable();
-            else
-                SetNewPinYin();
+            WordHandler._instance.SetCharacter(results.Substring(0, 1));
         }
     }
 
-    public void ResultJudge(string btnName)
+    public void JudgeResult(string btnName)
     {
-        if (!chineseContent.text.Equals(infos[currentChinese].Content))
+        if (!WordHandler._instance.JudgeResult())
         {
             //TODO 错误效果
             FadeInRoleAnim(attackRole, "fail");
 //            attackRole.animation.Play("normal");
-            AndroidUtil.Toast("输入错误!!!\n" + "实际: " + chineseContent.text + "\n输入: " +
-                              infos[currentChinese].Content);
         }
         else
         {
@@ -204,14 +171,14 @@ public class AdventureHandler : MonoBehaviour
             }
         }
 
-        currentChinese++;
         isNewRec = true;
         isCalcTime = false;
     }
 
-    private void JudgeGameOver()
+    //更新为新的单词
+    private void SetNewWord()
     {
-        if (currentChinese == infos.Length)
+        if (WordHandler._instance.JudgeGameOver())
         {
             //TODO 游戏结束,此方法应该写在动画回调之后，需要修改
             AndroidUtil.Toast("游戏结束");
@@ -219,42 +186,12 @@ public class AdventureHandler : MonoBehaviour
         }
         else
         {
-            UpdateChineseInfo(infos[currentChinese]);
+            WordHandler._instance.UpdateWordInfo();
         }
 
         isNewRec = false;
     }
 
-    public void UpdateChineseInfo(ChineseInfo chinese)
-    {
-        currentCharacter = 0;
-        pinYinArray = chinese.Pinyin.Split(' ');
-        contentArray = chinese.Content.Split(' ');
-        AndroidUtil.Log("拼音: " + GeneralTools.printArray(pinYinArray));
-        AndroidUtil.Log("内容: " + GeneralTools.printArray(contentArray));
-
-        chinesePinYin.text = chinese.Pinyin;
-        chineseContent.text = "";
-        chineseCurrentPinYin.text = pinYinArray[currentCharacter];
-    }
-
-    public void AddCharacter(string s)
-    {
-        if (chineseContent.text.Length > 0)
-            chineseContent.text += " " + s;
-        else
-            chineseContent.text += s;
-    }
-
-    public void SetNewPinYin()
-    {
-        chineseCurrentPinYin.text = pinYinArray[currentCharacter];
-    }
-
-    public void ShowDetialContent()
-    {
-        AndroidUtil.Toast(infos[currentChinese].Detail, 0, 0);
-    }
 
     //动画完成后切换回默认动画
     private void OnAnimationEventHandler(string type, EventObject eventObject)
@@ -273,8 +210,8 @@ public class AdventureHandler : MonoBehaviour
             PlayRoleAnim(attackRole, "normal");
             if (isNewRec)
             {
-                JudgeGameOver();
                 isNewRec = false;
+                SetNewWord();
             }
 
             isCalcTime = true;
