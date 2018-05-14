@@ -180,9 +180,8 @@ public class AdventureHandler : MonoBehaviour
     {
         if (WordHandler._instance.JudgeGameOver())
         {
-            //TODO 游戏结束,此方法应该写在动画回调之后，需要修改
-            AndroidUtil.Toast("游戏结束");
-            GameSetting._instance.SetGameOver(true);
+//            AndroidUtil.Toast("游戏结束");
+            StartCoroutine(DelayShowGameOverPanel(1f));
         }
         else
         {
@@ -190,6 +189,12 @@ public class AdventureHandler : MonoBehaviour
         }
 
         isNewRec = false;
+    }
+
+    IEnumerator DelayShowGameOverPanel(float second)
+    {
+        yield return new WaitForSeconds(second);
+        GameSetting._instance.SetGameOver(true);
     }
 
 

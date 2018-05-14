@@ -13,16 +13,23 @@ public class WordHandler : MonoBehaviour
     private int currentWord = 0;
     private int currentCharacter = 0;
 
+    //输入框
     public CharacterGrid[] characterGrids;
     private int gridNums;
+
+    //当前拼音
+    public Text currentPinYin;
+
+    //提示信息
+    public GameObject tipPanel;
+    public Text tipPinYin;
+    public Text tipDetail;
 
     private string[] pinYinArray;
     private string[] characterArray;
 
 
     public ButtonStatusManager btnManager;
-
-    public Text currentPinYin;
 
     private bool isCharacterFull = false;
     private bool isBtnActivite = false;
@@ -44,20 +51,12 @@ public class WordHandler : MonoBehaviour
     private void Update()
     {
         if (!isBtnActivite)
-        {
-            for (int i = 0; i < gridNums; i++)
+            for (var i = 0; i < gridNums; i++)
             {
-                if ("".Equals(characterGrids[i].content.text))
-                {
-                    break;
-                }
+                if ("".Equals(characterGrids[i].content.text)) break;
 
-                if (i == gridNums - 1)
-                {
-                    isCharacterFull = true;
-                }
+                if (i == gridNums - 1) isCharacterFull = true;
             }
-        }
 
         if (isCharacterFull)
         {
@@ -90,7 +89,7 @@ public class WordHandler : MonoBehaviour
         characterArray = Word.Content.Split(' ');
         AndroidUtil.Log("拼音: " + GeneralTools.printArray(pinYinArray));
         AndroidUtil.Log("内容: " + GeneralTools.printArray(characterArray));
-        for (int i = 0; i < pinYinArray.Length; i++)
+        for (var i = 0; i < pinYinArray.Length; i++)
         {
             characterGrids[i].pinyin.text = pinYinArray[i];
             characterGrids[i].content.text = "";
@@ -107,17 +106,13 @@ public class WordHandler : MonoBehaviour
     }
 
 
-    public void SetCharacter(String character)
+    public void SetCharacter(string character)
     {
         characterGrids[currentCharacter].content.text = character;
         if (currentCharacter < gridNums - 1)
-        {
             currentCharacter++;
-        }
         else
-        {
             currentCharacter = 0;
-        }
 
         characterGrids[currentCharacter].toggle.isOn = true;
         currentPinYin.text = pinYinArray[currentCharacter];
@@ -125,13 +120,10 @@ public class WordHandler : MonoBehaviour
 
     public bool JudgeResult()
     {
-        for (int i = 0; i < gridNums; i++)
+        for (var i = 0; i < gridNums; i++)
         {
             AndroidUtil.Log("对比:" + characterArray[i] + "," + characterGrids[i].content.text);
-            if (!characterArray[i].Equals(characterGrids[i].content.text))
-            {
-                return false;
-            }
+            if (!characterArray[i].Equals(characterGrids[i].content.text)) return false;
         }
 
         return true;
@@ -141,23 +133,21 @@ public class WordHandler : MonoBehaviour
     {
         SetBtnStateValue(false);
         if (currentWord == infos.Length - 1)
-        {
             return true;
-        }
         else
-        {
             return false;
-        }
     }
 
     public void ShowDetialContent()
     {
-        AndroidUtil.Toast(infos[currentWord].Detail, 0, 0);
+        tipPanel.SetActive(true);
+        tipPinYin.text = infos[currentWord].Pinyin;
+        tipDetail.text = "释义:"+infos[currentWord].Detail;
     }
 
-
-    public void SetNewPinYin()
+    public void HideDetialContent()
     {
+        tipPanel.SetActive(false);
     }
 
     public void SelecetCharacter1()
