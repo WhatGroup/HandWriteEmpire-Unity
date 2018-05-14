@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class WordInfo
 {
-    private string pinyin;
-    private string content;
-    private string detail;
+    public string pinyin;
+    public string content;
+    public string detail;
 
     public WordInfo(string pinyin, string content, string detail)
     {
