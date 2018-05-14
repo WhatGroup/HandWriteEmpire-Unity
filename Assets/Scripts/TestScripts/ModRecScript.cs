@@ -11,6 +11,7 @@ public class ModRecScript : MonoBehaviour
 
     public void TestHWRRec()
     {
+       //TODO 取消注释
         AdventureHandler.TestHWRRec(results);
         results = "";
     }

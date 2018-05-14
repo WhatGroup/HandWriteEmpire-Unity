@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ChineseInfo
+public class WordInfo
 {
     private string pinyin;
     private string content;
     private string detail;
 
-    public ChineseInfo(string pinyin, string content, string detail)
+    public WordInfo(string pinyin, string content, string detail)
     {
         this.pinyin = pinyin;
         this.content = content;
