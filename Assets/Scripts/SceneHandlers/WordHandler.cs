@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
-public class WordHandler : MonoBehaviour
+public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
 {
     public static WordHandler _instance;
 
@@ -45,7 +46,7 @@ public class WordHandler : MonoBehaviour
     {
         gridNums = characterGrids.Length;
         RequestInfo();
-        UpdateWordInfo(infos[currentWord]);
+//        UpdateWordInfo(infos[currentWord]);在请求数据之后调用
     }
 
     private void Update()
@@ -72,40 +73,27 @@ public class WordHandler : MonoBehaviour
     }
 
     //请求网络数据
-
     private void RequestInfo()
     {
-        String responeJson = "{" +
-                             "    \"infos\": [" +
-                             "        {" +
-                             "            \"pinyin\": \"nǐ hǎo\"," +
-                             "            \"content\": \"你 好\"," +
-                             "            \"detail\": \"用于有礼貌的打招呼或表示与人见面时的问候\"" +
-                             "        }," +
-                             "        {" +
-                             "            \"pinyin\": \"kē jì\"," +
-                             "            \"content\": \"科 技\"," +
-                             "            \"detail\": \"社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题\"" +
-                             "        }," +
-                             "        {" +
-                             "            \"pinyin\": \"xiàn zài\"," +
-                             "            \"content\": \"现 在\"," +
-                             "            \"detail\": \"现世,今生;眼前一刹那\"" +
-                             "        }," +
-                             "        {" +
-                             "            \"pinyin\": \"wèi lái\"," +
-                             "            \"content\": \"未 来\"," +
-                             "            \"detail\": \"从现在往后的时间\"" +
-                             "        }" +
-                             "    ]" +
-                             "}";
-        WordInfoArray infoArray = JsonUtility.FromJson<WordInfoArray>(responeJson);
+        //随机请求一个文件
+        //其中6.json只有两个词，7.json只有一个词
+        HttpUtil._instance.Get(HttpUtil.DOMAIN + new Random().Next(8) + ".json", this);
+    }
+
+    //网络请求失败回调
+    public void OnRequestError(string error)
+    {
+        AndroidUtil.Toast("网络出错!\n" + error);
+    }
+
+    //网络请求成功回调
+    public void OnRequestSuccess(string response)
+    {
+        WordInfoArray infoArray = JsonUtility.FromJson<WordInfoArray>(response);
         infos = infoArray.infos;
-//        infos = new WordInfo[4];
-//        infos[0] = new WordInfo("nǐ hǎo", "你 好", "用于有礼貌的打招呼或表示与人见面时的问候");
-//        infos[1] = new WordInfo("kē jì", "科 技", "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题");
-//        infos[2] = new WordInfo("xiàn zài", "现 在", "现世,今生;眼前一刹那");
-//        infos[3] = new WordInfo("wèi lái", "未 来", "从现在往后的时间");
+        UpdateWordInfo(infos[currentWord]);
+        //TODO 提示信息，需要删除
+        AndroidUtil.Toast("该组长度:" + infos.Length);
     }
 
     public void UpdateWordInfo(WordInfo Word)
@@ -149,7 +137,12 @@ public class WordHandler : MonoBehaviour
         for (var i = 0; i < gridNums; i++)
         {
             AndroidUtil.Log("对比:" + characterArray[i] + "," + characterGrids[i].content.text);
-            if (!characterArray[i].Equals(characterGrids[i].content.text)) return false;
+            if (!characterArray[i].Equals(characterGrids[i].content.text))
+            {
+                //TODO 提示信息
+                AndroidUtil.Toast("正确书写为:" + infos[currentWord].Content);
+                return false;
+            }
         }
 
         return true;
