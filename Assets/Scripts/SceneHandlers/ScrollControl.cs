@@ -18,6 +18,7 @@ public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     private bool isDraging = false;
 //    private float CurrentPos;
 
+
     private void Start()
     {
         scrollLevel = GetComponent<ScrollRect>();

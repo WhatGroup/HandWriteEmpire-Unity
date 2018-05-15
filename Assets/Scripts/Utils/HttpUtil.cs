@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 
 public class HttpUtil : MonoBehaviour
 {
-    public const string DOMAIN = "http://139.199.88.206/";
+    public const string DoMain = "http://139.199.88.206/";
+    public const string GetInfosURL = DoMain + "data/";
     public static HttpUtil _instance;
 
     void Awake()

@@ -39,6 +39,11 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     //网络连接失败时，重新请求网络的时间
     public float retryNetWorkTime = 4f;
 
+
+    //TODO 测试用，随机生成的范围
+    public int minFileValue;
+    public int maxFileValue;
+
     private void Awake()
     {
         _instance = this;
@@ -93,8 +98,8 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     {
         //随机请求一个文件
         //其中6.json只有两个词，7.json只有一个词
-        int fileName = new Random().Next(7) + 1;
-        HttpUtil._instance.Get(HttpUtil.DOMAIN + fileName + ".json", this);
+        int fileName = new Random().Next(maxFileValue - minFileValue + 1) + minFileValue;
+        HttpUtil._instance.Get(HttpUtil.GetInfosURL + fileName + ".json", this);
         AndroidUtil.Log("文件名: " + fileName + ".json");
     }
 
