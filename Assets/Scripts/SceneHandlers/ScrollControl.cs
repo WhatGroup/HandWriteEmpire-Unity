@@ -5,7 +5,29 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
+public class ScrollControl : MonoBehaviour
+{
+    private ScrollRect scrollLevel;
+
+    private void Start()
+    {
+        scrollLevel = GetComponent<ScrollRect>();
+    }
+
+    void update()
+    {
+        if (scrollLevel.horizontalNormalizedPosition < 0)
+        {
+            scrollLevel.horizontalNormalizedPosition = 0;
+        }
+        else if (scrollLevel.horizontalNormalizedPosition > 1)
+        {
+            scrollLevel.horizontalNormalizedPosition = 1;
+        }
+    }
+}
+//可实现滑动结束后定位到某个位置
+/*public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     public float smoothSpeed = 10;
 
@@ -27,9 +49,9 @@ public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     private void Update()
     {
         //设置滑动结束后跳到某个位置
-//        if (!isDraging)
-//            scrollLevel.horizontalNormalizedPosition =
-//                Mathf.Lerp(scrollLevel.horizontalNormalizedPosition, destionPos, Time.deltaTime * smoothSpeed);
+        if (!isDraging)
+            scrollLevel.horizontalNormalizedPosition =
+                Mathf.Lerp(scrollLevel.horizontalNormalizedPosition, destionPos, Time.deltaTime * smoothSpeed);
         if (scrollLevel.horizontalNormalizedPosition < 0)
         {
             scrollLevel.horizontalNormalizedPosition = 0;
@@ -86,4 +108,4 @@ public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         if (isOn) destionPos = pageIndex[3];
     }
-}
+}*/
