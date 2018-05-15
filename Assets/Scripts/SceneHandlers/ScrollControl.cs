@@ -14,7 +14,7 @@ public class ScrollControl : MonoBehaviour
         scrollLevel = GetComponent<ScrollRect>();
     }
 
-    void update()
+    void Update()
     {
         if (scrollLevel.horizontalNormalizedPosition < 0)
         {
