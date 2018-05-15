@@ -86,6 +86,8 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         }
 
         currentPinYin.text = "";
+        tipPinYin.text = "";
+        tipDetail.text = "";
     }
 
     public void SetBtnStateValue(bool state)
@@ -150,6 +152,9 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
 
         currentPinYin.text = pinYinArray[0];
         characterGrids[0].toggle.isOn = true;
+
+        tipPinYin.text = infos[currentWord].Pinyin;
+        tipDetail.text = "释义:" + infos[currentWord].Detail;
     }
 
     public void UpdateWordInfo()
@@ -199,8 +204,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     public void ShowDetialContent()
     {
         tipPanel.SetActive(true);
-        tipPinYin.text = infos[currentWord].Pinyin;
-        tipDetail.text = "释义:" + infos[currentWord].Detail;
     }
 
     public void HideDetialContent()
