@@ -33,7 +33,6 @@ public class GameSetting : MonoBehaviour
         SetGameStart();
         pausePanel.SetActive(false);
         isPause = false;
-        SetHWRModule(true);
 
         //TODO 当退出和暂停面板使用同一个时,需要在这里设置isShowExitPanel为false
         isShowExitPanel = false;

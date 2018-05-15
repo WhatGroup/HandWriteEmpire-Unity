@@ -37,7 +37,8 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
 
 
     //网络连接失败时，重新请求网络的时间
-    public float retryNetWorkTime=4f;
+    public float retryNetWorkTime = 4f;
+
     private void Awake()
     {
         _instance = this;
@@ -76,6 +77,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         {
             characterGrids[i].pinyin.text = "";
             characterGrids[i].content.text = "";
+            characterGrids[i].toggle.interactable = false;
         }
 
         currentPinYin.text = "";
@@ -115,6 +117,11 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         AdventureHandler._instance.isCalcTime = true;
         WordInfoArray infoArray = JsonUtility.FromJson<WordInfoArray>(response);
         infos = infoArray.infos;
+        for (int i = 0; i < gridNums; i++)
+        {
+            characterGrids[i].toggle.interactable = true;
+        }
+
         //更新输入框中的信息
         UpdateWordInfo(infos[currentWord]);
         //显示手写识别模块

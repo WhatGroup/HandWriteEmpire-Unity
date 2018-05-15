@@ -25,9 +25,10 @@ public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     private void Update()
     {
-        if (!isDraging)
-            scrollLevel.horizontalNormalizedPosition =
-                Mathf.Lerp(scrollLevel.horizontalNormalizedPosition, destionPos, Time.deltaTime * smoothSpeed);
+        //设置滑动结束后跳到某个位置
+//        if (!isDraging)
+//            scrollLevel.horizontalNormalizedPosition =
+//                Mathf.Lerp(scrollLevel.horizontalNormalizedPosition, destionPos, Time.deltaTime * smoothSpeed);
         if (scrollLevel.horizontalNormalizedPosition < 0)
         {
             scrollLevel.horizontalNormalizedPosition = 0;
