@@ -20,10 +20,12 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace DragonBones
@@ -53,6 +55,7 @@ namespace DragonBones
         /// <version>DragonBones 4.5</version>
         /// <language>zh_CN</language>
         SortByZ,
+
         /// <summary>
         /// Renderer's order within a sorting layer.
         /// </summary>
@@ -72,10 +75,13 @@ namespace DragonBones
     public class UnityArmatureComponent : DragonBoneEventDispatcher, IArmatureProxy
     {
         public const int ORDER_SPACE = 10;
+
         /// <private/>
         public UnityDragonBonesData unityData = null;
+
         /// <private/>
         public string armatureName = null;
+
         /// <summary>
         /// Is it the UGUI model?
         /// </summary>
@@ -88,39 +94,35 @@ namespace DragonBones
         /// <version>DragonBones 4.5</version>
         /// <language>zh_CN</language>
         public bool isUGUI = false;
+
         public bool debugDraw = false;
         internal readonly ColorTransform _colorTransform = new ColorTransform();
 
         /// <private/>
         public string animationName = null;
+
         /// <private/>
         private bool _disposeProxy = true;
+
         /// <private/>
         internal Armature _armature = null;
-        [Tooltip("0 : Loop")]
-        [Range(0, 100)]
-        [SerializeField]
+
+        [Tooltip("0 : Loop")] [Range(0, 100)] [SerializeField]
         protected int _playTimes = 0;
-        [Range(-2f, 2f)]
-        [SerializeField]
-        protected float _timeScale = 1.0f;
 
-        [SerializeField]
-        internal SortingMode _sortingMode = SortingMode.SortByZ;
-        [SerializeField]
-        internal string _sortingLayerName = "Default";
-        [SerializeField]
-        internal int _sortingOrder = 0;
-        [SerializeField]
-        internal float _zSpace = 0.0f;
+        [Range(-2f, 2f)] [SerializeField] protected float _timeScale = 1.0f;
 
-        [SerializeField]
-        protected bool _flipX = false;
-        [SerializeField]
-        protected bool _flipY = false;
+        [SerializeField] internal SortingMode _sortingMode = SortingMode.SortByZ;
+        [SerializeField] internal string _sortingLayerName = "Default";
+        [SerializeField] internal int _sortingOrder = 0;
+        [SerializeField] internal float _zSpace = 0.0f;
+
+        [SerializeField] protected bool _flipX = false;
+
+        [SerializeField] protected bool _flipY = false;
+
         //default open combineMeshs
-        [SerializeField]
-        protected bool _closeCombineMeshs;
+        [SerializeField] protected bool _closeCombineMeshs;
 
         private bool _hasSortingGroup = false;
         private Material _debugDrawer;
@@ -143,7 +145,7 @@ namespace DragonBones
                     }
                     catch (System.Exception e)
                     {
-
+                        AndroidUtil.Log(e.Message);
                     }
                 }
             }
@@ -173,6 +175,7 @@ namespace DragonBones
             this._armatureZ = 0;
             this._closeCombineMeshs = false;
         }
+
         ///
         public void DBInit(Armature armature)
         {
@@ -181,7 +184,6 @@ namespace DragonBones
 
         public void DBUpdate()
         {
-
         }
 
         void CreateLineMaterial()
@@ -194,10 +196,10 @@ namespace DragonBones
                 _debugDrawer = new Material(shader);
                 _debugDrawer.hideFlags = HideFlags.HideAndDontSave;
                 // Turn on alpha blending
-                _debugDrawer.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                _debugDrawer.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                _debugDrawer.SetInt("_SrcBlend", (int) UnityEngine.Rendering.BlendMode.SrcAlpha);
+                _debugDrawer.SetInt("_DstBlend", (int) UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
                 // Turn backface culling off
-                _debugDrawer.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+                _debugDrawer.SetInt("_Cull", (int) UnityEngine.Rendering.CullMode.Off);
                 // Turn off depth writes
                 _debugDrawer.SetInt("_ZWrite", 0);
             }
@@ -228,7 +230,8 @@ namespace DragonBones
                     var boneLength = System.Math.Max(bone.boneData.length, offset);
 
                     var startPos = new Vector3(bone.globalTransformMatrix.tx, bone.globalTransformMatrix.ty, 0.0f);
-                    var endPos = new Vector3(bone.globalTransformMatrix.a * boneLength, bone.globalTransformMatrix.b * boneLength, 0.0f) + startPos;
+                    var endPos = new Vector3(bone.globalTransformMatrix.a * boneLength,
+                                     bone.globalTransformMatrix.b * boneLength, 0.0f) + startPos;
 
                     var torwardDir = (startPos - endPos).normalized;
                     var leftStartPos = Quaternion.AngleAxis(90, Vector3.forward) * torwardDir * offset + startPos;
@@ -273,53 +276,56 @@ namespace DragonBones
                     switch (boundingBoxData.type)
                     {
                         case BoundingBoxType.Rectangle:
-                            {
-                                //
+                        {
+                            //
 #if UNITY_5_6_OR_NEWER
-                                GL.Begin(GL.LINE_STRIP);
+                            GL.Begin(GL.LINE_STRIP);
 #else
                                 GL.Begin(GL.LINES);
 #endif
-                                GL.Color(boundingBoxLineColor);
+                            GL.Color(boundingBoxLineColor);
 
-                                var leftTopPos = new Vector3(tx - boundingBoxWidth * 0.5f, ty + boundingBoxHeight * 0.5f, 0.0f);
-                                var leftBottomPos = new Vector3(tx - boundingBoxWidth * 0.5f, ty - boundingBoxHeight * 0.5f, 0.0f);
-                                var rightTopPos = new Vector3(tx + boundingBoxWidth * 0.5f, ty + boundingBoxHeight * 0.5f, 0.0f);
-                                var rightBottomPos = new Vector3(tx + boundingBoxWidth * 0.5f, ty - boundingBoxHeight * 0.5f, 0.0f);
+                            var leftTopPos = new Vector3(tx - boundingBoxWidth * 0.5f, ty + boundingBoxHeight * 0.5f,
+                                0.0f);
+                            var leftBottomPos = new Vector3(tx - boundingBoxWidth * 0.5f, ty - boundingBoxHeight * 0.5f,
+                                0.0f);
+                            var rightTopPos = new Vector3(tx + boundingBoxWidth * 0.5f, ty + boundingBoxHeight * 0.5f,
+                                0.0f);
+                            var rightBottomPos = new Vector3(tx + boundingBoxWidth * 0.5f,
+                                ty - boundingBoxHeight * 0.5f, 0.0f);
 
-                                GL.Vertex(leftTopPos);
-                                GL.Vertex(rightTopPos);
-                                GL.Vertex(rightBottomPos);
-                                GL.Vertex(leftBottomPos);
-                                GL.Vertex(leftTopPos);
+                            GL.Vertex(leftTopPos);
+                            GL.Vertex(rightTopPos);
+                            GL.Vertex(rightBottomPos);
+                            GL.Vertex(leftBottomPos);
+                            GL.Vertex(leftTopPos);
 
-                                GL.End();
-                            }
+                            GL.End();
+                        }
                             break;
                         case BoundingBoxType.Ellipse:
-                            {
-
-                            }
+                        {
+                        }
                             break;
                         case BoundingBoxType.Polygon:
-                            {
-                                var vertices = (boundingBoxData as PolygonBoundingBoxData).vertices;
+                        {
+                            var vertices = (boundingBoxData as PolygonBoundingBoxData).vertices;
 #if UNITY_5_6_OR_NEWER
-                                GL.Begin(GL.LINE_STRIP);
+                            GL.Begin(GL.LINE_STRIP);
 #else
                                 GL.Begin(GL.LINES);
 #endif
-                                GL.Color(boundingBoxLineColor);
-                                for (var j = 0; j < vertices.Count; j += 2)
-                                {
-                                    slot.globalTransformMatrix.TransformPoint(vertices[j], vertices[j + 1], result);
-                                    GL.Vertex3(result.x, result.y, 0.0f);
-                                }
-
-                                slot.globalTransformMatrix.TransformPoint(vertices[0], vertices[1], result);
+                            GL.Color(boundingBoxLineColor);
+                            for (var j = 0; j < vertices.Count; j += 2)
+                            {
+                                slot.globalTransformMatrix.TransformPoint(vertices[j], vertices[j + 1], result);
                                 GL.Vertex3(result.x, result.y, 0.0f);
-                                GL.End();
                             }
+
+                            slot.globalTransformMatrix.TransformPoint(vertices[0], vertices[1], result);
+                            GL.Vertex3(result.x, result.y, 0.0f);
+                            GL.End();
+                        }
                             break;
                         default:
                             break;
@@ -328,7 +334,6 @@ namespace DragonBones
 
                 GL.PopMatrix();
             }
-
         }
 
         /// <inheritDoc/>
@@ -341,13 +346,13 @@ namespace DragonBones
                 _armature.Dispose();
             }
         }
+
         /// <summary>
         /// Get the Armature.
         /// </summary>
         /// <readOnly/>
         /// <version>DragonBones 4.5</version>
         /// <language>en_US</language>
-
         /// <summary>
         /// 获取骨架。
         /// </summary>
@@ -365,14 +370,13 @@ namespace DragonBones
         /// <readOnly/>
         /// <version>DragonBones 4.5</version>
         /// <language>en_US</language>
-
         /// <summary>
         /// 获取动画播放器。
         /// </summary>
         /// <readOnly/>
         /// <version>DragonBones 4.5</version>
         /// <language>zh_CN</language>
-        public new Animation animation
+        public new  Animation animation
         {
             get { return _armature != null ? _armature.animation : null; }
         }
@@ -490,6 +494,7 @@ namespace DragonBones
                 _UpdateSlotsSorting();
             }
         }
+
         /// <summary>
         /// The Z axis spacing of slot display objects
         /// </summary>
@@ -521,6 +526,7 @@ namespace DragonBones
                 _UpdateSlotsSorting();
             }
         }
+
         /// <summary>
         /// - The armature color.
         /// </summary>
@@ -549,6 +555,7 @@ namespace DragonBones
 
 #if UNITY_5_6_OR_NEWER
         internal UnityEngine.Rendering.SortingGroup _sortingGroup;
+
         public UnityEngine.Rendering.SortingGroup sortingGroup
         {
             get { return _sortingGroup; }
@@ -569,10 +576,12 @@ namespace DragonBones
                     if (slot.childArmature != null)
                     {
                         var childArmatureProxy = slot.childArmature.proxy as UnityArmatureComponent;
-                        childArmatureProxy._sortingGroup = childArmatureProxy.GetComponent<UnityEngine.Rendering.SortingGroup>();
+                        childArmatureProxy._sortingGroup =
+                            childArmatureProxy.GetComponent<UnityEngine.Rendering.SortingGroup>();
                         if (childArmatureProxy._sortingGroup == null)
                         {
-                            childArmatureProxy._sortingGroup = childArmatureProxy.gameObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
+                            childArmatureProxy._sortingGroup = childArmatureProxy.gameObject
+                                .AddComponent<UnityEngine.Rendering.SortingGroup>();
                         }
 
                         childArmatureProxy._sortingGroup.sortingLayerName = _sortingLayerName;
@@ -588,7 +597,8 @@ namespace DragonBones
                     if (slot.childArmature != null)
                     {
                         var childArmatureProxy = slot.childArmature.proxy as UnityArmatureComponent;
-                        childArmatureProxy._sortingGroup = childArmatureProxy.GetComponent<UnityEngine.Rendering.SortingGroup>();
+                        childArmatureProxy._sortingGroup =
+                            childArmatureProxy.GetComponent<UnityEngine.Rendering.SortingGroup>();
                         if (childArmatureProxy._sortingGroup != null)
                         {
                             DestroyImmediate(childArmatureProxy._sortingGroup);
@@ -638,7 +648,8 @@ namespace DragonBones
                     continue;
                 }
 
-                slot._SetZorder(new Vector3(display.transform.localPosition.x, display.transform.localPosition.y, -slot._zOrder * (_zSpace + 0.001f)));
+                slot._SetZorder(new Vector3(display.transform.localPosition.x, display.transform.localPosition.y,
+                    -slot._zOrder * (_zSpace + 0.001f)));
 
                 if (slot.childArmature != null)
                 {
@@ -658,7 +669,7 @@ namespace DragonBones
         private bool _IsPrefab()
         {
             return PrefabUtility.GetPrefabParent(gameObject) == null
-                && PrefabUtility.GetPrefabObject(gameObject) != null;
+                   && PrefabUtility.GetPrefabObject(gameObject) != null;
         }
 #endif
 
@@ -676,7 +687,8 @@ namespace DragonBones
                 var dragonBonesData = UnityFactory.factory.LoadData(unityData, isUGUI);
                 if (dragonBonesData != null && !string.IsNullOrEmpty(armatureName))
                 {
-                    UnityFactory.factory.BuildArmatureComponent(armatureName, unityData.dataName, null, null, gameObject, isUGUI);
+                    UnityFactory.factory.BuildArmatureComponent(armatureName, unityData.dataName, null, null,
+                        gameObject, isUGUI);
                 }
             }
 
@@ -700,8 +712,6 @@ namespace DragonBones
                     _armature.animation.Play(animationName, _playTimes);
                 }
             }
-
-
         }
 
         void Start()
@@ -778,6 +788,7 @@ namespace DragonBones
             {
                 return;
             }
+
             var slots = this._armature.GetSlots();
             foreach (var slot in slots)
             {
@@ -802,6 +813,7 @@ namespace DragonBones
             {
                 return;
             }
+
             //
             var slots = this._armature.GetSlots();
             foreach (var slot in slots)
