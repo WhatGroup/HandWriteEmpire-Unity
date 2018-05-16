@@ -7,6 +7,5 @@ public class CharacterGrid : MonoBehaviour
 {
     public Toggle toggle;
     public Text content;
-
     public Text pinyin;
 }
