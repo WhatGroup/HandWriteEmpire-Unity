@@ -132,7 +132,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         //更新输入框中的信息
         UpdateWordInfo(infos[currentWord]);
         //显示手写识别模块
-        GameSetting._instance.ShowHWRModule();
+        GameSetting._instance.SetHWRModule(true);
         //TODO 提示信息，需要删除
         AndroidUtil.Toast("该组长度:" + infos.Length);
     }

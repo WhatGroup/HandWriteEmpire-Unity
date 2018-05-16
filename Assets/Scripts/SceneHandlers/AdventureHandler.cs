@@ -21,7 +21,6 @@ public class AdventureHandler : MonoBehaviour
     public Text timeText;
 
 
-
     public UnityArmatureComponent attackRole;
 
     //是否是新的识别
@@ -53,7 +52,7 @@ public class AdventureHandler : MonoBehaviour
         //设置动画监听
         attackRole.AddDBEventListener(EventObject.COMPLETE, OnAnimationEventHandler);
     }
-    
+
     private void Update()
     {
         if (isCalcTime)
@@ -129,6 +128,14 @@ public class AdventureHandler : MonoBehaviour
     //动画完成后切换回默认动画
     private void OnAnimationEventHandler(string type, EventObject eventObject)
     {
+        //TODO 攻击或失败动画播放完之后显示手写板
+        var lastAnimationName = eventObject.armature.animation.lastAnimationName;
+        if (lastAnimationName == "attack" || lastAnimationName == "fail")
+        {
+            GameSetting._instance.SetHWRModule(true);
+            GameSetting._instance.PlayAnimState = false;
+        }
+
         if (isNewAnim)
         {
             isNewAnim = false;
@@ -153,6 +160,14 @@ public class AdventureHandler : MonoBehaviour
 
     public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
     {
+        //TODO 播放攻击和失败动画时隐藏手写板
+        if (animName == "attack" || animName == "fail")
+        {
+            GameSetting._instance.SetHWRModule(false);
+            GameSetting._instance.PlayAnimState=true;
+
+        }
+
         if (role.animation.lastAnimationName != "normal")
         {
             isNewAnim = true;

@@ -27,17 +27,34 @@ public class GameSetting : MonoBehaviour
     public GameObject exitGamePanel;
     private bool isShowExitPanel = false;
 
+    //当前手写板的状态
+    private bool isShowHWR = false;
+
+    //当前是否在播放攻击或者失败动画
+    private bool playAnimState = false;
+
+    public bool PlayAnimState
+    {
+        get { return playAnimState; }
+        set { playAnimState = value; }
+    }
 
     public void StartGame()
     {
         SetGameStart();
-        pausePanel.SetActive(false);
         isPause = false;
 
-        //TODO 当退出和暂停面板使用同一个时,需要在这里设置isShowExitPanel为false
-        isShowExitPanel = false;
-        ShowHWRModule();
+        if (isShowExitPanel)
+        {
+            isShowExitPanel = false;
+            pausePanel.SetActive(false);
+            if (!PlayAnimState)
+            {
+                SetHWRModule(true);
+            }
+        }
     }
+
 
     public void PauseGame()
     {
@@ -59,7 +76,7 @@ public class GameSetting : MonoBehaviour
     /// 通过传参来设置是否展示退出游戏面板
     /// </summary>
     /// <param name="isShow">ture表示显示退出面板并暂停游戏，false表示隐藏游戏面板并开始游戏</param>
-    public void ShowExitGamePanel(bool isShow)
+    private void ShowExitGamePanel(bool isShow)
     {
         SetGamePause(isShow);
         exitGamePanel.SetActive(isShow);
@@ -71,7 +88,10 @@ public class GameSetting : MonoBehaviour
         {
             ShowExitGamePanel(false);
             isShowExitPanel = false;
-            SetHWRModule(true); //显示手写模块
+            if (PlayAnimState == false)
+            {
+                SetHWRModule(true); //如果当前没有在播放攻击或者失败动画则显示手写模块
+            }
         }
         else
         {
@@ -122,24 +142,29 @@ public class GameSetting : MonoBehaviour
     /// <param name="isShow"></param>
     public void SetHWRModule(bool isShow)
     {
-        if (isShow)
+        //添加判断，如果之前的状态和设置的状态相同，则不修改
+        if (isShow != isShowHWR)
         {
-            ShowHWRModule();
-        }
-        else
-        {
-            HideHWRModule();
+            isShowHWR = isShow;
+            if (isShow)
+            {
+                ShowHWRModule();
+            }
+            else
+            {
+                HideHWRModule();
+            }
         }
     }
 
     //隐藏手写模块
-    public void HideHWRModule()
+    private void HideHWRModule()
     {
         AndroidUtil.Call("removeHandWriteBroad");
     }
 
     //显示手写模块
-    public void ShowHWRModule()
+    private void ShowHWRModule()
     {
         AndroidUtil.Call("addHandWriteBroad");
     }
