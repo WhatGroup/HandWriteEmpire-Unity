@@ -8,9 +8,13 @@ public class BackHandler
 {
     public static BackHandler _instance = new BackHandler();
 
+    private BackHandler()
+    {
+    }
+
     //场景栈，存放加载过的场景
     private Stack<string> sceneOrder = new Stack<string>();
-    
+
     public void PopScene()
     {
         if (sceneOrder.Count > 0)

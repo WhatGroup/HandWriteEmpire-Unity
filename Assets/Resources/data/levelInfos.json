@@ -1,0 +1,64 @@
+{
+    "levelList": [
+        {
+            "state": "ok",
+            "flag": 1,
+            "data": "1",
+            "level":1
+        },
+        {
+            "state": "ok",
+            "flag": 3,
+            "data": "2",
+            "level":2
+        },
+        {
+            "state": "ok",
+            "flag": 3,
+            "data": "3",
+            "level":3
+        },
+        {
+            "state": "ok",
+            "flag": 2,
+            "data": "4",
+            "level":4
+        },
+        {
+            "state": "current",
+            "flag": 0,
+            "data": "5",
+            "level":5
+        },
+        {
+            "state": "lock",
+            "flag": 0,
+            "data": "6",
+            "level":6
+        },
+        {
+            "state": "lock",
+            "flag": 0,
+            "data": "7",
+            "level":7
+        },
+        {
+            "state": "lock",
+            "flag": 0,
+            "data": "8",
+            "level":8
+        },
+        {
+            "state": "lock",
+            "flag": 0,
+            "data": "9",
+            "level":9
+        },
+        {
+            "state": "lock",
+            "flag": 0,
+            "data": "10",
+            "level":10
+        }
+    ]
+}

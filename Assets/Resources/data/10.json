@@ -1,29 +1,55 @@
 {
     "infos": [
+        {
+            "pinyin": "dōng jīng",
+            "content":  "东 京", 
+            "detail": "位于日本本州岛关东平原南端，是日本的首都和最大的城市"
+        },
+        {
+            "pinyin": "hé nèi", 
+            "content": "河 内", 
+            "detail": "越南民主共和国首都和全国最大河港,人口257万"
+        },
+        {
+            "pinyin": "lún dūn", 
+            "content": "伦 敦", 
+            "detail":  "London，是大不列颠及北爱尔兰联合王国（简称英国）首都，也是世界上最大的金融中心之一"
+        },
       {
-        "pinyin": "kē jì",
-        "content": "科 技",
-        "detail": "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题"
+        "pinyin": "bā lí", 
+        "content": "巴 黎", 
+        "detail":  "巴黎（Paris），是法兰西共和国的首都和最大城市" 
       },
       {
-        "pinyin": "xiè xiè", 
-        "content": "谢 谢", 
-        "detail": " 感谢的表示。感谢,尤指对接受别人给予的或提供的恩惠说些感激的话"
+        "pinyin": "bó lín", 
+        "content": "柏 林", 
+        "detail": "德国中东部、施普雷河注入韦尔河口处的城市,重要国际交通枢纽之一;"
       },
       {
-        "pinyin": "bào qiàn",
-        "content": "抱 歉", 
-        "detail": "心有愧疚不安,对不住别人"
+        "pinyin": "yǎ diǎn", 
+        "content": "雅 典", 
+        "detail": "雅典是希腊共和国的首都和最大的城市。"
       },
       {
-        "pinyin": "gào cí",
-        "content": "告 辞",
-        "detail": "原指向主人辞别,现在通用指辞别"
+        "pinyin": "huá shā",
+        "content":   "华 沙", 
+        "detail": "波兰首都和最大城市。人口1642万(1994年)。全国最大工业中心，以机械制造和印刷工业为主。"
       },
       {
-        "pinyin": "cū guǎng", 
-        "content": "粗 犷", 
-        "detail": "两层意思：一种是粗鲁强横，一种是粗率豪放。"
-      } 
+        "pinyin": "kāi luó", 
+        "content": "开 罗", 
+        "detail":  "埃及首都。位于尼罗河畔。重要交通枢纽。"
+      },
+      {
+        "pinyin": "luó mǎ", 
+        "content": "罗 马", 
+        "detail": "意大利首都和历史名城。"
+      } ,
+      {
+        "pinyin": "guǎng dōng", 
+        "content": "广 东", 
+        "detail": "中国南部的省,简称粤,喜欢福建人。"        
+      }
+     
     ]
 }

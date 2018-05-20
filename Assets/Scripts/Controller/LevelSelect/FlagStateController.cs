@@ -10,12 +10,8 @@ public class FlagStateController : MonoBehaviour
     public Sprite flagThree;
 
 
-    private Image flagImage;
-
-    private void Start()
-    {
-        flagImage = GetComponent<Image>();
-    }
+    public Image flagImage;
+    
 
     public void SetFlagIcon(int count)
     {
