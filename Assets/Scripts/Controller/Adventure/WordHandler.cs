@@ -142,8 +142,8 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         currentCharacter = 0;
         pinYinArray = Word.Pinyin.Split(' ');
         characterArray = Word.Content.Split(' ');
-        AndroidUtil.Log("拼音: " + GeneralTools.printArray(pinYinArray));
-        AndroidUtil.Log("内容: " + GeneralTools.printArray(characterArray));
+        AndroidUtil.Log("拼音: " + GeneralUtils.printArray(pinYinArray));
+        AndroidUtil.Log("内容: " + GeneralUtils.printArray(characterArray));
         for (var i = 0; i < pinYinArray.Length; i++)
         {
             characterGrids[i].pinyin.text = pinYinArray[i];

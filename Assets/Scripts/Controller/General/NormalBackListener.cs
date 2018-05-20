@@ -12,4 +12,9 @@ public class NormalBackListener : MonoBehaviour
             BackHandler._instance.PopScene();
         }
     }
+
+    public void OnClickBackBtn()
+    {
+        BackHandler._instance.PopScene();
+    }
 }

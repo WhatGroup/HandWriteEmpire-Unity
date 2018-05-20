@@ -20,9 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/05_RoleManager.unity
     guid: 1d86f0010d605ed4bab0d88b189d1df0
-  - enabled: 0
-    path: Assets/Scenes/06_Train.unity
-    guid: cb639997e7221c14eab39fac00b5d8b4
-  - enabled: 0
-    path: Assets/Scenes/07_RoleManager.unity
-    guid: 2b2e9d570f108654b96afdfaa1dd2651
+  - enabled: 1
+    path: Assets/Scenes/06_LevelSelect.unity
+    guid: 8030a4e2410659f4b9534bb64817c50b

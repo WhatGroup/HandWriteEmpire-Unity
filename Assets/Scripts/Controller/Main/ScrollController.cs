@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ScrollControl : MonoBehaviour
+public class ScrollController : MonoBehaviour
 {
     private ScrollRect scrollLevel;
 
@@ -14,7 +14,7 @@ public class ScrollControl : MonoBehaviour
         scrollLevel = GetComponent<ScrollRect>();
     }
 
-    void Update()
+    void Update() 
     {
         if (scrollLevel.horizontalNormalizedPosition < 0)
         {
@@ -27,7 +27,7 @@ public class ScrollControl : MonoBehaviour
     }
 }
 //可实现滑动结束后定位到某个位置
-/*public class ScrollControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
+/*public class ScrollController : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     public float smoothSpeed = 10;
 
