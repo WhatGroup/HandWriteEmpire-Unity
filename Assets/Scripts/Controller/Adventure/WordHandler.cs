@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = System.Random;
 
-public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
+public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
 {
     public static WordHandler _instance;
 
@@ -40,10 +39,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     public float retryNetWorkTime = 4f;
 
 
-    //TODO 测试用，随机生成的范围
-    public int minFileValue;
-    public int maxFileValue;
-
     private void Awake()
     {
         _instance = this;
@@ -54,8 +49,8 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     private void Start()
     {
         gridNums = characterGrids.Length;
-        RequestInfo();
         ClearText();
+        RequestInfo();
     }
 
     private void Update()
@@ -78,7 +73,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
 
     private void ClearText()
     {
-        for (int i = 0; i < gridNums; i++)
+        for (var i = 0; i < gridNums; i++)
         {
             characterGrids[i].pinyin.text = "";
             characterGrids[i].content.text = "";
@@ -98,11 +93,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     //请求网络数据
     private void RequestInfo()
     {
-        //随机请求一个文件
-        //其中6.json只有两个词，7.json只有一个词
-        int fileName = new Random().Next(maxFileValue - minFileValue + 1) + minFileValue;
-        HttpUtil._instance.Get(HttpUtil.GetInfosURL + fileName + ".json", this);
-        AndroidUtil.Log("文件名: " + fileName + ".json");
+        HttpHandler._instance.GetWordInfo(this);
     }
 
     //网络请求失败回调,如果请求失败则反复请求网络，直到成功
@@ -112,7 +103,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         StartCoroutine(LaterRequest(retryNetWorkTime));
     }
 
-    IEnumerator LaterRequest(float second)
+    private IEnumerator LaterRequest(float second)
     {
         yield return new WaitForSeconds(second);
         RequestInfo();
@@ -122,12 +113,9 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     public void OnRequestSuccess(string response)
     {
         AdventureHandler._instance.isCalcTime = true;
-        WordInfoArray infoArray = JsonUtility.FromJson<WordInfoArray>(response);
+        var infoArray = JsonUtility.FromJson<WordInfoArray>(response);
         infos = infoArray.infos;
-        for (int i = 0; i < gridNums; i++)
-        {
-            characterGrids[i].toggle.interactable = true;
-        }
+        for (var i = 0; i < gridNums; i++) characterGrids[i].toggle.interactable = true;
 
         //更新输入框中的信息
         UpdateWordInfo(infos[currentWord]);

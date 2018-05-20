@@ -1,0 +1,55 @@
+{
+    "infos": [
+        {
+            "pinyin": "nǐ hǎo",
+            "content": "你 好",
+            "detail": "用于有礼貌的打招呼或表示与人见面时的问候"
+        },
+        {
+            "pinyin": "kē jì",
+            "content": "科 技",
+            "detail": "社会上习惯于把科学和技术连在一起，统称为“科技”。实际二者既有密切联系，又有重要区别。科学解决理论问题，技术解决实际问题"
+        },
+      {
+        "pinyin": "xiàn zài",
+        "content": "现 在",
+        "detail": "现世,今生;眼前一刹那"
+      },   
+      {
+            "pinyin": "wèi lái", 
+            "content": "未 来",
+            "detail":  "从现在往后的时间"
+        },
+      {
+        "pinyin": "zài jiàn", 
+        "content": "再 见",
+        "detail": "分别时最后说的话" 
+      },
+      {
+        "pinyin": "xiè xiè", 
+        "content": "谢 谢", 
+        "detail": " 感谢的表示。感谢,尤指对接受别人给予的或提供的恩惠说些感激的话"
+      },
+      {
+        "pinyin": "bào qiàn",
+        "content": "抱 歉", 
+        "detail": "心有愧疚不安,对不住别人"
+      },
+      {
+        "pinyin": "gào cí",
+        "content": "告 辞",
+        "detail": "原指向主人辞别,现在通用指辞别"
+      },
+      {
+        "pinyin": "shuì jiào", 
+        "content": "睡 觉",
+        "detail":  "在睡眠状态中休息;睡着" 
+      },
+      {
+        "pinyin": "chī fàn", 
+        "content": "吃 饭",
+        "detail":  "在中国及世界的大部分国家，吃是一种文化，民以食为天，一般一日三餐，分吃早饭、午饭和晚饭，"
+      }
+     
+    ]
+}
