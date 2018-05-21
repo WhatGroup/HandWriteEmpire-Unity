@@ -9,7 +9,11 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
     public GameObject LevelItemPrefab;
 
     public GameObject LevelListGo;
+
     private Transform levelListTransform;
+
+    //列表当前的位置
+    private int currentLevelPositionY;
 
     private List<LevelInfo> levelList;
 
@@ -60,6 +64,8 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
         foreach (var levelInfo in levelList) levelDict.Add(levelInfo.level, levelInfo);
 
         initLevelListItem();
+        //设置levelList当前定位的位置
+        SetPanelPositionY(levelListTransform, currentLevelPositionY);
     }
 
     private void initLevelListItem()
@@ -87,7 +93,7 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
                 if (current >= 5)
                 {
                     var positionY = (current - 2) * 450 + 50;
-                    SetPanelPositionY(levelListTransform, -positionY);
+                    currentLevelPositionY = -positionY;
                 }
             }
             else if (levelInfo.state.Equals(LevelState.OK))

@@ -380,8 +380,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1145356472}
   - component: {fileID: 1145356473}
-  - component: {fileID: 1145356474}
   - component: {fileID: 1145356475}
+  - component: {fileID: 1145356474}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged

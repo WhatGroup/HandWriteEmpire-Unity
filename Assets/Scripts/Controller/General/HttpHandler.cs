@@ -21,10 +21,15 @@ public class HttpHandler : MonoBehaviour
     public int minFileValue;
     public int maxFileValue;
 
-    private void Awake()
+    void Awake()
     {
-        _instance = this;
+        if (_instance == null)
+        {
+//            DontDestroyOnLoad(this);
+            _instance = this;
+        }
     }
+
 
     public interface ICallBack
     {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
@@ -41,6 +42,14 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
 
     private void Awake()
     {
+        //如果HttpHandler没有加载过，即直接从冒险进入的话，则销毁该场景，跳到关卡选择模式
+//        if (HttpHandler._instance == null)
+//        {
+//            BackHandler._instance.PopScene();
+//            BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
+//            SceneManager.LoadScene("06_LevelSelect");
+//            return;
+//        }
         _instance = this;
     }
 
