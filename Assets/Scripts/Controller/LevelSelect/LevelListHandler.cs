@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
     public GameObject LevelItemPrefab;
 
     public GameObject LevelListGo;
-    private GridLayoutGroup levelGridGroup;
+    private Transform levelListTransform;
 
     private List<LevelInfo> levelList;
 
@@ -19,8 +20,15 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
 
     private void Start()
     {
-        levelGridGroup = LevelListGo.GetComponent<GridLayoutGroup>();
+        levelListTransform = LevelListGo.GetComponent<Transform>();
         RequestLevelInfos();
+    }
+
+    private void Update()
+    {
+        //测试滚动列表功能，注意这里的位置为负数（和设置的Pivot有关,而且不能是localPosition）
+//        if (Input.GetMouseButtonDown(1))
+//            SetPanelPositionY(levelListTransform, (int) levelListTransform.position.y - 100);
     }
 
     //获取关卡的数据
@@ -74,6 +82,13 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
             {
                 //TODO 定位到当前的位置
                 itemController.CurrenLevel.SetActive(true);
+                //levelInfo.level / levelDict.Count;
+                var current = levelInfo.level;
+                if (current >= 5)
+                {
+                    var positionY = (current - 2) * 450 + 50;
+                    SetPanelPositionY(levelListTransform, -positionY);
+                }
             }
             else if (levelInfo.state.Equals(LevelState.OK))
             {
@@ -93,24 +108,31 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
     //设置图标在左
     private void SetItemContentRight(ItemStateController controller)
     {
-        SetPanelPositionX(controller.CurrenLevel.transform, 180);
-        SetPanelPositionX(controller.OkLevel.transform, 180);
-        SetPanelPositionX(controller.LockLevel.transform, 180);
+        SetPanelLocalPositionX(controller.CurrenLevel.transform, 180);
+        SetPanelLocalPositionX(controller.OkLevel.transform, 180);
+        SetPanelLocalPositionX(controller.LockLevel.transform, 180);
     }
 
 
     //设置关卡图标在右
     private void SetItemContentLeft(ItemStateController controller)
     {
-        SetPanelPositionX(controller.CurrenLevel.transform, -180);
-        SetPanelPositionX(controller.OkLevel.transform, -180);
-        SetPanelPositionX(controller.LockLevel.transform, -180);
+        SetPanelLocalPositionX(controller.CurrenLevel.transform, -180);
+        SetPanelLocalPositionX(controller.OkLevel.transform, -180);
+        SetPanelLocalPositionX(controller.LockLevel.transform, -180);
     }
 
-    private void SetPanelPositionX(Transform transform, int positionX)
+    private void SetPanelLocalPositionX(Transform transform, int positionX)
     {
         var temp = transform.localPosition;
         temp.x = positionX;
         transform.localPosition = temp;
+    }
+
+    private void SetPanelPositionY(Transform transform, int positionY)
+    {
+        var temp = transform.position;
+        temp.y = positionY;
+        transform.position = temp;
     }
 }
