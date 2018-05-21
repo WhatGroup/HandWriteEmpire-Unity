@@ -25,7 +25,6 @@ public class HttpHandler : MonoBehaviour
     {
         if (_instance == null)
         {
-//            DontDestroyOnLoad(this);
             _instance = this;
         }
     }
@@ -60,8 +59,10 @@ public class HttpHandler : MonoBehaviour
             var fileName = new Random().Next(maxFileValue - minFileValue + 1) + minFileValue;
             jsonFileName = fileName + "";
         }
-
-        jsonFileName = URLTransfer._instance.url;
+        else
+        {
+            jsonFileName = URLTransfer._instance.url;
+        }
 
         if (isNetwork)
             GetByNetWork(GetInfosURL + jsonFileName + ".json", callBack);
@@ -91,6 +92,13 @@ public class HttpHandler : MonoBehaviour
     private void GetByLocal(string file, ICallBack callBack)
     {
         var ta = Resources.Load<TextAsset>(file);
-        callBack.OnRequestSuccess(ta.text);
+        if (ta == null || ta.text.Equals(""))
+        {
+            callBack.OnRequestError("数据文件不存在或者内容为空");
+        }
+        else
+        {
+            callBack.OnRequestSuccess(ta.text);
+        }
     }
 }
