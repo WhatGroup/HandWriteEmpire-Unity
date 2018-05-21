@@ -15,17 +15,19 @@ public class GameSetting : MonoBehaviour
         _instance = this;
     }
 
+    //TODO 由于暂停面板和退出面板是相同的，后续可以直接合并成一个
     //暂停面板
     public GameObject pausePanel;
     [HideInInspector] public bool isPause = false;
+
+    //退出面板
+    public GameObject exitGamePanel;
+    private bool isShowExitPanel = false;
 
     //游戏结束面板
     public GameObject gameOverPanel;
     [HideInInspector] public bool isGameOver = false;
 
-    //退出面板
-    public GameObject exitGamePanel;
-    private bool isShowExitPanel = false;
 
     //当前手写板的状态
     private bool isShowHWR = false;
@@ -43,15 +45,13 @@ public class GameSetting : MonoBehaviour
     {
         SetGameStart();
         isPause = false;
+        pausePanel.SetActive(false);
 
         if (isShowExitPanel)
         {
             isShowExitPanel = false;
             pausePanel.SetActive(false);
-            if (!PlayAnimState)
-            {
-                SetHWRModule(true);
-            }
+            if (!PlayAnimState) SetHWRModule(true);
         }
     }
 
@@ -88,10 +88,7 @@ public class GameSetting : MonoBehaviour
         {
             ShowExitGamePanel(false);
             isShowExitPanel = false;
-            if (PlayAnimState == false)
-            {
-                SetHWRModule(true); //如果当前没有在播放攻击或者失败动画则显示手写模块
-            }
+            if (PlayAnimState == false) SetHWRModule(true); //如果当前没有在播放攻击或者失败动画则显示手写模块
         }
         else
         {
@@ -147,13 +144,9 @@ public class GameSetting : MonoBehaviour
         {
             isShowHWR = isShow;
             if (isShow)
-            {
                 ShowHWRModule();
-            }
             else
-            {
                 HideHWRModule();
-            }
         }
     }
 
