@@ -38,22 +38,6 @@ public class GameSetting : MonoBehaviour
         set { playAnimState = value; }
     }
 
-//    public void StartGame()
-//    {
-//        SetGameStart();
-//        isPause = false;
-//        pausePanel.SetActive(false);
-//    }
-//
-//
-//    public void PauseGame()
-//    {
-//        SetGamePause();
-//        pausePanel.SetActive(true);
-//        isPause = true;
-//        SetHWRModule(false);
-//    }
-
     public void SetGameOver(bool isOver)
     {
         SetGamePause();

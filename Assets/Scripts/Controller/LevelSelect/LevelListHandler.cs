@@ -16,15 +16,17 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
 
     private List<LevelInfo> levelList;
 
-    private Dictionary<int, LevelInfo> levelDict;
-
     //网络连接失败时，重新请求网络的时间
     public float retryNetWorkTime = 4f;
 
     private void Start()
     {
         levelListTransform = LevelListGo.GetComponent<Transform>();
-        RequestLevelInfos();
+        //TODO 需不需要判断网络是否更新了数据
+        if (LevelDict.Instance.IsEmpty())
+            RequestLevelInfos();
+        else
+            initLevelListItem();
     }
 
     private void Update()
@@ -58,26 +60,16 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
         //加载关卡列表
         var levelInfos = JsonUtility.FromJson<LevelInfos>(response);
         levelList = levelInfos.levelList;
-        if (levelDict == null)
-            levelDict = new Dictionary<int, LevelInfo>();
-        foreach (var levelInfo in levelList) levelDict.Add(levelInfo.level, levelInfo);
+        foreach (var levelInfo in levelList) LevelDict.Instance.AddLevelInfo(levelInfo);
+
 
         initLevelListItem();
-        //设置levelList当前定位的位置
-        //使用协程解决网络加载数据时，列表自动跳转问题
-        StartCoroutine(DirectPosition());
-    }
-
-    private IEnumerator DirectPosition()
-    {
-        yield return new WaitForEndOfFrame();
-        //等待帧数据处理完之后再设置LevelList列表当前的位置
-        SetPanelPositionY(levelListTransform, currentLevelPositionY);
     }
 
     private void initLevelListItem()
     {
-        for (var i = 1; i <= levelDict.Count; i++)
+        var levelCount = LevelDict.Instance.GetCount();
+        for (var i = 1; i <= levelCount; i++)
         {
             var levelItem = Instantiate(LevelItemPrefab);
             levelItem.transform.SetParent(LevelListGo.transform, false);
@@ -90,10 +82,10 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
             else
                 SetItemContentRight(itemController);
 
-            var levelInfo = levelDict.TryGet(i);
+            var levelInfo = LevelDict.Instance.GetLevelInfo(i);
+            //TODO 在处理ItemStateController中设置
             if (levelInfo.state.Equals(LevelState.CURRENT))
             {
-                //TODO 定位到当前的位置
                 itemController.CurrenLevel.SetActive(true);
                 //levelInfo.level / levelDict.Count;
                 var current = levelInfo.level;
@@ -115,6 +107,17 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
 
             clickHandler.levelWordInfoUrl = levelInfo.data;
         }
+
+        //设置levelList当前定位的位置
+        //使用协程解决网络加载数据时，列表自动跳转问题
+        StartCoroutine(DirectPosition());
+    }
+
+    private IEnumerator DirectPosition()
+    {
+        yield return new WaitForEndOfFrame();
+        //等待帧数据处理完之后再设置LevelList列表当前的位置
+        SetPanelPositionY(levelListTransform, currentLevelPositionY);
     }
 
 
