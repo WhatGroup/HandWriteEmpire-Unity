@@ -45,7 +45,7 @@ public class HttpHandler : MonoBehaviour
         else
             GetByLocal(GetJsonFilesURL + "levelInfos", callBack);
 
-        AndroidUtil.Log(isNetwork ? "网络" : "本地" + "加载\n文件名: " + "levelInfo.json");
+        AndroidUtil.Log((isNetwork ? "网络" : "本地") + "加载\n文件名: " + "levelInfo.json");
     }
 
     //TODO 请求数据处理,后续考虑是网络加载还是本地加载
@@ -69,7 +69,7 @@ public class HttpHandler : MonoBehaviour
         else
             GetByLocal(GetJsonFilesURL + jsonFileName, callBack);
 
-        AndroidUtil.Log(isNetwork ? "网络" : "本地" + "加载\n文件名: " + jsonFileName + ".json");
+        AndroidUtil.Log((isNetwork ? "网络" : "本地") + "加载\n文件名: " + jsonFileName + ".json");
     }
 
     private void GetByNetWork(string url, ICallBack callBack)
@@ -77,7 +77,7 @@ public class HttpHandler : MonoBehaviour
         StartCoroutine(GetText(url, callBack));
     }
 
-    private IEnumerator GetText(string url, ICallBack callBack)
+    IEnumerator GetText(string url, ICallBack callBack)
     {
         using (var www = UnityWebRequest.Get(url))
         {

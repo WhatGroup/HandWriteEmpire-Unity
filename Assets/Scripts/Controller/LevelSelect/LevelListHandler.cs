@@ -64,6 +64,14 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
 
         initLevelListItem();
         //设置levelList当前定位的位置
+        //使用协程解决网络加载数据时，列表自动跳转问题
+        StartCoroutine(DirectPosition());
+    }
+
+    private IEnumerator DirectPosition()
+    {
+        yield return new WaitForEndOfFrame();
+        //等待帧数据处理完之后再设置LevelList列表当前的位置
         SetPanelPositionY(levelListTransform, currentLevelPositionY);
     }
 

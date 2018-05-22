@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 1
-  m_VerticalFit: 2
+  m_VerticalFit: 1
 --- !u!1 &1353135099
 GameObject:
   m_ObjectHideFlags: 0
