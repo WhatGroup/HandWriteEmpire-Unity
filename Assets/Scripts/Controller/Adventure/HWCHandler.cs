@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HWCHandler : MonoBehaviour
 {
@@ -15,6 +13,8 @@ public class HWCHandler : MonoBehaviour
     void Start()
     {
         writeFireTime = WriteFireTime;
+        //清除之前的笔迹
+        AndroidUtil.Call("clearPaint");
     }
 
     void Update()
