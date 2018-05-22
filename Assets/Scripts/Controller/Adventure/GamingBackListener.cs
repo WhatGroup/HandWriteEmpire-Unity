@@ -11,12 +11,7 @@ public class GamingBackListener : MonoBehaviour
         //不同状态处理返回按钮
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (GameSetting._instance.isPause)
-            {
-                //游戏暂停，点击返回按钮开始游戏
-                GameSetting._instance.StartGame();
-            }
-            else if (GameSetting._instance.isGameOver)
+            if (GameSetting._instance.isGameOver)
             {
                 //游戏结束，退出游戏
                 GameSetting._instance.BackToPreviousScene();
@@ -24,7 +19,7 @@ public class GamingBackListener : MonoBehaviour
             else
             {
                 //游戏正在进行中，点返回按钮，出现退出对话框
-                GameSetting._instance.SetExitGamePanel();
+                GameSetting._instance.SetPauseGamePanel();
             }
         }
     }

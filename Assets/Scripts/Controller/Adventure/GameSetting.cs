@@ -20,9 +20,6 @@ public class GameSetting : MonoBehaviour
     public GameObject pausePanel;
     [HideInInspector] public bool isPause = false;
 
-    //退出面板
-    public GameObject exitGamePanel;
-    private bool isShowExitPanel = false;
 
     //游戏结束面板
     public GameObject gameOverPanel;
@@ -41,28 +38,21 @@ public class GameSetting : MonoBehaviour
         set { playAnimState = value; }
     }
 
-    public void StartGame()
-    {
-        SetGameStart();
-        isPause = false;
-        pausePanel.SetActive(false);
-
-        if (isShowExitPanel)
-        {
-            isShowExitPanel = false;
-            pausePanel.SetActive(false);
-            if (!PlayAnimState) SetHWRModule(true);
-        }
-    }
-
-
-    public void PauseGame()
-    {
-        SetGamePause();
-        pausePanel.SetActive(true);
-        isPause = true;
-        SetHWRModule(false);
-    }
+//    public void StartGame()
+//    {
+//        SetGameStart();
+//        isPause = false;
+//        pausePanel.SetActive(false);
+//    }
+//
+//
+//    public void PauseGame()
+//    {
+//        SetGamePause();
+//        pausePanel.SetActive(true);
+//        isPause = true;
+//        SetHWRModule(false);
+//    }
 
     public void SetGameOver(bool isOver)
     {
@@ -76,24 +66,23 @@ public class GameSetting : MonoBehaviour
     /// 通过传参来设置是否展示退出游戏面板
     /// </summary>
     /// <param name="isShow">ture表示显示退出面板并暂停游戏，false表示隐藏游戏面板并开始游戏</param>
-    private void ShowExitGamePanel(bool isShow)
+    private void ShowPauseGamePanel(bool isShow)
     {
+        isPause = isShow;
         SetGamePause(isShow);
-        exitGamePanel.SetActive(isShow);
+        pausePanel.SetActive(isShow);
     }
 
-    public void SetExitGamePanel()
+    public void SetPauseGamePanel()
     {
-        if (isShowExitPanel)
+        if (isPause)
         {
-            ShowExitGamePanel(false);
-            isShowExitPanel = false;
+            ShowPauseGamePanel(false);
             if (PlayAnimState == false) SetHWRModule(true); //如果当前没有在播放攻击或者失败动画则显示手写模块
         }
         else
         {
-            ShowExitGamePanel(true);
-            isShowExitPanel = true;
+            ShowPauseGamePanel(true);
             SetHWRModule(false); //隐藏手写模块
         }
     }
