@@ -73,21 +73,20 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
         {
             var levelItem = Instantiate(LevelItemPrefab);
             levelItem.transform.SetParent(LevelListGo.transform, false);
-            var itemController = levelItem.GetComponent<ItemStateController>();
-            var flagController = levelItem.GetComponent<FlagStateController>();
-            var clickHandler = levelItem.GetComponent<ClickHandler>();
+            var controller = levelItem.GetComponent<LevelItemContorller>();
             //控制图标的位置，偶数在左，奇数在右
             if (i % 2 == 0)
-                SetItemContentLeft(itemController);
+                controller.SetItemContentLeft();
             else
-                SetItemContentRight(itemController);
+                controller.SetItemContentRight();
 
+            //设置激活应该面板
             var levelInfo = LevelDict.Instance.GetLevelInfo(i);
-            //TODO 在处理ItemStateController中设置
+            controller.SetActiveState(levelInfo);
+
+            //判断列表需要跳转到的位置
             if (levelInfo.state.Equals(LevelState.CURRENT))
             {
-                itemController.CurrenLevel.SetActive(true);
-                //levelInfo.level / levelDict.Count;
                 var current = levelInfo.level;
                 if (current >= 5)
                 {
@@ -95,17 +94,6 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
                     currentLevelPositionY = -positionY;
                 }
             }
-            else if (levelInfo.state.Equals(LevelState.OK))
-            {
-                itemController.OkLevel.SetActive(true);
-                flagController.SetFlagIcon(levelInfo.flag);
-            }
-            else if (levelInfo.state.Equals(LevelState.LOCK))
-            {
-                itemController.LockLevel.SetActive(true);
-            }
-
-            clickHandler.levelWordInfoUrl = levelInfo.data;
         }
 
         //设置levelList当前定位的位置
@@ -121,29 +109,7 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
     }
 
 
-    //设置图标在左
-    private void SetItemContentRight(ItemStateController controller)
-    {
-        SetPanelLocalPositionX(controller.CurrenLevel.transform, 180);
-        SetPanelLocalPositionX(controller.OkLevel.transform, 180);
-        SetPanelLocalPositionX(controller.LockLevel.transform, 180);
-    }
-
-
     //设置关卡图标在右
-    private void SetItemContentLeft(ItemStateController controller)
-    {
-        SetPanelLocalPositionX(controller.CurrenLevel.transform, -180);
-        SetPanelLocalPositionX(controller.OkLevel.transform, -180);
-        SetPanelLocalPositionX(controller.LockLevel.transform, -180);
-    }
-
-    private void SetPanelLocalPositionX(Transform transform, int positionX)
-    {
-        var temp = transform.localPosition;
-        temp.x = positionX;
-        transform.localPosition = temp;
-    }
 
     private void SetPanelPositionY(Transform transform, int positionY)
     {

@@ -53,7 +53,7 @@ public class HttpHandler : MonoBehaviour
     {
         string jsonFileName = "";
 
-        if (URLTransfer._instance.url.Equals(""))
+        if (LevelDict.Instance.IsEmpty() && LevelDict.Instance.SelectLevel == 0)
         {
             //随机请求一个文件
             var fileName = new Random().Next(maxFileValue - minFileValue + 1) + minFileValue;
@@ -61,7 +61,8 @@ public class HttpHandler : MonoBehaviour
         }
         else
         {
-            jsonFileName = URLTransfer._instance.url;
+            //当LevelDict的内容不为空，并且其保存的SelectLevel不等于0时，SelectLevel之前选中的关卡数
+            jsonFileName = LevelDict.Instance.SelectLevel + "";
         }
 
         if (isNetwork)

@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 114670190751051908}
   - component: {fileID: 114402714512952206}
   - component: {fileID: 114199282277513228}
+  - component: {fileID: 114123885191645754}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -169,6 +170,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114123885191645754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601701820549126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34128afd0a11f5647bd6a18d2d372879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114130546270933206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,18 +246,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114606198147687756}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114402714512952206}
-        m_MethodName: OnClickOkLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114199282277513228
@@ -328,18 +329,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114539175277528716}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114402714512952206}
-        m_MethodName: OnClickLockLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114402714512952206
@@ -353,6 +343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bdea517235cd14c96cf7c60a6e3db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevelButton: {fileID: 114653411288221822}
+  okLevelButton: {fileID: 114180939393465914}
+  lockLevelButton: {fileID: 114382394335902586}
   levelWordInfoUrl: 
 --- !u!114 &114539175277528716
 MonoBehaviour:
@@ -500,18 +493,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114546613194206564}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114402714512952206}
-        m_MethodName: OnClickCurrenLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114670190751051908
