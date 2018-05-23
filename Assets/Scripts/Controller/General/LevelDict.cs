@@ -17,7 +17,6 @@ public class LevelDict
         get
         {
             if (_instance == null) _instance = new LevelDict();
-
             return _instance;
         }
     }
@@ -50,5 +49,15 @@ public class LevelDict
     public int GetCount()
     {
         return levelDict.Count;
+    }
+
+    //通过关卡之后的处理
+    public void UnlockLevel(int level)
+    {
+        LevelInfo info = levelDict.TryGet(level);
+        if (info != null)
+        {
+            info.state = LevelState.CURRENT;
+        }
     }
 }

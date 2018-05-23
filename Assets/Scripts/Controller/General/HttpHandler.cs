@@ -102,4 +102,37 @@ public class HttpHandler : MonoBehaviour
             callBack.OnRequestSuccess(ta.text);
         }
     }
+
+    public void SaveLevelInfo()
+    {
+        LevelInfos infos = new LevelInfos();
+        infos.levelList = new List<LevelInfo>();
+        int count = LevelDict.Instance.GetCount();
+        for (int i = 1; i <= count; i++)
+        {
+            LevelInfo info = LevelDict.Instance.GetLevelInfo(i);
+            if (info != null)
+            {
+                infos.levelList.Add(info);
+            }
+        }
+
+        string jsonInfo = JsonUtility.ToJson(infos);
+        AndroidUtil.Log(jsonInfo);
+
+        if (isNetwork)
+            SaveToNetwork(jsonInfo);
+        else
+            SaveToLocal(jsonInfo);
+    }
+
+    private void SaveToNetwork(string jsonInfo)
+    {
+        //TODO 发送post请求
+    }
+
+    private void SaveToLocal(string jsonInfo)
+    {
+        //放在Resources文件夹的内容是只读的，无法修改
+    }
 }

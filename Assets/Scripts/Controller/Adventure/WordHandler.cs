@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
 {
@@ -193,9 +194,27 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
     {
         SetBtnStateValue(false);
         if (currentWord == infos.Length - 1)
+        {
+            //修改并保存用户数据
+            int selectLevel = LevelDict.Instance.SelectLevel;
+            if (selectLevel != 0)
+            {
+                var info = LevelDict.Instance.GetLevelInfo(selectLevel);
+                info.flag = new Random().Next(2) + 1; //TODO 目前为随机生成,需要个计算公式
+                if (info.state == LevelState.CURRENT)
+                {
+                    info.state = LevelState.OK;
+                    LevelDict.Instance.UnlockLevel(selectLevel + 1);
+                }
+
+                //TODO 保存数据
+                HttpHandler._instance.SaveLevelInfo();
+            }
+
             return true;
-        else
-            return false;
+        }
+
+        return false;
     }
 
     public void ShowDetialContent()

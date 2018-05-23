@@ -7,25 +7,25 @@
             "level":1
         },
         {
-            "state": "ok",
-            "flag": 3,
+            "state": "current",
+            "flag": 0,
             "data": "2",
             "level":2
         },
         {
-            "state": "ok",
-            "flag": 3,
+            "state": "lock",
+            "flag": 0,
             "data": "3",
             "level":3
         },
         {
-            "state": "ok",
+            "state": "lock",
             "flag": 2,
             "data": "4",
             "level":4
         },
         {
-            "state": "current",
+            "state": "lock",
             "flag": 0,
             "data": "5",
             "level":5

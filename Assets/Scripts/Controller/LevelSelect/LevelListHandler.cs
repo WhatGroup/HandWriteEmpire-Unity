@@ -59,6 +59,7 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
     {
         //加载关卡列表
         var levelInfos = JsonUtility.FromJson<LevelInfos>(response);
+        JsonUtility.ToJson("LevelInfo");
         levelList = levelInfos.levelList;
         foreach (var levelInfo in levelList) LevelDict.Instance.AddLevelInfo(levelInfo);
 
@@ -88,7 +89,7 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
             if (levelInfo.state.Equals(LevelState.CURRENT))
             {
                 var current = levelInfo.level;
-                if (current >= 5)
+                if (current >= 3)
                 {
                     var positionY = (current - 2) * 450 + 50;
                     currentLevelPositionY = -positionY;
