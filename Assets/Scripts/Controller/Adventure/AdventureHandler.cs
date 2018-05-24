@@ -22,6 +22,8 @@ public class AdventureHandler : MonoBehaviour
 
 
     public UnityArmatureComponent attackRole;
+    public UnityArmatureComponent cureRole;
+    public UnityArmatureComponent defensenRole;
 
     //是否是新的识别
     private bool isNewRec = false;
@@ -50,7 +52,9 @@ public class AdventureHandler : MonoBehaviour
 
 
         //设置动画监听
-        attackRole.AddDBEventListener(EventObject.COMPLETE, OnAnimationEventHandler);
+        attackRole.AddDBEventListener(EventObject.COMPLETE, OnAttackAnimationEventHandler);
+        cureRole.AddDBEventListener(EventObject.COMPLETE, OnCureAnimationEventHandler);
+        defensenRole.AddDBEventListener(EventObject.COMPLETE, OnDefensenAnimationEventHandler);
     }
 
     private void Update()
@@ -63,7 +67,9 @@ public class AdventureHandler : MonoBehaviour
             {
                 isCalcTime = false;
                 bossFireTime = BossFireTime;
-                FadeInRoleAnim(attackRole, "behurt");
+//                FadeInRoleAnim(attackRole, "behurt");
+//                FadeInRoleAnim(cureRole, "behurt");
+                FadeInRoleAnim(defensenRole, "behurt");
             }
         }
 
@@ -74,31 +80,36 @@ public class AdventureHandler : MonoBehaviour
     {
         if (!WordHandler._instance.JudgeResult())
         {
-            //TODO 错误效果
-            FadeInRoleAnim(attackRole, "fail");
-//            attackRole.animation.Play("normal");
+            //TODO 修改为具体的失败效果
+            if ("AttachBtn".Equals(btnName))
+            {
+                FadeInRoleAnim(attackRole, "fail");
+            }
+            else if ("CureBtn".Equals(btnName))
+            {
+                FadeInRoleAnim(cureRole, "fail");
+            }
+            else if ("DefensenBtn".Equals(btnName))
+            {
+                FadeInRoleAnim(defensenRole, "fail");;
+            }
         }
         else
         {
-            //TODO 攻击效果
+            //TODO 修改为具体的效果
             if ("AttachBtn".Equals(btnName))
             {
                 FadeInRoleAnim(attackRole, "attack");
-//              attackRole.animation.Play("normal");
                 AndroidUtil.Toast("攻击效果!!!");
             }
             else if ("CureBtn".Equals(btnName))
             {
-                //TODO 需要修改成对应对象的动画
-                FadeInRoleAnim(attackRole, "attack");
-
+                FadeInRoleAnim(cureRole, "attack");
                 AndroidUtil.Toast("治疗效果!!!");
             }
             else if ("DefensenBtn".Equals(btnName))
             {
-                //TODO 需要修改成对应对象的动画
-                attackRole.animation.FadeIn("attack", 0.2f, 1);
-
+                FadeInRoleAnim(defensenRole, "attack");
                 AndroidUtil.Toast("防御效果!!!");
             }
         }
@@ -126,7 +137,7 @@ public class AdventureHandler : MonoBehaviour
 
 
     //动画完成后切换回默认动画
-    private void OnAnimationEventHandler(string type, EventObject eventObject)
+    private void OnAttackAnimationEventHandler(string type, EventObject eventObject)
     {
         //TODO 攻击或失败动画播放完之后显示手写板
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
@@ -136,18 +147,47 @@ public class AdventureHandler : MonoBehaviour
             GameSetting._instance.PlayAnimState = false;
         }
 
+        OnAnimationEventHanler(attackRole);
+    }
+    private void OnCureAnimationEventHandler(string type, EventObject eventObject)
+    {
+        //TODO 攻击或失败动画播放完之后显示手写板
+        var lastAnimationName = eventObject.armature.animation.lastAnimationName;
+        if (lastAnimationName == "attack" || lastAnimationName == "fail")
+        {
+            GameSetting._instance.SetHWRModule(true);
+            GameSetting._instance.PlayAnimState = false;
+        }
+
+        OnAnimationEventHanler(cureRole);
+    }
+    private void OnDefensenAnimationEventHandler(string type, EventObject eventObject)
+    {
+        //TODO 攻击或失败动画播放完之后显示手写板
+        var lastAnimationName = eventObject.armature.animation.lastAnimationName;
+        if (lastAnimationName == "attack" || lastAnimationName == "fail")
+        {
+            GameSetting._instance.SetHWRModule(true);
+            GameSetting._instance.PlayAnimState = false;
+        }
+
+        OnAnimationEventHanler(defensenRole);
+    }
+
+    private void OnAnimationEventHanler(UnityArmatureComponent role)
+    {
         if (isNewAnim)
         {
             isNewAnim = false;
             if (!"".Equals(newAnimName))
             {
-                StartCoroutine(DelayAnimPlay(attackRole, newAnimName, delayAnimPlayTime));
+                StartCoroutine(DelayAnimPlay(role, newAnimName, delayAnimPlayTime));
                 newAnimName = "";
             }
         }
         else
         {
-            PlayRoleAnim(attackRole, "normal");
+            PlayRoleAnim(role, "normal");
             if (isNewRec)
             {
                 isNewRec = false;
@@ -158,14 +198,14 @@ public class AdventureHandler : MonoBehaviour
         }
     }
 
+
+    //TODO 如果同时显示播放多人失败动画的时候，手写板会冲突
     public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
     {
-        //TODO 播放攻击和失败动画时隐藏手写板
         if (animName == "attack" || animName == "fail")
         {
             GameSetting._instance.SetHWRModule(false);
-            GameSetting._instance.PlayAnimState=true;
-
+            GameSetting._instance.PlayAnimState = true;
         }
 
         if (role.animation.lastAnimationName != "normal")

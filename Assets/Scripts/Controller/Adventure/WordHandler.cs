@@ -211,6 +211,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
                 HttpHandler._instance.SaveLevelInfo();
             }
 
+            ClearText();
             return true;
         }
 

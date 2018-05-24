@@ -89,10 +89,13 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
             if (levelInfo.state.Equals(LevelState.CURRENT))
             {
                 var current = levelInfo.level;
-                if (current >= 3)
+                if (LevelDict.Instance.GetCount() >= 4)
                 {
-                    var positionY = (current - 2) * 450 + 50;
-                    currentLevelPositionY = -positionY;
+                    if (current >= 3)
+                    {
+                        var positionY = (current - 2) * 450 + 50;
+                        currentLevelPositionY = -positionY;
+                    }
                 }
             }
         }

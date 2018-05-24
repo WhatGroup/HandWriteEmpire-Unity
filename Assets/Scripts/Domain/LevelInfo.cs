@@ -8,6 +8,6 @@ public class LevelInfo
 {
     public string state;
     public int flag; //0表示锁定或者当前关卡；1,2,3分别表示旗的个数
-    public string data;
+    public string dataUrl;
     public int level;
 }
