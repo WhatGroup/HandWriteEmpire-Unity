@@ -1,39 +1,93 @@
-### 汇总
-接口
-* api/user_data 获取用户的相关料
-* api/level_infos 获取用户所有关卡的信息
-* api/level_info 获取某个关卡的数据
+汇总
+===
+### API接口
+接口                    |   描述
+:---:                   |   :---:
+api/auth/login          |   登录
+api/auth/register       |   注册
+api/get/user_data       |   获取用户数据
+api/post/user_data      |   提交本地用户数据
+api/post/level_infos    |   提交关卡数据
 
-资源目录
-* res/images/portrait   存放用户的头像
-* res/images/rolePortrait   存放角色的头像
-* res/level_infos   存放用户关卡的数据
-* res/level_info    具体关卡的内容
+### 资源目录
+路径                    |   描述
+:---:                   |   :---:
+res/images/portrait/    |   存放用户的头像
+res/images/rolePortrait/|   存放角色的头像
+res/level_infos/        |   存放用户关卡的数据
+res/level_info/         |   存放具体关卡的内容
 
-### 1. 获取用户数据
-地址:api/user_data  
-传参: token  
+各个接口
+===
+
+### 注册账号
+请求地址: api/auth/resgister  
+传参: username ==> 用户名; password ==> 密码
+请求示例: api/resgister?username=wgb&password=123445  
 返回值:  
-参数              |描述          |类型
-:---:            | :---:        | :---:
-portrait         | 用户头像路径  | string 
-defenseProperty  | 防御值       | int
-attackProperty   | 攻击值       | int
-cureProperty     | 治疗值       | int
-roleInfos         | 当前已获得角色信息|json
-levelInfosUrl     | 用户关卡数据保存的路径|string 
+返回示例:
+1. 注册成功(状态码:200)
+```json
+{
+    "type":"success",
+    "message":"register success"
+}
+```
+2. 注册失败(状态码:400)
+```json
+{
+    "type":"error",
+    "message":"register error"
+}
+```
+
+### 登录账号
+请求地址: api/auth/login  
+传参: username ==> 用户名; password ==> 密码  
+返回值: token ==> 用户唯一标识  
+返回示例: 
+1. 用户名和密码正确(状态码:200)：  
+token=5816a47899b6df8004786e20ff55854c
+2. 用户名或密码错误(状态码:401):
+```json
+{
+   "type":"error",
+   "message":"username or password invalid!"
+}
+```
+
+### 获取用户数据
+请求地址:api/get/user_data  
+传参: token  
+请求示例:api/get/user_data?token=abcdef0123456  
+返回参数说明:  
+参数             | 描述                      |类型
+:---:            | :---:                    | :---:
+portrait         | 用户头像路径             | string 
+defenseProperty  | 防御值                   | int
+attackProperty   | 攻击值                   | int
+cureProperty     | 治疗值                   | int
+roleInfos        | 当前已获得角色信息       | json
+levelInfosUrl    | 用户关卡数据保存的路径   | string 
 
 roleInfos参数
-参数              |描述          |类型
-:---:            | :---:        | :---:
-state   |   是否是选中状态  |   boolean
-name    |   选取的角色名称  |   string
-type    |   角色的类型      |   string
-value   |   属性值          |   int
-rolePortrait    | 角色的头像 | string
+参数         |  描述            |   类型
+:---:        |  :---:           |   :---:
+state        |  是否是选中状态  |   boolean
+name         |  选取的角色名称  |   string
+type         |  角色的类型      |   string
+value        |  属性值          |   int
+rolePortrait |  角色的头像      |   string
 
-请求示例:api/user_data?token=abcdef0123456  
 返回示例:
+1. token错误返回示例(状态码:403):
+```json
+{
+   "type":"error",
+   "message":"token invalid!"
+}  
+```
+2. token正确返回示例(状态码:200):
 ```json
 {
     "portrait": "res/images/portrait/img_20180524111830.jpg",
@@ -70,55 +124,44 @@ rolePortrait    | 角色的头像 | string
             "value": 300
         }
     ],
-    "levelInfosUrl":"res/LevelInfos/levelInfos_20180524111830"
+    "levelInfosUri":"res/LevelInfos/levelInfos_20180524111830"
 }
 ```
-### 2. 获取全部关卡数据
-地址: api/level_infos  
-传参: token  
-返回值: 关卡数据
-参数 |描述|类型
-:---:|:---:|:---
-state   |   该关卡的状态:ok/current/lock    |   string
-flag    |   当前关卡获得的旗子数:current和lock对应的值为0，ok对应的值为1/2/3    |    int
-data    |   本关卡数据保存的路径    |   string
-level   |   当前的关卡数    |   int
-请求示例: api/level_infos?token=abcdef0123456  
-返回示例:
+###  全部关卡数据格式
+参数    | 描述                                  | 类型
+:---:   | :---:                                 | :---
+state   | 该关卡的状态:ok/current/lock          | string
+flag    | 当前关卡获得的旗子数                  | int
+dataUri | 本关卡数据保存的路径                  | string
+level   | 当前的关卡数                          | int
 ```json
 [
     {
         "state": "ok",
         "flag": 1,
-        "data": "res/level_info/1.json",
+        "dataUri": "res/level_info/1.json",
         "level": 1
     },
     {
         "state": "current",
         "flag": 0,
-        "data": "res/level_info/2.json",
+        "dataUri": "res/level_info/2.json",
         "level": 2
     },
     {
         "state": "lock",
         "flag": 0,
-        "data": "res/level_info/3/json",
+        "dataUri": "res/level_info/3.json",
         "level": 3
     }
 ]
 ```
-### 3. 获取关卡的详细数据
-地址: api/level_info  
-传参: token  
-返回值:  
-参数 |描述|类型
-:--:|:--:|:--
+### 关卡的内容格式
+参数    |       描述        |类型
+:--:    |       :--:        |:--
 pinyin  |   词语对应的拼音  |   string
-content |   具体的词语     |   string
+content |   具体的词语      |   string
 pinyin  |   词语的解释      |   string
-
-请求示例: api/level_info?token=abcdef0123456  
-返回示例
 ```json
 [
     {
