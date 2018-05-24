@@ -13,6 +13,7 @@ public class ModRecScript : MonoBehaviour
     {
        //TODO 取消注释
         hwcHandler.TestHWRRec(results);
-        results = "";
+        //清空文本框内容
+//        results = "";
     }
 }
