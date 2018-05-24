@@ -22,7 +22,7 @@ res/level_info/         |   存放具体关卡的内容
 
 ### 注册账号
 请求地址: api/auth/resgister  
-传参: username ==> 用户名; password ==> 密码
+传参: username ==> 用户名; password ==> 密码  
 请求示例: api/resgister?username=wgb&password=123445  
 返回值:  
 返回示例:
