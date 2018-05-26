@@ -61,7 +61,7 @@ token=5816a47899b6df8004786e20ff55854c
 传参: token  
 请求示例:api/get/user_data?token=abcdef0123456  
 返回参数说明:  
-参数             | 描述                      |类型
+参数             | 描述                     |类型
 :---:            | :---:                    | :---:
 portrait         | 用户头像路径             | string 
 defenseProperty  | 防御值                   | int
@@ -71,13 +71,13 @@ roleInfos        | 当前已获得角色信息       | json
 levelInfosUrl    | 用户关卡数据保存的路径   | string 
 
 roleInfos参数
-参数         |  描述            |   类型
-:---:        |  :---:           |   :---:
-state        |  是否是选中状态  |   boolean
-name         |  选取的角色名称  |   string
-type         |  角色的类型      |   string
-value        |  属性值          |   int
-rolePortrait |  角色的头像      |   string
+参数         |  描述                |   类型
+:---:        |  :---:               |   :---:
+state        |  是否是选中状态(1/0) |   int
+name         |  选取的角色名称      |   string
+type         |  角色的类型          |   string
+value        |  属性值              |   int
+rolePortrait |  角色的头像          |   string
 
 返回示例:
 1. token错误返回示例(状态码:403):
@@ -97,28 +97,28 @@ rolePortrait |  角色的头像      |   string
     "roleInfos": [
         {
             "rolePortrait":"res/images/rolePortrait/img_1356.jpg",
-            "state":"1",
+            "state": 1,
             "name": "XXX",
             "type": "attack",
             "value": 100,
         },
         {
             "rolePortrait":"res/images/rolePortrait/img_1236.jpg",
-            "state":"1",
+            "state": 1,
             "name": "YYY",
             "type": "defense",
             "value": 200
         },
         {
             "rolePortrait":"res/images/rolePortrait/img_3456.jpg",
-            "state":"1",
+            "state": 1,
             "name": "ZZZ",
             "type": "cure",
             "value": 300
         },
         {
             "rolePortrait":"res/images/rolePortrait/img_1231.jpg",
-            "state":"0",
+            "state": 0,
             "name": "AAA",
             "type": "cure",
             "value": 300
