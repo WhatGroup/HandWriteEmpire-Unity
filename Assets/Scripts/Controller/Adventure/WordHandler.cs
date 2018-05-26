@@ -123,7 +123,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
     public void OnRequestSuccess(string response)
     {
         AdventureHandler._instance.isCalcTime = true;
-        var infoArray = JsonUtility.FromJson<WordInfoArray>(response);
+        var infoArray = JsonUtility.FromJson<WordInfoArray>(GeneralUtils.JsonArrayToObject(response, "infos"));
         infos = infoArray.infos;
         for (var i = 0; i < gridNums; i++) characterGrids[i].toggle.interactable = true;
 

@@ -21,12 +21,9 @@ public class HttpHandler : MonoBehaviour
     public int minFileValue;
     public int maxFileValue;
 
-    void Awake()
+    private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
+        if (_instance == null) _instance = this;
     }
 
 
@@ -51,7 +48,7 @@ public class HttpHandler : MonoBehaviour
     //TODO 请求数据处理,后续考虑是网络加载还是本地加载
     public void GetWordInfo(ICallBack callBack)
     {
-        string jsonFileName = "";
+        var jsonFileName = "";
 
         if (LevelDict.Instance.IsEmpty() && LevelDict.Instance.SelectLevel == 0)
         {
@@ -78,7 +75,7 @@ public class HttpHandler : MonoBehaviour
         StartCoroutine(GetText(url, callBack));
     }
 
-    IEnumerator GetText(string url, ICallBack callBack)
+    private IEnumerator GetText(string url, ICallBack callBack)
     {
         using (var www = UnityWebRequest.Get(url))
         {
@@ -94,30 +91,23 @@ public class HttpHandler : MonoBehaviour
     {
         var ta = Resources.Load<TextAsset>(file);
         if (ta == null || ta.text.Equals(""))
-        {
             callBack.OnRequestError("数据文件不存在或者内容为空");
-        }
         else
-        {
             callBack.OnRequestSuccess(ta.text);
-        }
     }
 
     public void SaveLevelInfo()
     {
-        LevelInfos infos = new LevelInfos();
+        var infos = new LevelInfos();
         infos.levelList = new List<LevelInfo>();
-        int count = LevelDict.Instance.GetCount();
-        for (int i = 1; i <= count; i++)
+        var count = LevelDict.Instance.GetCount();
+        for (var i = 1; i <= count; i++)
         {
-            LevelInfo info = LevelDict.Instance.GetLevelInfo(i);
-            if (info != null)
-            {
-                infos.levelList.Add(info);
-            }
+            var info = LevelDict.Instance.GetLevelInfo(i);
+            if (info != null) infos.levelList.Add(info);
         }
 
-        string jsonInfo = JsonUtility.ToJson(infos);
+        var jsonInfo = JsonUtility.ToJson(infos);
         AndroidUtil.Log(jsonInfo);
 
         if (isNetwork)
@@ -135,4 +125,6 @@ public class HttpHandler : MonoBehaviour
     {
         //放在Resources文件夹的内容是只读的，无法修改
     }
+
+
 }

@@ -26,4 +26,11 @@ public class GeneralUtils
 
         return result;
     }
+
+    public static string JsonArrayToObject(string jsonData, string arrayName)
+    {
+        return "{" +
+               "\"" + arrayName + "\" : " + jsonData +
+               "}";
+    }
 }
