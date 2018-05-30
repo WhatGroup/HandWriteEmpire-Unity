@@ -7,9 +7,9 @@ using UnityEngine;
 public class UserInfo
 {
     public string portrait;
-    public int attachProperty;
+    public int attackProperty;
     public int defenseProperty;
     public int cureProperty;
     public List<RoleInfo> roleInfos;
     public string levelInfosUri;
-}
+ }

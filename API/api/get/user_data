@@ -1,5 +1,5 @@
 {
-    "portrait": "res/images/portrait/img_20180524111830.png",
+    "portrait": "res/images/portrait/img_20180526221850.png",
     "attackProperty": 100,
     "defenseProperty": 200,
     "cureProperty": 300,
@@ -9,7 +9,7 @@
             "state": 1,
             "name": "XXX",
             "type": "attack",
-            "value": 100,
+            "value": 100
         },
         {
             "rolePortrait":"res/images/rolePortrait/role_20180526221850.jpg",

@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc14f9997b6fee4dbeb241c541b32f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNetwork: 0
+  isNetwork: 1
   minFileValue: 5
   maxFileValue: 10
 --- !u!114 &1145356475

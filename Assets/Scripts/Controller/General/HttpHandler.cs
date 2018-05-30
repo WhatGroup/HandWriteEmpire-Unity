@@ -7,7 +7,7 @@ using Random = System.Random;
 
 public class HttpHandler : MonoBehaviour
 {
-    private const string DoMain = "http://139.199.88.206/";
+    private const string DoMain = "http://127.0.0.1/";
 
     //是否使用网络
     public bool isNetwork = true;
@@ -38,7 +38,7 @@ public class HttpHandler : MonoBehaviour
     {
         //随机请求一个文件
         if (isNetwork)
-            GetByNetWork(GetInfosURL + "levelInfos.json", callBack);
+            GetByNetWork(DoMain + UserInfoManager._instance.GetLevelInfosUri(), callBack);
         else
             GetByLocal(GetJsonFilesURL + "levelInfos", callBack);
 
@@ -126,5 +126,8 @@ public class HttpHandler : MonoBehaviour
         //放在Resources文件夹的内容是只读的，无法修改
     }
 
-
+    public void GetUserInfo(ICallBack callBack)
+    {
+        GetByNetWork(DoMain + "api/get/user_data", callBack);
+    }
 }
