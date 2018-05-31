@@ -1,25 +1,25 @@
 {
-    "portrait": "res/images/portrait/img_20180526221850.png",
+    "portrait": "res/images/portrait/img_20180526221836.png",
     "attackProperty": 100,
     "defenseProperty": 200,
     "cureProperty": 300,
     "roleInfos": [
         {
-            "rolePortrait":"res/images/rolePortrait/role_20180526221836.jpg",
+            "rolePortrait":"res/images/rolePortrait/role_20180526221915.jpg",
             "state": 1,
             "name": "XXX",
             "type": "attack",
             "value": 100
         },
         {
-            "rolePortrait":"res/images/rolePortrait/role_20180526221850.jpg",
+            "rolePortrait":"res/images/rolePortrait/role_20180526221931.jpg",
             "state": 1,
             "name": "YYY",
             "type": "defense",
             "value": 200
         },
         {
-            "rolePortrait":"res/images/rolePortrait/role_20180526221915.jpg",
+            "rolePortrait":"res/images/rolePortrait/role_20180526221850.jpg",
             "state": 1,
             "name": "ZZZ",
             "type": "cure",

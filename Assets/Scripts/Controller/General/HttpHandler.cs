@@ -7,13 +7,14 @@ using Random = System.Random;
 
 public class HttpHandler : MonoBehaviour
 {
-    private const string DoMain = "http://127.0.0.1/";
+    public const string RemotePath = "http://139.199.88.206/";
+    public const string LevelInfoPath = "res/levelinfo/";
 
     //是否使用网络
     public bool isNetwork = true;
 
-    private const string GetInfosURL = DoMain + "data/";
-    private const string GetJsonFilesURL = "data/";
+    private const string InfosPath = RemotePath + "data/";
+    private const string JsonFilesPath = "data/";
     [HideInInspector] public static HttpHandler _instance;
 
 
@@ -38,9 +39,9 @@ public class HttpHandler : MonoBehaviour
     {
         //随机请求一个文件
         if (isNetwork)
-            GetByNetWork(DoMain + UserInfoManager._instance.GetLevelInfosUri(), callBack);
+            GetByNetWork(RemotePath + UserInfoManager._instance.GetLevelInfosUri(), callBack);
         else
-            GetByLocal(GetJsonFilesURL + "levelInfos", callBack);
+            GetByLocal(JsonFilesPath + "levelInfos", callBack);
 
         AndroidUtil.Log((isNetwork ? "网络" : "本地") + "加载\n文件名: " + "levelInfo.json");
     }
@@ -63,9 +64,9 @@ public class HttpHandler : MonoBehaviour
         }
 
         if (isNetwork)
-            GetByNetWork(GetInfosURL + jsonFileName + ".json", callBack);
+            GetByNetWork(RemotePath + LevelInfoPath + jsonFileName + ".json", callBack);
         else
-            GetByLocal(GetJsonFilesURL + jsonFileName, callBack);
+            GetByLocal(JsonFilesPath + jsonFileName, callBack);
 
         AndroidUtil.Log((isNetwork ? "网络" : "本地") + "加载\n文件名: " + jsonFileName + ".json");
     }
@@ -128,6 +129,6 @@ public class HttpHandler : MonoBehaviour
 
     public void GetUserInfo(ICallBack callBack)
     {
-        GetByNetWork(DoMain + "api/get/user_data", callBack);
+        GetByNetWork(RemotePath + "api/get/user_data", callBack);
     }
 }

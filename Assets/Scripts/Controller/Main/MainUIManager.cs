@@ -20,7 +20,14 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
     // Use this for initialization
     void Start()
     {
-        RequestUserInfo();
+        if (UserInfoManager._instance.GetUserInfo() != null)
+        {
+            UpdateUserInfo();
+        }
+        else
+        {
+            RequestUserInfo();
+        }
     }
 
 
@@ -45,11 +52,17 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
     {
         var userInfo = JsonUtility.FromJson<UserInfo>(response);
         UserInfoManager._instance.SetUserInfo(userInfo);
+        UpdateUserInfo();
+    }
+
+    private void UpdateUserInfo()
+    {
+        var userInfo = UserInfoManager._instance.GetUserInfo();
         attackValue.text = userInfo.attackProperty + "";
         defenseValue.text = userInfo.defenseProperty + "";
         cureValue.text = userInfo.cureProperty + "";
-        StartCoroutine(UpdatePortrait(userInfo.portrait));
-//        portrait.sprite = ;
+        //注意这里需要添加远程主机的地址，服务器返回的只有路径
+        StartCoroutine(UpdatePortrait(HttpHandler.RemotePath + userInfo.portrait));
     }
 
     IEnumerator UpdatePortrait(string url)
