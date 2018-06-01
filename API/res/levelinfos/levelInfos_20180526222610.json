@@ -6,25 +6,25 @@
     "level": 1
   },
   {
-    "state": "current",
-    "flag": 0,
+    "state": "ok",
+    "flag": 3,
     "data": "res/level_info/2.json",
     "level": 2
   },
   {
-    "state": "lock",
-    "flag": 0,
+    "state": "ok",
+    "flag": 1,
     "data": "res/level_info/3.json",
     "level": 3
   },
   {
-    "state": "lock",
+    "state": "ok",
     "flag": 2,
     "data": "res/level_info/4.json",
     "level": 4
   },
   {
-    "state": "lock",
+    "state": "current",
     "flag": 0,
     "data": "res/level_info/5.json",
     "level": 5

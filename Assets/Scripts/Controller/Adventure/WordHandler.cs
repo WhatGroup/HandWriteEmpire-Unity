@@ -200,7 +200,8 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
             if (selectLevel != 0)
             {
                 var info = LevelDict.Instance.GetLevelInfo(selectLevel);
-                info.flag = new Random().Next(2) + 1; //TODO 目前为随机生成,需要个计算公式
+                //TODO 分数计算,需要个计算公式
+                info.flag = new Random().Next(2) + 1;
                 if (info.state == LevelState.CURRENT)
                 {
                     info.state = LevelState.OK;
