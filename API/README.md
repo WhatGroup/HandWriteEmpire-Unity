@@ -208,7 +208,7 @@ roleSkillValue   |  角色发动技能造成伤害  | int
 请求地址:api/get/find_word
 传参: token,word ==>  需要查询的字  
 请求示例:  
-比如查找"你" ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&&word  = 你
+比如查找"你"字 ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&word  = 你    
 返回参数说明:
 
 参数        | 描述      | 类型
@@ -216,6 +216,7 @@ roleSkillValue   |  角色发动技能造成伤害  | int
 pinyin      | 拼音      | string
 content     | 查找的字  | string
 detail      | 字的解释  | string
+
 返回示例:
 1.token错误(状态码:403)
 ```json
