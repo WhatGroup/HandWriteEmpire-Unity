@@ -209,10 +209,10 @@ roleSkillValue   |  角色发动技能造成伤害  | int
 }
 ```
 ### 寻字
-请求地址:api/get/find_word 
+请求地址:api/get/find_word  
 传参: token,word ==>  需要查询的字  
 请求示例:  
-比如查找"你"字 ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&word  = 你    
+查找"你"字 ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&word  = 你    
 返回参数说明:
 
 参数        | 描述      | 类型
