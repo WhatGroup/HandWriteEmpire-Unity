@@ -9,6 +9,7 @@ api/get/user_info       |   获取用户数据
 api/get/find_word       |   查字
 api/post/user_info      |   提交本地用户数据
 api/post/user\_level\_infos    |   提交关卡数据
+api/post/error_word_infos      |   提交错字本
 
 ### 资源目录
 路径                    |   描述
@@ -18,6 +19,7 @@ res/images/rolePortrait/|   存放角色的头像
 res/images/roleLiHui/   |   存放角色立绘图片
 res/userLevelInfos/     |   存放用户关卡的数据
 res/levelInfo/          |   存放具体关卡的内容
+res/userErrorWordInfos/ |   存放用户错字本的数据
 
 ### 状态码
 状态码  | 描述
@@ -102,6 +104,7 @@ attackValue          | 攻击点                   | int
 cureValue            | 治疗点                   | int
 roleInfos            | 角色信息                 | json
 userLevelInfosPath   | 用户关卡数据保存的路径   | string 
+userErrorWordInfosPaht | 用户错字本数据保存的路径 | string
 
 roleInfos参数
 
@@ -201,7 +204,8 @@ roleSkillValue   |  角色发动技能造成伤害  | int
             "roleSkillValue":50
         }
     ],
-    "userLevelInfosPath":"res/userLevelInfos/userlevelInfos_20180526222610.json"
+    "userLevelInfosPath":"res/userLevelInfos/userlevelInfos_20180526222610.json",
+    "userErrorWordInfosPath":"res/userErrorWordInfos/userErrorWordInfos_20180526222610.json"
 }
 ```
 ### 寻字
@@ -275,6 +279,31 @@ level   | 当前的关卡数                          | int
     }
 ]
 ```
+
+### 错字本文字的格式
+
+参数        | 描述      | 类型
+:-:         | :-:       | :-:
+pinyin      | 拼音      | string
+content     | 查找的字  | string
+detail      | 字的解释  | string
+
+
+```json
+[
+    {
+        "pinyin": "xiàn",
+        "content": "现",
+        "detail": "现世,今生;眼前一刹那"
+    },
+    {
+        "pinyin": "wèi",
+        "content": "未",
+        "detail": "从现在往后的时间"
+    }
+]
+```
+
 ### 关卡的内容格式
 参数    |       描述        |类型
 :--:    |       :--:        |:--
