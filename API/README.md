@@ -7,9 +7,9 @@ api/auth/login          |   登录
 api/auth/register       |   注册
 api/get/user_info       |   获取用户数据
 api/get/find_word       |   查字
-api/post/user_info      |   提交本地用户数据
+api/post/user_info      |   提交用户数据
 api/post/user\_level\_infos    |   提交关卡数据
-api/post/error_word_infos      |   提交错字本
+api/post/error_word_infos      |   提交错字本的数据
 
 ### 资源目录
 路径                    |   描述
@@ -17,9 +17,9 @@ api/post/error_word_infos      |   提交错字本
 res/images/portrait/    |   存放用户的头像
 res/images/rolePortrait/|   存放角色的头像
 res/images/roleLiHui/   |   存放角色立绘图片
-res/userLevelInfos/     |   存放用户关卡的数据
 res/levelInfo/          |   存放具体关卡的内容
-res/userErrorWordInfos/ |   存放用户错字本的数据
+res/userLevelInfos/     |   存放用户关卡的数据
+res/userErrorWordInfos/ |   存放用户错字本的数据
 
 ### 状态码
 状态码  | 描述
@@ -42,8 +42,8 @@ account ==> 账号; pwd ==> 密码
 > 如果注册成功，则attach的内容为token  
 > 如果注册失败，则attach的内容为空
     
-返回示例:
-1. 注册成功(状态码:200)
+返回示例:  
+1. 注册成功(状态码:200)  
 ```json
 {
     "type" : "success",
@@ -51,7 +51,7 @@ account ==> 账号; pwd ==> 密码
     "attach" : "5816a47899b6df8004786e20ff55854c"
 }
 ```
-2. 用户名重复(状态码:409)
+2. 用户名重复(状态码:409)  
 ```json
 {
     "type" : "error",
@@ -61,15 +61,15 @@ account ==> 账号; pwd ==> 密码
 ```
 
 ### 登录账号
-请求地址: api/auth/login  
-传参: account ==> 账号; pwd ==> 密码  
-请求示例: api/register?account=3115008370&pwd=123456
+请求地址: api/auth/login    
+传参: account ==> 账号; pwd ==> 密码   
+请求示例: api/register?account=3115008370&pwd=123456  
 返回值: 
 
 > 如果登录成功，则attach的内容为token  
 > 如果登录失败，则attach的内容为空
 
-返回示例: 
+返回示例:  
 1. 用户名和密码正确(状态码:200)：  
 ```json
 {
@@ -104,7 +104,7 @@ attackValue          | 攻击点                   | int
 cureValue            | 治疗点                   | int
 roleInfos            | 角色信息                 | json
 userLevelInfosPath   | 用户关卡数据保存的路径   | string 
-userErrorWordInfosPaht | 用户错字本数据保存的路径 | string
+userErrorWordInfosPath | 用户错字本数据保存的路径 | string
 
 roleInfos参数
 
@@ -209,7 +209,7 @@ roleSkillValue   |  角色发动技能造成伤害  | int
 }
 ```
 ### 寻字
-请求地址:api/get/find_word
+请求地址:api/get/find_word 
 传参: token,word ==>  需要查询的字  
 请求示例:  
 比如查找"你"字 ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&word  = 你    
@@ -221,7 +221,7 @@ pinyin      | 拼音      | string
 content     | 查找的字  | string
 detail      | 字的解释  | string
 
-返回示例:
+返回示例: 
 1.token错误(状态码:403)
 ```json
 {
@@ -280,7 +280,7 @@ level   | 当前的关卡数                          | int
 ]
 ```
 
-### 错字本文字的格式
+### 错字本数据的格式
 
 参数        | 描述      | 类型
 :-:         | :-:       | :-:
