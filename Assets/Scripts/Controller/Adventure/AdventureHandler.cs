@@ -104,7 +104,7 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("CureBtn".Equals(btnName))
             {
-                FadeInRoleAnim(cureRole, "attack");
+                FadeInRoleAnim(cureRole, "heal");
                 AndroidUtil.Toast("治疗效果!!!");
             }
             else if ("DefensenBtn".Equals(btnName))
@@ -153,7 +153,7 @@ public class AdventureHandler : MonoBehaviour
     {
         //TODO 攻击或失败动画播放完之后显示手写板
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
-        if (lastAnimationName == "attack" || lastAnimationName == "fail")
+        if (lastAnimationName == "heal" || lastAnimationName == "fail")
         {
             GameSetting._instance.SetHWRModule(true);
             GameSetting._instance.PlayAnimState = false;
@@ -202,7 +202,7 @@ public class AdventureHandler : MonoBehaviour
     //TODO 如果同时显示播放多人失败动画的时候，手写板会冲突
     public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
     {
-        if (animName == "attack" || animName == "fail")
+        if (animName == "attack" || animName == "fail"|| animName == "heal")
         {
             GameSetting._instance.SetHWRModule(false);
             GameSetting._instance.PlayAnimState = true;
