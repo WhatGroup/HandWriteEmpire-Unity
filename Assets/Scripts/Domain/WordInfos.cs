@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class WordInfoArray
+public class WordInfos
 {
     public WordInfo[] infos;
 //    public int total;

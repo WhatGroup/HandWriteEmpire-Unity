@@ -60,7 +60,6 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
         //加载关卡列表
         var levelInfos =
             JsonUtility.FromJson<LevelInfos>(GeneralUtils.JsonArrayToObject(response, "levelList"));
-        JsonUtility.ToJson("LevelInfo");
         levelList = levelInfos.levelList;
         foreach (var levelInfo in levelList) LevelDict.Instance.AddLevelInfo(levelInfo);
 
@@ -87,7 +86,7 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
             controller.SetActiveState(levelInfo);
 
             //判断列表需要跳转到的位置
-            if (levelInfo.state.Equals(LevelState.CURRENT))
+            if (levelInfo.state.Equals(LevelInfo.CURRENT))
             {
                 var current = levelInfo.level;
                 if (LevelDict.Instance.GetCount() >= 4)

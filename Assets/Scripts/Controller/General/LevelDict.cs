@@ -57,7 +57,7 @@ public class LevelDict
         LevelInfo info = levelDict.TryGet(level);
         if (info != null)
         {
-            info.state = LevelState.CURRENT;
+            info.state = LevelInfo.CURRENT;
         }
     }
 }

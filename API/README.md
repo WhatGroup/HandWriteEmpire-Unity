@@ -71,8 +71,8 @@ account ==> 账号; pwd ==> 密码
 1. 用户名和密码正确(状态码:200)：  
 ```json
 {
-   "type":"error",
-   "message":"username or password invalid!",
+   "type":"success",
+   "message":"login success!",
    "attach":"5816a47899b6df8004786e20ff55854c"
 }
 ```
@@ -136,12 +136,12 @@ roleSkillValue   |  角色发动技能造成伤害  | int
     "account":"3115008370",
     "userName": "wgb",
     "portraitPath": "res/images/portrait/img_20180524111830.png",
-    "attackValue": 100,
-    "defenseValue": 200,
-    "cureValue": 300,
+    "attackValue": 123,
+    "defenseValue": 456,
+    "cureValue": 789,
     "roleInfos": [
         {
-            "state": 1,
+            "state": 2,
             "roleName": "XXX",
             "rolePortraitPath":"res/images/rolePortrait/role_20180526221836.jpg",
             "roleLiHuiPath":"res/images/roleLiHui/role_20180526221836.jpg",
@@ -153,7 +153,7 @@ roleSkillValue   |  角色发动技能造成伤害  | int
             "roleSkillValue":20
         },
         {
-            "state": 1,
+            "state": 2,
             "roleName": "YYY",
             "rolePortraitPath":"res/images/rolePortrait/role_20180526221850.jpg",
             "roleLiHuiPath":"res/images/rolePortrait/role_20180526221850.jpg",
@@ -165,10 +165,10 @@ roleSkillValue   |  角色发动技能造成伤害  | int
             "roleSkillValue":20
         },
         {
-            "state": 1,
+            "state": 2,
             "roleName": "ZZZ",
-            "rolePortraitPath":"res/images/rolePortrait/role_20180526221915.jpg",
-            "roleLiHuiPath":"res/images/rolePortrait/role_20180526221915.jpg",
+            "rolePortraitPath":"res/images/rolePortrait/role_20180526221931.jpg",
+            "roleLiHuiPath":"res/images/rolePortrait/role_20180526221931.jpg",
             "roleType":"cure",
             "roleIntro":"ccccccccccccccc",
             "roleSkillDesc":"dddddddddddddddd",
@@ -189,7 +189,7 @@ roleSkillValue   |  角色发动技能造成伤害  | int
             "roleSkillValue":50
         },
         {
-            "state": 2,
+            "state": 1,
             "roleName": "KKKK",
             "rolePortraitPath":"res/images/rolePortrait/role_20180526221915.jpg",
             "roleLiHuiPath":"res/images/rolePortrait/role_20180526221915.jpg",

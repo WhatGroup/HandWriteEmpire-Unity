@@ -44,16 +44,16 @@ public class LevelItemContorller : MonoBehaviour
         var level = info.level;
         switch (state)
         {
-            case LevelState.CURRENT:
+            case LevelInfo.CURRENT:
                 itemController.CurrenLevel.SetActive(true);
                 clickHandler.AddOnClickCurrenLevelListener(level);
                 break;
-            case LevelState.OK:
+            case LevelInfo.OK:
                 itemController.OkLevel.SetActive(true);
                 flagController.SetFlagIcon(info.flag);
                 clickHandler.AddOnClickOkLevelListener(level);
                 break;
-            case LevelState.LOCK:
+            case LevelInfo.LOCK:
                 itemController.LockLevel.SetActive(true);
                 clickHandler.AddOnClickLockLevelListener(level);
                 break;

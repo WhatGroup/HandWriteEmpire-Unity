@@ -26,47 +26,47 @@ public class UserInfoManager
     public string GetLevelInfosUri()
     {
         if (userInfo != null)
-            return userInfo.levelInfosUri;
+            return userInfo.userLevelInfosPath;
         else
-            return "res/LevelInfos/levelInfos_20180526222610.json";
+            return "res/userLevelInfos/userlevelInfos_20180526222610.json";
     }
 
     public string GetAttackRolePortraitUri()
     {
         foreach (var roleInfo in userInfo.roleInfos)
         {
-            if (roleInfo.type == RoleType.ATTACK)
+            if (roleInfo.state == 2 && roleInfo.roleType == RoleInfo.ATTACK)
             {
-                return roleInfo.rolePortrait;
+                return roleInfo.rolePortraitPath;
             }
         }
 
-        return "res/images/rolePortrait/role_20180526221836.jpg";
+        return "res/images/rolePortrait/role_20180526221915.jpg";
     }
 
     public string GetDefenseRolePortraitUri()
     {
         foreach (var roleInfo in userInfo.roleInfos)
         {
-            if (roleInfo.state == 1 && roleInfo.type == RoleType.DEFENSE)
+            if (roleInfo.state == 2 && roleInfo.roleType == RoleInfo.DEFENSE)
             {
-                return roleInfo.rolePortrait;
+                return roleInfo.rolePortraitPath;
             }
         }
 
-        return "res/images/rolePortrait/role_20180526221836.jpg";
+        return "res/images/rolePortrait/role_20180526221915.jpg";
     }
 
     public string GetCureRolePortraitUri()
     {
         foreach (var roleInfo in userInfo.roleInfos)
         {
-            if (roleInfo.type == RoleType.CURE)
+            if (roleInfo.state == 2 && roleInfo.roleType == RoleInfo.CURE)
             {
-                return roleInfo.rolePortrait;
+                return roleInfo.rolePortraitPath;
             }
         }
 
-        return "res/images/rolePortrait/role_20180526221836.jpg";
+        return "res/images/rolePortrait/role_20180526221915.jpg";
     }
 }

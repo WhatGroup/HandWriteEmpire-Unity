@@ -2,61 +2,61 @@
   {
     "state": "ok",
     "flag": 1,
-    "data": "res/level_info/1.json",
+    "infoPath": "res/levelInfo/1.json",
     "level": 1
   },
   {
     "state": "ok",
     "flag": 3,
-    "data": "res/level_info/2.json",
+    "infoPath": "res/levelInfo/2.json",
     "level": 2
   },
   {
     "state": "ok",
     "flag": 1,
-    "data": "res/level_info/3.json",
+    "infoPath": "res/levelInfo/3.json",
     "level": 3
   },
   {
     "state": "ok",
     "flag": 2,
-    "data": "res/level_info/4.json",
+    "infoPath": "res/levelInfo/4.json",
     "level": 4
   },
   {
     "state": "current",
     "flag": 0,
-    "data": "res/level_info/5.json",
+    "infoPath": "res/levelInfo/5.json",
     "level": 5
   },
   {
     "state": "lock",
     "flag": 0,
-    "data": "res/level_info/6.json",
+    "infoPath": "res/levelInfo/6.json",
     "level": 6
   },
   {
     "state": "lock",
     "flag": 0,
-    "data": "res/level_info/7.json",
+    "infoPath": "res/levelInfo/7.json",
     "level": 7
   },
   {
     "state": "lock",
     "flag": 0,
-    "data": "res/level_info/8.json",
+    "infoPath": "res/levelInfo/8.json",
     "level": 8
   },
   {
     "state": "lock",
     "flag": 0,
-    "data": "res/level_info/9.json",
+    "infoPath": "res/levelInfo/9.json",
     "level": 9
   },
   {
     "state": "lock",
     "flag": 0,
-    "data": "res/level_info/10.json",
+    "infoPath": "res/levelInfo/10.json",
     "level": 10
   }
 ]

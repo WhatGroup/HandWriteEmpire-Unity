@@ -6,10 +6,12 @@ using UnityEngine;
 [Serializable]
 public class UserInfo
 {
-    public string portrait;
-    public int attackProperty;
-    public int defenseProperty;
-    public int cureProperty;
+    public string account;
+    public string userName;
+    public string portraitPath;
+    public int attackValue;
+    public int defenseValue;
+    public int cureValue;
     public List<RoleInfo> roleInfos;
-    public string levelInfosUri;
+    public string userLevelInfosPath;
  }

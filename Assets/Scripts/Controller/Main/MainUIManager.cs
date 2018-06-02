@@ -58,11 +58,11 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
     private void UpdateUserInfo()
     {
         var userInfo = UserInfoManager._instance.GetUserInfo();
-        attackValue.text = userInfo.attackProperty + "";
-        defenseValue.text = userInfo.defenseProperty + "";
-        cureValue.text = userInfo.cureProperty + "";
+        attackValue.text = userInfo.attackValue + "";
+        defenseValue.text = userInfo.defenseValue + "";
+        cureValue.text = userInfo.cureValue + "";
         //注意这里需要添加远程主机的地址，服务器返回的只有路径
-        StartCoroutine(UpdatePortrait(HttpHandler.RemotePath + userInfo.portrait));
+        StartCoroutine(UpdatePortrait(HttpHandler.RemotePath + userInfo.portraitPath));
     }
 
     IEnumerator UpdatePortrait(string url)

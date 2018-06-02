@@ -129,6 +129,6 @@ public class HttpHandler : MonoBehaviour
 
     public void GetUserInfo(ICallBack callBack)
     {
-        GetByNetWork(RemotePath + "api/get/user_data", callBack);
+        GetByNetWork(RemotePath + "api/get/user_info.php", callBack);
     }
 }

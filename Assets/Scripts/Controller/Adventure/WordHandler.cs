@@ -123,7 +123,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
     public void OnRequestSuccess(string response)
     {
         AdventureHandler._instance.isCalcTime = true;
-        var infoArray = JsonUtility.FromJson<WordInfoArray>(GeneralUtils.JsonArrayToObject(response, "infos"));
+        var infoArray = JsonUtility.FromJson<WordInfos>(GeneralUtils.JsonArrayToObject(response, "infos"));
         infos = infoArray.infos;
         for (var i = 0; i < gridNums; i++) characterGrids[i].toggle.interactable = true;
 
@@ -202,9 +202,9 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
                 var info = LevelDict.Instance.GetLevelInfo(selectLevel);
                 //TODO 分数计算,需要个计算公式
                 info.flag = new Random().Next(2) + 1;
-                if (info.state == LevelState.CURRENT)
+                if (info.state == LevelInfo.CURRENT)
                 {
-                    info.state = LevelState.OK;
+                    info.state = LevelInfo.OK;
                     LevelDict.Instance.UnlockLevel(selectLevel + 1);
                 }
 

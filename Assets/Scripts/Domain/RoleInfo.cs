@@ -2,12 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [Serializable]
 public class RoleInfo
 {
-    public string rolePortrait;
+    public const string ATTACK = "attack";
+    public const string DEFENSE = "defense";
+    public const string CURE = "cure";
     public int state;
-    public string name;
-    public string type;
-    public int value;
+    public string roleName;
+    public string rolePortraitPath;
+    public string roleLiHuiPath;
+    public string roleType;
+    public string roleIntro;
+    public string roleSkillDesc;
+    public string unlockValue;
+    public string roleHp;
+    public string roleSkillValue;
 }
