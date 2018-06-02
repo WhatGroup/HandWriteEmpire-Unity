@@ -248,7 +248,7 @@ detail      | 字的解释  | string
 :---:   | :---:                                 | :---
 state   | 该关卡的状态:ok/current/lock          | string
 flag    | 当前关卡获得的旗子数                  | int
-dataUri | 本关卡数据保存的路径                  | string
+infoPath | 本关卡数据保存的路径                  | string
 level   | 当前的关卡数                          | int
 
 > 备注:关卡的有三种状态，current之前的关卡均为ok，之后的关卡均为lock
@@ -258,19 +258,19 @@ level   | 当前的关卡数                          | int
     {
         "state": "ok",
         "flag": 1,
-        "dataUri": "res/level_info/1.json",
+        "infoPath": "res/levelInfo/1.json",
         "level": 1
     },
     {
         "state": "current",
         "flag": 0,
-        "dataUri": "res/level_info/2.json",
+        "infoPath": "res/levelInfo/2.json",
         "level": 2
     },
     {
         "state": "lock",
         "flag": 0,
-        "dataUri": "res/level_info/3.json",
+        "infoPath": "res/levelInfo/3.json",
         "level": 3
     }
 ]
