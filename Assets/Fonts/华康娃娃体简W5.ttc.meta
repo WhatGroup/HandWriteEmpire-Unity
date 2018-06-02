@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 5db36bab58cf36c4db7693b74c982dd3
+timeCreated: 1527945935
+licenseType: Pro
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DFWaWaW5-GB
+  fontNames:
+  - DFWaWaW5-GB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

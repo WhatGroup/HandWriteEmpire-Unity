@@ -6,9 +6,13 @@ using UnityEngine.UI;
 
 public class LevelSelectUIManager : MonoBehaviour
 {
-    public Image AttackRole;
-    public Image DefenseRole;
-    public Image CureRole;
+    public Image attackRolePortrait;
+    public Image defenseRolePortrait;
+    public Image cureRolePortrait;
+
+    public Text attackRoleName;
+    public Text defenseRoleName;
+    public Text cureRoleName;
 
     void Start()
     {
@@ -17,14 +21,18 @@ public class LevelSelectUIManager : MonoBehaviour
 
     void UpdateInfo()
     {
-        StartCoroutine(UpdatePortrait(AttackRole,
+        StartCoroutine(UpdatePortrait(attackRolePortrait,
             HttpHandler.RemotePath + UserInfoManager._instance.GetAttackRolePortraitUri()));
 
-        StartCoroutine(UpdatePortrait(CureRole,
+        StartCoroutine(UpdatePortrait(cureRolePortrait,
             HttpHandler.RemotePath + UserInfoManager._instance.GetCureRolePortraitUri()));
 
-        StartCoroutine(UpdatePortrait(DefenseRole,
+        StartCoroutine(UpdatePortrait(defenseRolePortrait,
             HttpHandler.RemotePath + UserInfoManager._instance.GetDefenseRolePortraitUri()));
+
+        attackRoleName.text = UserInfoManager._instance.GetAttackRoleName();
+        defenseRoleName.text = UserInfoManager._instance.GetDefenseRoleName();
+        cureRoleName.text = UserInfoManager._instance.GetCureRoleName();
     }
 
     IEnumerator UpdatePortrait(Image rolePortrait, string url)

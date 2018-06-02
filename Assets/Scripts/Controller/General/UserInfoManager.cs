@@ -8,6 +8,10 @@ public class UserInfoManager
     public static UserInfoManager _instance = new UserInfoManager();
     private UserInfo userInfo;
 
+    private RoleInfo attackRole;
+    private RoleInfo defenseRole;
+    private RoleInfo cureRole;
+
     private UserInfoManager()
     {
     }
@@ -16,6 +20,24 @@ public class UserInfoManager
     public void SetUserInfo(UserInfo userInfo)
     {
         this.userInfo = userInfo;
+        foreach (var roleInfo in userInfo.roleInfos)
+        {
+            if (roleInfo.state == 2)
+            {
+                switch (roleInfo.roleType)
+                {
+                    case RoleInfo.ATTACK:
+                        attackRole = roleInfo;
+                        break;
+                    case RoleInfo.DEFENSE:
+                        defenseRole = roleInfo;
+                        break;
+                    case RoleInfo.CURE:
+                        cureRole = roleInfo;
+                        break;
+                }
+            }
+        }
     }
 
     public UserInfo GetUserInfo()
@@ -33,40 +55,31 @@ public class UserInfoManager
 
     public string GetAttackRolePortraitUri()
     {
-        foreach (var roleInfo in userInfo.roleInfos)
-        {
-            if (roleInfo.state == 2 && roleInfo.roleType == RoleInfo.ATTACK)
-            {
-                return roleInfo.rolePortraitPath;
-            }
-        }
-
-        return "res/images/rolePortrait/role_20180526221915.jpg";
+        return attackRole.rolePortraitPath;
     }
 
     public string GetDefenseRolePortraitUri()
     {
-        foreach (var roleInfo in userInfo.roleInfos)
-        {
-            if (roleInfo.state == 2 && roleInfo.roleType == RoleInfo.DEFENSE)
-            {
-                return roleInfo.rolePortraitPath;
-            }
-        }
-
-        return "res/images/rolePortrait/role_20180526221915.jpg";
+        return defenseRole.rolePortraitPath;
     }
 
     public string GetCureRolePortraitUri()
     {
-        foreach (var roleInfo in userInfo.roleInfos)
-        {
-            if (roleInfo.state == 2 && roleInfo.roleType == RoleInfo.CURE)
-            {
-                return roleInfo.rolePortraitPath;
-            }
-        }
+        return cureRole.rolePortraitPath;
+    }
 
-        return "res/images/rolePortrait/role_20180526221915.jpg";
+    public string GetAttackRoleName()
+    {
+        return attackRole.roleName;
+    }
+
+    public string GetDefenseRoleName()
+    {
+        return defenseRole.roleName;
+    }
+
+    public string GetCureRoleName()
+    {
+        return cureRole.roleName;
     }
 }
