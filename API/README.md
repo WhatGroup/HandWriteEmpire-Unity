@@ -23,9 +23,9 @@ res/levelInfo/          |   存放具体关卡的内容
 状态码  | 描述
 :--:    | :--:
 200     | 请求成功
-400     | 注册失败
 401     | 用户名或密码错误
 403     | 用户授权错误，服务器拒绝访问(token错误)
+409     | 冲突 服务器在完成请求时发生冲突。(用户名重复)
 410     | 资源不存在
 
 各个接口
@@ -49,11 +49,11 @@ account ==> 账号; pwd ==> 密码
     "attach" : "5816a47899b6df8004786e20ff55854c"
 }
 ```
-2. 注册失败(状态码:400)
+2. 用户名重复(状态码:409)
 ```json
 {
     "type" : "error",
-    "message" : "register error",
+    "message" : "account repeat",
     "atttch" : ""
 }
 ```
@@ -248,7 +248,7 @@ detail      | 字的解释  | string
 :---:   | :---:                                 | :---
 state   | 该关卡的状态:ok/current/lock          | string
 flag    | 当前关卡获得的旗子数                  | int
-dataUri | 本关卡数据保存的路径                  | string
+infoPath | 本关卡数据保存的路径                  | string
 level   | 当前的关卡数                          | int
 
 > 备注:关卡的有三种状态，current之前的关卡均为ok，之后的关卡均为lock
@@ -258,19 +258,19 @@ level   | 当前的关卡数                          | int
     {
         "state": "ok",
         "flag": 1,
-        "dataUri": "res/level_info/1.json",
+        "infoPath": "res/levelInfo/1.json",
         "level": 1
     },
     {
         "state": "current",
         "flag": 0,
-        "dataUri": "res/level_info/2.json",
+        "infoPath": "res/levelInfo/2.json",
         "level": 2
     },
     {
         "state": "lock",
         "flag": 0,
-        "dataUri": "res/level_info/3.json",
+        "infoPath": "res/levelInfo/3.json",
         "level": 3
     }
 ]
