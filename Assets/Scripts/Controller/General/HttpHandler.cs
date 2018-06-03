@@ -8,7 +8,6 @@ using Random = System.Random;
 public class HttpHandler : MonoBehaviour
 {
     public const string RemotePath = "http://139.199.88.206/";
-    public const string LevelInfoPath = "res/levelinfo/";
 
     //是否使用网络
     public bool isNetwork = true;
@@ -64,7 +63,7 @@ public class HttpHandler : MonoBehaviour
         }
 
         if (isNetwork)
-            GetByNetWork(RemotePath + LevelInfoPath + jsonFileName + ".json", callBack);
+            GetByNetWork(RemotePath + LevelDict.Instance.GetCurrentLevelWordInfo(), callBack);
         else
             GetByLocal(JsonFilesPath + jsonFileName, callBack);
 

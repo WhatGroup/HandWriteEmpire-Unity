@@ -15,6 +15,9 @@ public class GameSetting : MonoBehaviour
         _instance = this;
     }
 
+    public GameObject VictoryPanel;
+    public GameObject FailPanel;
+
     //TODO 由于暂停面板和退出面板是相同的，后续可以直接合并成一个
     //暂停面板
     public GameObject pausePanel;
@@ -76,6 +79,13 @@ public class GameSetting : MonoBehaviour
     {
         SetGameStart();
         BackHandler._instance.PopScene();
+    }
+
+    public void RestartCurrentScene()
+    {
+        SetGameStart();
+        //重新加载此关
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /// <summary>

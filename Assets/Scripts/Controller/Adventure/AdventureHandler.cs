@@ -70,6 +70,7 @@ public class AdventureHandler : MonoBehaviour
 //                FadeInRoleAnim(attackRole, "behurt");
 //                FadeInRoleAnim(cureRole, "behurt");
                 FadeInRoleAnim(defensenRole, "behurt");
+                ScoreController._instance.AddBeHurtCount();
             }
         }
 
@@ -91,7 +92,8 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("DefensenBtn".Equals(btnName))
             {
-                FadeInRoleAnim(defensenRole, "fail");;
+                FadeInRoleAnim(defensenRole, "fail");
+                ;
             }
         }
         else
@@ -133,6 +135,72 @@ public class AdventureHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(second);
         GameSetting._instance.SetGameOver(true);
+        //TODO 判断游戏是否胜利
+        GameSetting._instance.VictoryPanel.SetActive(true);
+        SetVictoryData();
+//        GameSetting._instance.VictoryPanel.SetActive(fail);
+//        SetFailData();
+    }
+
+    private void SetFailData()
+    {
+    }
+
+    private void SetVictoryData()
+    {
+        GameObject victoryPanel = GameSetting._instance.VictoryPanel;
+        FlagStateController flagState = victoryPanel.GetComponent<FlagStateController>();
+        TaskStateContorller taskState = victoryPanel.GetComponent<TaskStateContorller>();
+        RewardController rewardController = victoryPanel.GetComponent<RewardController>();
+        //任务完成情况
+        if (ScoreController._instance.IsDefeatAllEnemy())
+        {
+            taskState.taskOne.GetComponent<Image>().sprite = taskState.rightSprite;
+        }
+        else
+        {
+            taskState.taskOne.GetComponent<Image>().sprite = taskState.errorSprite;
+        }
+
+        if (ScoreController._instance.IsLessErrorWord(4))
+        {
+            taskState.taskTwo.GetComponent<Image>().sprite = taskState.rightSprite;
+        }
+        else
+        {
+            taskState.taskTwo.GetComponent<Image>().sprite = taskState.errorSprite;
+        }
+
+        if (ScoreController._instance.IsAllRoleLife())
+        {
+            taskState.taskThree.GetComponent<Image>().sprite = taskState.rightSprite;
+        }
+        else
+        {
+            taskState.taskThree.GetComponent<Image>().sprite = taskState.errorSprite;
+        }
+
+        taskState.taskOne.SetNativeSize();
+        taskState.taskTwo.SetNativeSize();
+        taskState.taskThree.SetNativeSize();
+
+        //奖励分
+        rewardController.attackReward.text = "+" + ScoreController._instance.RewordAttackValue();
+        rewardController.defenseReward.text = "+" + ScoreController._instance.RewordDefenseValue();
+        rewardController.cureReward.text = "+" + ScoreController._instance.RewordCureValue();
+        //旗子
+        switch (ScoreController._instance.GetRewardFlagNum())
+        {
+            case 1:
+                flagState.flagImage.sprite = flagState.flagOne;
+                break;
+            case 2:
+                flagState.flagImage.sprite = flagState.flagTwo;
+                break;
+            case 3:
+                flagState.flagImage.sprite = flagState.flagThree;
+                break;
+        }
     }
 
 
@@ -149,6 +217,7 @@ public class AdventureHandler : MonoBehaviour
 
         OnAnimationEventHanler(attackRole);
     }
+
     private void OnCureAnimationEventHandler(string type, EventObject eventObject)
     {
         //TODO 攻击或失败动画播放完之后显示手写板
@@ -161,6 +230,7 @@ public class AdventureHandler : MonoBehaviour
 
         OnAnimationEventHanler(cureRole);
     }
+
     private void OnDefensenAnimationEventHandler(string type, EventObject eventObject)
     {
         //TODO 攻击或失败动画播放完之后显示手写板
@@ -202,7 +272,7 @@ public class AdventureHandler : MonoBehaviour
     //TODO 如果同时显示播放多人失败动画的时候，手写板会冲突
     public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
     {
-        if (animName == "attack" || animName == "fail"|| animName == "heal")
+        if (animName == "attack" || animName == "fail" || animName == "heal")
         {
             GameSetting._instance.SetHWRModule(false);
             GameSetting._instance.PlayAnimState = true;

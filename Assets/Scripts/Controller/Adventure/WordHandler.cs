@@ -183,6 +183,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
             {
                 //TODO 提示信息
                 AndroidUtil.Toast("正确书写为:" + infos[currentWord].Content);
+                ScoreController._instance.AddErrorWordList(infos[currentCharacter]);
                 return false;
             }
         }
@@ -201,7 +202,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
             {
                 var info = LevelDict.Instance.GetLevelInfo(selectLevel);
                 //TODO 分数计算,需要个计算公式
-                info.flag = new Random().Next(2) + 1;
+                info.flag = ScoreController._instance.GetRewardFlagNum();
                 if (info.state == LevelInfo.CURRENT)
                 {
                     info.state = LevelInfo.OK;
