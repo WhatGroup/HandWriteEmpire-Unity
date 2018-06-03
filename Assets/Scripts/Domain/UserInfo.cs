@@ -14,4 +14,5 @@ public class UserInfo
     public int cureValue;
     public List<RoleInfo> roleInfos;
     public string userLevelInfosPath;
- }
+    public string userErrorWordInfosPath;
+}

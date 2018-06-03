@@ -7,8 +7,9 @@ api/auth/login          |   登录
 api/auth/register       |   注册
 api/get/user_info       |   获取用户数据
 api/get/find_word       |   查字
-api/post/user_info      |   提交本地用户数据
+api/post/user_info      |   提交用户数据
 api/post/user\_level\_infos    |   提交关卡数据
+api/post/error\_word\_infos      |   提交错字本的数据
 
 ### 资源目录
 路径                    |   描述
@@ -16,8 +17,12 @@ api/post/user\_level\_infos    |   提交关卡数据
 res/images/portrait/    |   存放用户的头像
 res/images/rolePortrait/|   存放角色的头像
 res/images/roleLiHui/   |   存放角色立绘图片
+res/images/enemyPortrait/ |   存放敌人的头像
+res/images/enemyLiHui/    |   存放敌人立绘图片
+res/wordInfo/           |   存放关卡汉字的内容
+res/enemyInfo/          |   存放对应关卡的敌人数据
 res/userLevelInfos/     |   存放用户关卡的数据
-res/levelInfo/          |   存放具体关卡的内容
+res/userErrorWordInfos/ |   存放用户错字本的数据
 
 ### 状态码
 状态码  | 描述
@@ -40,8 +45,8 @@ account ==> 账号; pwd ==> 密码
 > 如果注册成功，则attach的内容为token  
 > 如果注册失败，则attach的内容为空
     
-返回示例:
-1. 注册成功(状态码:200)
+返回示例:  
+1. 注册成功(状态码:200)  
 ```json
 {
     "type" : "success",
@@ -49,7 +54,7 @@ account ==> 账号; pwd ==> 密码
     "attach" : "5816a47899b6df8004786e20ff55854c"
 }
 ```
-2. 用户名重复(状态码:409)
+2. 用户名重复(状态码:409)  
 ```json
 {
     "type" : "error",
@@ -59,15 +64,15 @@ account ==> 账号; pwd ==> 密码
 ```
 
 ### 登录账号
-请求地址: api/auth/login  
-传参: account ==> 账号; pwd ==> 密码  
-请求示例: api/register?account=3115008370&pwd=123456
+请求地址: api/auth/login    
+传参: account ==> 账号; pwd ==> 密码   
+请求示例: api/register?account=3115008370&pwd=123456  
 返回值: 
 
 > 如果登录成功，则attach的内容为token  
 > 如果登录失败，则attach的内容为空
 
-返回示例: 
+返回示例:  
 1. 用户名和密码正确(状态码:200)：  
 ```json
 {
@@ -102,6 +107,7 @@ attackValue          | 攻击点                   | int
 cureValue            | 治疗点                   | int
 roleInfos            | 角色信息                 | json
 userLevelInfosPath   | 用户关卡数据保存的路径   | string 
+userErrorWordInfosPath | 用户错字本数据保存的路径 | string
 
 roleInfos参数
 
@@ -201,14 +207,15 @@ roleSkillValue   |  角色发动技能造成伤害  | int
             "roleSkillValue":50
         }
     ],
-    "userLevelInfosPath":"res/userLevelInfos/userlevelInfos_20180526222610.json"
+    "userLevelInfosPath":"res/userLevelInfos/userlevelInfos_20180526222610.json",
+    "userErrorWordInfosPath":"res/userErrorWordInfos/userErrorWordInfos_20180526222610.json"
 }
 ```
 ### 寻字
-请求地址:api/get/find_word
+请求地址:api/get/find_word  
 传参: token,word ==>  需要查询的字  
 请求示例:  
-比如查找"你"字 ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&word  = 你    
+查找"你"字 ==> api/get/find_word?token=5816a47899b6df8004786e20ff55854c&word  = 你    
 返回参数说明:
 
 参数        | 描述      | 类型
@@ -217,7 +224,7 @@ pinyin      | 拼音      | string
 content     | 查找的字  | string
 detail      | 字的解释  | string
 
-返回示例:
+返回示例:  
 1.token错误(状态码:403)
 ```json
 {
@@ -248,7 +255,8 @@ detail      | 字的解释  | string
 :---:   | :---:                                 | :---
 state   | 该关卡的状态:ok/current/lock          | string
 flag    | 当前关卡获得的旗子数                  | int
-infoPath | 本关卡数据保存的路径                  | string
+wordInfoPath | 本关卡汉字数据保存的路径         | string
+enemyInfoPath| 本关卡敌人数据保存的路径         | string
 level   | 当前的关卡数                          | int
 
 > 备注:关卡的有三种状态，current之前的关卡均为ok，之后的关卡均为lock
@@ -258,23 +266,51 @@ level   | 当前的关卡数                          | int
     {
         "state": "ok",
         "flag": 1,
-        "infoPath": "res/levelInfo/1.json",
+        "wordInfoPath": "res/wordInfo/1.json",
+        "enemyInfoPath": "res/enemyInfo/enemy1.json",
         "level": 1
     },
     {
         "state": "current",
         "flag": 0,
-        "infoPath": "res/levelInfo/2.json",
+        "wordInfoPath": "res/wordInfo/2.json",
+        "enemyInfoPath": "res/enemyInfo/enemy2.json",
         "level": 2
     },
     {
         "state": "lock",
         "flag": 0,
-        "infoPath": "res/levelInfo/3.json",
+        "wordInfoPath": "res/wordInfo/3.json",
+        "enemyInfoPath": "res/enemyInfo/enemy3.json",
         "level": 3
     }
 ]
 ```
+
+### 错字本数据的格式
+
+参数        | 描述      | 类型
+:-:         | :-:       | :-:
+pinyin      | 拼音      | string
+content     | 查找的字  | string
+detail      | 字的解释  | string
+
+
+```json
+[
+    {
+        "pinyin": "xiàn",
+        "content": "现",
+        "detail": "现世,今生;眼前一刹那"
+    },
+    {
+        "pinyin": "wèi",
+        "content": "未",
+        "detail": "从现在往后的时间"
+    }
+]
+```
+
 ### 关卡的内容格式
 参数    |       描述        |类型
 :--:    |       :--:        |:--
@@ -294,4 +330,28 @@ pinyin  |   词语的解释      |   string
         "detail": "从现在往后的时间"
     }
 ]
+```
+
+### 敌人数据的格式
+
+参数              |  描述                  | 类型
+:---:             |  :---:                 | :---:
+enemyName         |  敌人名称              | string
+enemyPortraitPath |  敌人头像地址          | string
+enemyLiHuiPath    |  敌人立绘地址          | stirng   
+enemyIntro        |  敌人介绍              | string 
+enemySkillDesc    |  敌人技能描述          | string
+enemyHp           |  敌人hp                | int
+enemySkillValue   |  敌人发动技能造成伤害  | int
+
+```json
+{
+    "enemyName": "diren",
+    "enemyPortraitPath": "res/images/enemyPortrait/enemy_20180526221931.jpg",
+    "enemyLiHuiPath": "res/images/enemyLiHui/enemy_20180526221931.jpg",
+    "enemyIntro":"qwertyuiop",
+    "enemySkillDesc":"asdfghjkl",
+    "enemyHp":100,
+    "enemySkillValue":20
+}
 ```

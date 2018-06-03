@@ -39,6 +39,12 @@ public class LevelDict
         return levelDict.TryGet(level);
     }
 
+    public string GetCurrentLevelWordInfo()
+    {
+        var info = levelDict.TryGet(SelectLevel);
+        return info.wordInfoPath;
+    }
+
 
     public bool IsEmpty()
     {
@@ -54,10 +60,7 @@ public class LevelDict
     //通过关卡之后的处理
     public void UnlockLevel(int level)
     {
-        LevelInfo info = levelDict.TryGet(level);
-        if (info != null)
-        {
-            info.state = LevelInfo.CURRENT;
-        }
+        var info = levelDict.TryGet(level);
+        if (info != null) info.state = LevelInfo.CURRENT;
     }
 }

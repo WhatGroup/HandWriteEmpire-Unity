@@ -27,6 +27,10 @@ public class BackHandler
             Application.Quit();
         }
     }
+    public void ClearAllScene()
+    {
+        sceneOrder.Clear();
+    }
 
     public void AddScene(String sceneName)
     {
