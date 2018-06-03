@@ -1,16 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class ScoreController : MonoBehaviour
+[Serializable]
+public class ScoreManager : MonoBehaviour
 {
-    public static ScoreController _instance;
+    public static ScoreManager _instance;
 
     private List<WordInfo> errorWordList = new List<WordInfo>();
     private int deathRoleCount;
     private int defeatEnemyCount;
     private int beHurtCount;
+
+    private bool isSuccess;
+
+    public bool IsSuccess
+    {
+        get { return isSuccess; }
+        set { isSuccess = value; }
+    }
+
 
     private void Awake()
     {

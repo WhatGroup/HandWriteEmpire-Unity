@@ -17,6 +17,9 @@ public class AdventureHandler : MonoBehaviour
 
     private double bossFireTime;
 
+    //boss攻击的伤害
+    [SerializeField] private int bossAttackValue;
+
     //Boss攻击倒计时显示
     public Text timeText;
 
@@ -69,8 +72,29 @@ public class AdventureHandler : MonoBehaviour
                 bossFireTime = BossFireTime;
 //                FadeInRoleAnim(attackRole, "behurt");
 //                FadeInRoleAnim(cureRole, "behurt");
-                FadeInRoleAnim(defensenRole, "behurt");
-                ScoreController._instance.AddBeHurtCount();
+                if (RoleLifeManager._instance.IsDefenseRoleAlive())
+                {
+                    FadeInRoleAnim(defensenRole, "behurt");
+                    RoleLifeManager._instance.HurtRole(RoleInfo.DEFENSE, bossAttackValue);
+                    if (!RoleLifeManager._instance.IsDefenseRoleAlive())
+                    {
+                        ScoreManager._instance.AddDeathRoleCount();
+                        GameObject.FindGameObjectWithTag("DefenseRole").SetActive(false);
+                    }
+                }
+                else if (RoleLifeManager._instance.IsAttachRoleAlive())
+                {
+                    FadeInRoleAnim(attackRole, "behurt");
+                    RoleLifeManager._instance.HurtRole(RoleInfo.ATTACK, bossAttackValue);
+                    if (!RoleLifeManager._instance.IsAttachRoleAlive())
+                    {
+                        GameObject.FindGameObjectWithTag("AttackRole").SetActive(false);
+                        //如果攻击和防御角色死亡，则游戏结束
+                        StartCoroutine(DelayShowGameOverPanel(2));
+                    }
+                }
+
+                ScoreManager._instance.AddBeHurtCount();
             }
         }
 
@@ -88,12 +112,12 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("CureBtn".Equals(btnName))
             {
-                FadeInRoleAnim(cureRole, "fail");
+                //治疗角色没有错误的动画
+//                FadeInRoleAnim(cureRole, "normal");
             }
             else if ("DefensenBtn".Equals(btnName))
             {
                 FadeInRoleAnim(defensenRole, "fail");
-                ;
             }
         }
         else
@@ -136,10 +160,16 @@ public class AdventureHandler : MonoBehaviour
         yield return new WaitForSeconds(second);
         GameSetting._instance.SetGameOver(true);
         //TODO 判断游戏是否胜利
-        GameSetting._instance.VictoryPanel.SetActive(true);
-        SetVictoryData();
-//        GameSetting._instance.VictoryPanel.SetActive(fail);
-//        SetFailData();
+        if (ScoreManager._instance.IsSuccess)
+        {
+            GameSetting._instance.VictoryPanel.SetActive(true);
+            SetVictoryData();
+        }
+        else
+        {
+            GameSetting._instance.FailPanel.SetActive(true);
+            SetFailData();
+        }
     }
 
     private void SetFailData()
@@ -153,7 +183,7 @@ public class AdventureHandler : MonoBehaviour
         TaskStateContorller taskState = victoryPanel.GetComponent<TaskStateContorller>();
         RewardController rewardController = victoryPanel.GetComponent<RewardController>();
         //任务完成情况
-        if (ScoreController._instance.IsDefeatAllEnemy())
+        if (ScoreManager._instance.IsDefeatAllEnemy())
         {
             taskState.taskOne.GetComponent<Image>().sprite = taskState.rightSprite;
         }
@@ -162,7 +192,7 @@ public class AdventureHandler : MonoBehaviour
             taskState.taskOne.GetComponent<Image>().sprite = taskState.errorSprite;
         }
 
-        if (ScoreController._instance.IsLessErrorWord(4))
+        if (ScoreManager._instance.IsLessErrorWord(4))
         {
             taskState.taskTwo.GetComponent<Image>().sprite = taskState.rightSprite;
         }
@@ -171,7 +201,7 @@ public class AdventureHandler : MonoBehaviour
             taskState.taskTwo.GetComponent<Image>().sprite = taskState.errorSprite;
         }
 
-        if (ScoreController._instance.IsAllRoleLife())
+        if (ScoreManager._instance.IsAllRoleLife())
         {
             taskState.taskThree.GetComponent<Image>().sprite = taskState.rightSprite;
         }
@@ -185,11 +215,11 @@ public class AdventureHandler : MonoBehaviour
         taskState.taskThree.SetNativeSize();
 
         //奖励分
-        rewardController.attackReward.text = "+" + ScoreController._instance.RewordAttackValue();
-        rewardController.defenseReward.text = "+" + ScoreController._instance.RewordDefenseValue();
-        rewardController.cureReward.text = "+" + ScoreController._instance.RewordCureValue();
+        rewardController.attackReward.text = "+" + ScoreManager._instance.RewordAttackValue();
+        rewardController.defenseReward.text = "+" + ScoreManager._instance.RewordDefenseValue();
+        rewardController.cureReward.text = "+" + ScoreManager._instance.RewordCureValue();
         //旗子
-        switch (ScoreController._instance.GetRewardFlagNum())
+        switch (ScoreManager._instance.GetRewardFlagNum())
         {
             case 1:
                 flagState.flagImage.sprite = flagState.flagOne;

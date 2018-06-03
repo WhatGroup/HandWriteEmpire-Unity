@@ -82,4 +82,19 @@ public class UserInfoManager
     {
         return cureRole.roleName;
     }
+
+    public int GetAttachRoleHp()
+    {
+        return attackRole.roleHp;
+    }
+
+    public int GetDefenseRoleHp()
+    {
+        return defenseRole.roleHp;
+    }
+
+    public int GetCureRoleHp()
+    {
+        return cureRole.roleHp;
+    }
 }

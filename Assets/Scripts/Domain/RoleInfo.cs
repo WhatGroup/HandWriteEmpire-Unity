@@ -16,7 +16,7 @@ public class RoleInfo
     public string roleType;
     public string roleIntro;
     public string roleSkillDesc;
-    public string unlockValue;
-    public string roleHp;
-    public string roleSkillValue;
+    public int unlockValue;
+    public int roleHp;
+    public int roleSkillValue;
 }
