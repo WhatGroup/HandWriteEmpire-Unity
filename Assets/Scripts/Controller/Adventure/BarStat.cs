@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class RoleStat
+public class BarStat
 {
     [SerializeField]
     private LifeBarController bar;

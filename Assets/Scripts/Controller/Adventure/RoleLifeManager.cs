@@ -6,9 +6,9 @@ public class RoleLifeManager : MonoBehaviour
 {
     public static RoleLifeManager _instance;
 
-    [SerializeField] private RoleStat attackRoleStat;
-    [SerializeField] private RoleStat defenseRoleStat;
-    [SerializeField] private RoleStat cureRoleStat;
+    [SerializeField] private BarStat attackRoleStat;
+    [SerializeField] private BarStat defenseRoleStat;
+    [SerializeField] private BarStat cureRoleStat;
 
     // Use this for initialization
     void Awake()

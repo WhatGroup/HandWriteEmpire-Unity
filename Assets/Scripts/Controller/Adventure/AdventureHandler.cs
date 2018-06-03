@@ -19,6 +19,7 @@ public class AdventureHandler : MonoBehaviour
 
     //boss攻击的伤害
     [SerializeField] private int bossAttackValue;
+    [SerializeField] private int bossBeHurtValue;
 
     //Boss攻击倒计时显示
     public Text timeText;
@@ -126,6 +127,14 @@ public class AdventureHandler : MonoBehaviour
             if ("AttachBtn".Equals(btnName))
             {
                 FadeInRoleAnim(attackRole, "attack");
+                //动画播放完成造成伤害
+//                EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
+//                if (!EnemyLifeManager._instance.IsEnemyAlive())
+//                {
+//                    ScoreManager._instance.IsSuccess = true;
+//                    StartCoroutine(DelayShowGameOverPanel(2f));
+//                }
+
                 AndroidUtil.Toast("攻击效果!!!");
             }
             else if ("CureBtn".Equals(btnName))
@@ -243,6 +252,13 @@ public class AdventureHandler : MonoBehaviour
         {
             GameSetting._instance.SetHWRModule(true);
             GameSetting._instance.PlayAnimState = false;
+            //敌人受伤显示
+            EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
+            if (!EnemyLifeManager._instance.IsEnemyAlive())
+            {
+                ScoreManager._instance.IsSuccess = true;
+                StartCoroutine(DelayShowGameOverPanel(2f));
+            }
         }
 
         OnAnimationEventHanler(attackRole);
