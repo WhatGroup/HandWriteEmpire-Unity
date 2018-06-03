@@ -9,7 +9,7 @@ api/get/user_info       |   获取用户数据
 api/get/find_word       |   查字
 api/post/user_info      |   提交用户数据
 api/post/user\_level\_infos    |   提交关卡数据
-api/post/error_word_infos      |   提交错字本的数据
+api/post/error\_word\_infos      |   提交错字本的数据
 
 ### 资源目录
 路径                    |   描述
@@ -17,7 +17,10 @@ api/post/error_word_infos      |   提交错字本的数据
 res/images/portrait/    |   存放用户的头像
 res/images/rolePortrait/|   存放角色的头像
 res/images/roleLiHui/   |   存放角色立绘图片
-res/levelInfo/          |   存放具体关卡的内容
+res/images/enemyPortrait/ |   存放敌人的头像
+res/images/enemyLiHui/    |   存放敌人立绘图片
+res/wordInfo/           |   存放关卡汉字的内容
+res/enemyInfo/          |   存放对应关卡的敌人数据
 res/userLevelInfos/     |   存放用户关卡的数据
 res/userErrorWordInfos/ |   存放用户错字本的数据
 
@@ -221,7 +224,7 @@ pinyin      | 拼音      | string
 content     | 查找的字  | string
 detail      | 字的解释  | string
 
-返回示例: 
+返回示例:  
 1.token错误(状态码:403)
 ```json
 {
@@ -252,7 +255,8 @@ detail      | 字的解释  | string
 :---:   | :---:                                 | :---
 state   | 该关卡的状态:ok/current/lock          | string
 flag    | 当前关卡获得的旗子数                  | int
-infoPath | 本关卡数据保存的路径                  | string
+wordInfoPath | 本关卡汉字数据保存的路径         | string
+enemyInfoPath| 本关卡敌人数据保存的路径         | string
 level   | 当前的关卡数                          | int
 
 > 备注:关卡的有三种状态，current之前的关卡均为ok，之后的关卡均为lock
@@ -262,19 +266,22 @@ level   | 当前的关卡数                          | int
     {
         "state": "ok",
         "flag": 1,
-        "infoPath": "res/levelInfo/1.json",
+        "wordInfoPath": "res/wordInfo/1.json",
+        "enemyInfoPath": "res/enemyInfo/enemy1.json",
         "level": 1
     },
     {
         "state": "current",
         "flag": 0,
-        "infoPath": "res/levelInfo/2.json",
+        "wordInfoPath": "res/wordInfo/2.json",
+        "enemyInfoPath": "res/enemyInfo/enemy2.json",
         "level": 2
     },
     {
         "state": "lock",
         "flag": 0,
-        "infoPath": "res/levelInfo/3.json",
+        "wordInfoPath": "res/wordInfo/3.json",
+        "enemyInfoPath": "res/enemyInfo/enemy3.json",
         "level": 3
     }
 ]
@@ -323,4 +330,28 @@ pinyin  |   词语的解释      |   string
         "detail": "从现在往后的时间"
     }
 ]
+```
+
+### 敌人数据的格式
+
+参数              |  描述                  | 类型
+:---:             |  :---:                 | :---:
+enemyName         |  敌人名称              | string
+enemyPortraitPath |  敌人头像地址          | string
+enemyLiHuiPath    |  敌人立绘地址          | stirng   
+enemyIntro        |  敌人介绍              | string 
+enemySkillDesc    |  敌人技能描述          | string
+enemyHp           |  敌人hp                | int
+enemySkillValue   |  敌人发动技能造成伤害  | int
+
+```json
+{
+    "enemyName": "diren",
+    "enemyPortraitPath": "res/images/enemyPortrait/enemy_20180526221931.jpg",
+    "enemyLiHuiPath": "res/images/enemyLiHui/enemy_20180526221931.jpg",
+    "enemyIntro":"qwertyuiop",
+    "enemySkillDesc":"asdfghjkl",
+    "enemyHp":100,
+    "enemySkillValue":20
+}
 ```

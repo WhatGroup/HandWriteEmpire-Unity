@@ -1,0 +1,9 @@
+{
+  "enemyName": "diren",
+  "enemyPortraitPath": "res/images/enemyPortrait/enemy_20180526221931.jpg",
+  "enemyLiHuiPath": "res/images/enemyLiHui/enemy_20180526221931.jpg",
+  "enemyIntro":"qwertyuiop",
+  "enemySkillDesc":"asdfghjkl",
+  "enemyHp":100,
+  "enemySkillValue":20
+}
