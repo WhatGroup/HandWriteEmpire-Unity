@@ -7,6 +7,8 @@ TagManager:
   - AttackRole
   - DefenseRole
   - CureRole
+  - WordFrame1
+  - WordFrame2
   layers:
   - Default
   - TransparentFX

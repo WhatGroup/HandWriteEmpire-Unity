@@ -27,7 +27,7 @@ public class AdventureHandler : MonoBehaviour
 
     public UnityArmatureComponent attackRole;
     public UnityArmatureComponent cureRole;
-    public UnityArmatureComponent defensenRole;
+    public UnityArmatureComponent defenseRole;
 
     //是否是新的识别
     private bool isNewRec = false;
@@ -58,7 +58,7 @@ public class AdventureHandler : MonoBehaviour
         //设置动画监听
         attackRole.AddDBEventListener(EventObject.COMPLETE, OnAttackAnimationEventHandler);
         cureRole.AddDBEventListener(EventObject.COMPLETE, OnCureAnimationEventHandler);
-        defensenRole.AddDBEventListener(EventObject.COMPLETE, OnDefensenAnimationEventHandler);
+        defenseRole.AddDBEventListener(EventObject.COMPLETE, OnDefensenAnimationEventHandler);
     }
 
     private void Update()
@@ -69,30 +69,16 @@ public class AdventureHandler : MonoBehaviour
             bossFireTime -= Time.deltaTime;
             if (bossFireTime <= 0)
             {
-                isCalcTime = false;
                 bossFireTime = BossFireTime;
 //                FadeInRoleAnim(attackRole, "behurt");
 //                FadeInRoleAnim(cureRole, "behurt");
                 if (RoleLifeManager._instance.IsDefenseRoleAlive())
                 {
-                    FadeInRoleAnim(defensenRole, "behurt");
-                    RoleLifeManager._instance.HurtRole(RoleInfo.DEFENSE, bossAttackValue);
-                    if (!RoleLifeManager._instance.IsDefenseRoleAlive())
-                    {
-                        ScoreManager._instance.AddDeathRoleCount();
-                        GameObject.FindGameObjectWithTag("DefenseRole").SetActive(false);
-                    }
+                    FadeInRoleAnim(defenseRole, "behurt");
                 }
                 else if (RoleLifeManager._instance.IsAttachRoleAlive())
                 {
                     FadeInRoleAnim(attackRole, "behurt");
-                    RoleLifeManager._instance.HurtRole(RoleInfo.ATTACK, bossAttackValue);
-                    if (!RoleLifeManager._instance.IsAttachRoleAlive())
-                    {
-                        GameObject.FindGameObjectWithTag("AttackRole").SetActive(false);
-                        //如果攻击和防御角色死亡，则游戏结束
-                        StartCoroutine(DelayShowGameOverPanel(2));
-                    }
                 }
 
                 ScoreManager._instance.AddBeHurtCount();
@@ -106,19 +92,19 @@ public class AdventureHandler : MonoBehaviour
     {
         if (!WordHandler._instance.JudgeResult())
         {
-            //TODO 修改为具体的失败效果
             if ("AttachBtn".Equals(btnName))
             {
                 FadeInRoleAnim(attackRole, "fail");
             }
             else if ("CureBtn".Equals(btnName))
             {
-                //治疗角色没有错误的动画
+                //TODO 治疗角色没有错误的动画
 //                FadeInRoleAnim(cureRole, "normal");
             }
             else if ("DefensenBtn".Equals(btnName))
             {
-                FadeInRoleAnim(defensenRole, "fail");
+                //TODO 攻击角色错误动画
+                FadeInRoleAnim(defenseRole, "fail");
             }
         }
         else
@@ -144,13 +130,13 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("DefensenBtn".Equals(btnName))
             {
-                FadeInRoleAnim(defensenRole, "attack");
+                FadeInRoleAnim(defenseRole, "attack");
                 AndroidUtil.Toast("防御效果!!!");
             }
         }
 
+        SetNewWord();
         isNewRec = true;
-        isCalcTime = false;
     }
 
     //更新为新的单词
@@ -169,7 +155,7 @@ public class AdventureHandler : MonoBehaviour
         yield return new WaitForSeconds(second);
         GameSetting._instance.SetGameOver(true);
         //TODO 判断游戏是否胜利
-        if (ScoreManager._instance.IsSuccess)
+        if (ScoreManager._instance.IsGameSuccess())
         {
             GameSetting._instance.VictoryPanel.SetActive(true);
             SetVictoryData();
@@ -246,32 +232,52 @@ public class AdventureHandler : MonoBehaviour
     //动画完成后切换回默认动画
     private void OnAttackAnimationEventHandler(string type, EventObject eventObject)
     {
-        //TODO 攻击或失败动画播放完之后显示手写板
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
-        if (lastAnimationName == "attack" || lastAnimationName == "fail")
+        if (lastAnimationName == "attack")
         {
-            GameSetting._instance.SetHWRModule(true);
-            GameSetting._instance.PlayAnimState = false;
             //敌人受伤显示
-            EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
+            EnemyLifeManager._instance.BeHurt(UserInfoManager._instance.GetAttackRoleSkillValue());
             if (!EnemyLifeManager._instance.IsEnemyAlive())
             {
-                ScoreManager._instance.IsSuccess = true;
+//                ScoreManager._instance.IsSuccess = true;
+                //TODO
+                ScoreManager._instance.AddDefeatEnemyCount();
+                WordHandler._instance.UpdateLevelData();
                 StartCoroutine(DelayShowGameOverPanel(2f));
             }
         }
+        else if (lastAnimationName == "behurt")
+        {
+            RoleLifeManager._instance.HurtRole(RoleInfo.ATTACK, bossAttackValue);
+            if (!RoleLifeManager._instance.IsAttachRoleAlive())
+            {
+                GameObject attackRoleGo = GameObject.FindGameObjectWithTag("AttackRole");
+
+                if (attackRoleGo != null)
+                    attackRoleGo.SetActive(false);
+                //如果攻击和防御角色死亡，则游戏结束
+                StartCoroutine(DelayShowGameOverPanel(2));
+            }
+        }
+
 
         OnAnimationEventHanler(attackRole);
     }
 
     private void OnCureAnimationEventHandler(string type, EventObject eventObject)
     {
-        //TODO 攻击或失败动画播放完之后显示手写板
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
-        if (lastAnimationName == "heal" || lastAnimationName == "fail")
+        if (lastAnimationName == "heal")
         {
-            GameSetting._instance.SetHWRModule(true);
-            GameSetting._instance.PlayAnimState = false;
+            //TODO 治疗效果
+            if (RoleLifeManager._instance.IsDefenseRoleAlive())
+            {
+                RoleLifeManager._instance.CureRole(RoleInfo.DEFENSE, UserInfoManager._instance.GetCureRoleSkillValue());
+            }
+            else if (RoleLifeManager._instance.IsAttachRoleAlive())
+            {
+                RoleLifeManager._instance.CureRole(RoleInfo.ATTACK, UserInfoManager._instance.GetCureRoleSkillValue());
+            }
         }
 
         OnAnimationEventHanler(cureRole);
@@ -279,15 +285,27 @@ public class AdventureHandler : MonoBehaviour
 
     private void OnDefensenAnimationEventHandler(string type, EventObject eventObject)
     {
-        //TODO 攻击或失败动画播放完之后显示手写板
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
-        if (lastAnimationName == "attack" || lastAnimationName == "fail")
+        if (lastAnimationName == "attack")
         {
-            GameSetting._instance.SetHWRModule(true);
-            GameSetting._instance.PlayAnimState = false;
+            //TODO 防御处理
         }
 
-        OnAnimationEventHanler(defensenRole);
+        if (lastAnimationName == "behurt")
+        {
+            RoleLifeManager._instance.HurtRole(RoleInfo.DEFENSE, bossAttackValue);
+            if (!RoleLifeManager._instance.IsDefenseRoleAlive())
+            {
+                ScoreManager._instance.AddDeathRoleCount();
+                GameObject defenseRoleGo = GameObject.FindGameObjectWithTag("DefenseRole");
+                if (defenseRoleGo != null)
+                {
+                    defenseRoleGo.SetActive(false);
+                }
+            }
+        }
+
+        OnAnimationEventHanler(defenseRole);
     }
 
     private void OnAnimationEventHanler(UnityArmatureComponent role)
@@ -307,10 +325,7 @@ public class AdventureHandler : MonoBehaviour
             if (isNewRec)
             {
                 isNewRec = false;
-                SetNewWord();
             }
-
-            isCalcTime = true;
         }
     }
 
@@ -320,8 +335,8 @@ public class AdventureHandler : MonoBehaviour
     {
         if (animName == "attack" || animName == "fail" || animName == "heal")
         {
-            GameSetting._instance.SetHWRModule(false);
-            GameSetting._instance.PlayAnimState = true;
+//            GameSetting._instance.SetHWRModule(false);
+//            GameSetting._instance.PlayAnimState = true;
         }
 
         if (role.animation.lastAnimationName != "normal")

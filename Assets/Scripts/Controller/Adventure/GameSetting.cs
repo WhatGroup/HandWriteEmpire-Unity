@@ -31,15 +31,7 @@ public class GameSetting : MonoBehaviour
 
     //当前手写板的状态
     private bool isShowHWR = false;
-
-    //当前是否在播放攻击或者失败动画
-    private bool playAnimState = false;
-
-    public bool PlayAnimState
-    {
-        get { return playAnimState; }
-        set { playAnimState = value; }
-    }
+    
 
     public void SetGameOver(bool isOver)
     {
@@ -65,7 +57,7 @@ public class GameSetting : MonoBehaviour
         if (isPause)
         {
             ShowPauseGamePanel(false);
-            if (PlayAnimState == false) SetHWRModule(true); //如果当前没有在播放攻击或者失败动画则显示手写模块
+            SetHWRModule(true); //如果当前没有在播放攻击或者失败动画则显示手写模块
         }
         else
         {

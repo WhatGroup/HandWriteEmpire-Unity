@@ -97,4 +97,16 @@ public class UserInfoManager
     {
         return cureRole.roleHp;
     }
+    public int GetAttackRoleSkillValue()
+    {
+        return attackRole.roleSkillValue;
+    }
+    public int GetDefenseRoleSkillValue()
+    {
+        return defenseRole.roleSkillValue;
+    }
+    public int GetCureRoleSkillValue()
+    {
+        return cureRole.roleSkillValue;
+    }
 }

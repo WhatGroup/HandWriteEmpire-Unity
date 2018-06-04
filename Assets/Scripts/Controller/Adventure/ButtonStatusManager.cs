@@ -23,4 +23,13 @@ public class ButtonStatusManager : MonoBehaviour
         btnCure.interactable = false;
     }
 
+    public void SetDefenseBtnDisable()
+    {
+        btnDefensen.interactable = false;
+    }
+
+    public void SetAttackBtnDisable()
+    {
+        btnAttach.interactable = false;
+    }
 }

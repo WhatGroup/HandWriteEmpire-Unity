@@ -62,6 +62,36 @@ public class RoleLifeManager : MonoBehaviour
         }
     }
 
+    public void CureRole(string roleType, int increaseValue)
+    {
+        switch (roleType)
+        {
+            case RoleInfo.ATTACK:
+                attackRoleStat.CurrentVal += increaseValue;
+                if (attackRoleStat.CurrentVal > attackRoleStat.MaxVal)
+                {
+                    attackRoleStat.CurrentVal = attackRoleStat.MaxVal;
+                }
+
+                break;
+            case RoleInfo.DEFENSE:
+                defenseRoleStat.CurrentVal += increaseValue;
+                if (defenseRoleStat.CurrentVal > defenseRoleStat.MaxVal)
+                {
+                    defenseRoleStat.CurrentVal = defenseRoleStat.MaxVal;
+                }
+
+                break;
+            case RoleInfo.CURE:
+                cureRoleStat.CurrentVal += increaseValue;
+                if (cureRoleStat.CurrentVal > cureRoleStat.MaxVal)
+                {
+                    cureRoleStat.CurrentVal = cureRoleStat.MaxVal;
+                }
+                break;
+        }
+    }
+
     // Update is called once per frame
     /*void Update()
     {

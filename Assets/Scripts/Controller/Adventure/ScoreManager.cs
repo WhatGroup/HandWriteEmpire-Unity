@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 [Serializable]
 public class ScoreManager : MonoBehaviour
@@ -10,17 +11,9 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager _instance;
 
     private List<WordInfo> errorWordList = new List<WordInfo>();
-    private int deathRoleCount;
-    private int defeatEnemyCount;
-    private int beHurtCount;
-
-    private bool isSuccess;
-
-    public bool IsSuccess
-    {
-        get { return isSuccess; }
-        set { isSuccess = value; }
-    }
+    private int deathRoleCount = 0;
+    private int defeatEnemyCount = 0;
+    private int beHurtCount = 0;
 
 
     private void Awake()
@@ -66,7 +59,30 @@ public class ScoreManager : MonoBehaviour
 
     public bool IsDefeatAllEnemy()
     {
+        if (defeatEnemyCount == 0)
+        {
+            return false;
+        }
+
         return true;
+    }
+
+    public bool IsGameSuccess()
+    {
+        if (!RoleLifeManager._instance.IsAttachRoleAlive() && !RoleLifeManager._instance.IsDefenseRoleAlive())
+        {
+            return false;
+        }
+
+        int count = GetRewardFlagNum();
+        if (count == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public int RewordAttackValue()

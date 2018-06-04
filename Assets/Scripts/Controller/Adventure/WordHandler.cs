@@ -76,6 +76,8 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
         if (isCharacterFull)
         {
             btnManager.SetAllInteractable();
+            if (!RoleLifeManager._instance.IsDefenseRoleAlive()) btnManager.SetDefenseBtnDisable();
+
             isBtnActivite = true;
             isCharacterFull = false;
         }
@@ -196,29 +198,52 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
         SetBtnStateValue(false);
         if (currentWord == infos.Length - 1)
         {
-            //修改并保存用户数据
-            int selectLevel = LevelDict.Instance.SelectLevel;
-            if (selectLevel != 0)
-            {
-                var info = LevelDict.Instance.GetLevelInfo(selectLevel);
-                //TODO 分数计算,需要个计算公式
-                info.flag = ScoreManager._instance.GetRewardFlagNum();
-                if (info.state == LevelInfo.CURRENT)
-                {
-                    info.state = LevelInfo.OK;
-                    LevelDict.Instance.UnlockLevel(selectLevel + 1);
-                }
-
-                //TODO 保存数据
-                HttpHandler._instance.SaveLevelInfo();
-                ScoreManager._instance.IsSuccess = true;
-            }
+            //TODO 过关保存数据没过关不保存
+            if (ScoreManager._instance.IsGameSuccess()) UpdateLevelData();
 
             ClearText();
+            //增加的操作
+            GameOverHandler();
+
             return true;
         }
 
         return false;
+    }
+
+    private void GameOverHandler()
+    {
+        GameSetting._instance.SetHWRModule(false);
+        GameObject wordFrame1 = GameObject.FindGameObjectWithTag("WordFrame1");
+        if (wordFrame1)
+        {
+            wordFrame1.SetActive(false);
+        }
+
+        GameObject wordFrame2 = GameObject.FindGameObjectWithTag("WordFrame2");
+        if (wordFrame2)
+        {
+            wordFrame2.SetActive(false);
+        }
+    }
+
+    public void UpdateLevelData()
+    {
+        var selectLevel = LevelDict.Instance.SelectLevel;
+        if (selectLevel != 0)
+        {
+            var info = LevelDict.Instance.GetLevelInfo(selectLevel);
+            //获取旗子数
+            info.flag = ScoreManager._instance.GetRewardFlagNum();
+            if (info.state == LevelInfo.CURRENT)
+            {
+                info.state = LevelInfo.OK;
+                LevelDict.Instance.UnlockLevel(selectLevel + 1);
+            }
+
+            //TODO 保存用户数据到网络
+            HttpHandler._instance.SaveLevelInfo();
+        }
     }
 
     public void ShowDetialContent()
