@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,7 +23,7 @@ public class UserInfoManager
         this.userInfo = userInfo;
         foreach (var roleInfo in userInfo.roleInfos)
         {
-            if (roleInfo.state == 2)
+            if (roleInfo.state.ToInt() == 2)
             {
                 switch (roleInfo.roleType)
                 {
@@ -85,28 +86,28 @@ public class UserInfoManager
 
     public int GetAttachRoleHp()
     {
-        return attackRole.roleHp;
+        return attackRole.roleHp.ToInt();
     }
 
     public int GetDefenseRoleHp()
     {
-        return defenseRole.roleHp;
+        return defenseRole.roleHp.ToInt();
     }
 
     public int GetCureRoleHp()
     {
-        return cureRole.roleHp;
+        return cureRole.roleHp.ToInt();
     }
     public int GetAttackRoleSkillValue()
     {
-        return attackRole.roleSkillValue;
+        return attackRole.roleSkillValue.ToInt();
     }
     public int GetDefenseRoleSkillValue()
     {
-        return defenseRole.roleSkillValue;
+        return defenseRole.roleSkillValue.ToInt();
     }
     public int GetCureRoleSkillValue()
     {
-        return cureRole.roleSkillValue;
+        return cureRole.roleSkillValue.ToInt();
     }
 }

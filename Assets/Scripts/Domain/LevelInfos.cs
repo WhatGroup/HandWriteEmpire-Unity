@@ -5,5 +5,5 @@ using UnityEngine;
 [Serializable]
 public class LevelInfos
 {
-    public List<LevelInfo> levelList;
+    public List<LevelInfo> userLevelInfos;
 }

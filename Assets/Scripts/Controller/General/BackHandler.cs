@@ -18,22 +18,35 @@ public class BackHandler
     public void PopScene()
     {
         if (sceneOrder.Count > 0)
-        {
             SceneManager.LoadScene(sceneOrder.Pop());
-        }
         else
-        {
-            //当sceneOrder中没有场景时推出应用
             Application.Quit();
-        }
     }
+
     public void ClearAllScene()
     {
         sceneOrder.Clear();
     }
 
-    public void AddScene(String sceneName)
+    public void AddScene(string sceneName)
     {
         sceneOrder.Push(sceneName);
+    }
+
+    public void GoToLogin()
+    {
+        //返回登录界面
+        ClearAllScene();
+        SceneManager.LoadScene("00_Login");
+    }
+
+    public void GoToMain()
+    {
+        SceneManager.LoadScene("01_Main");
+    }
+
+    public void GoToRegister()
+    {
+        SceneManager.LoadScene("00_Register");
     }
 }

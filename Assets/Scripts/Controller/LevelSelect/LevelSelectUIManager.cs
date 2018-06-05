@@ -22,13 +22,13 @@ public class LevelSelectUIManager : MonoBehaviour
     void UpdateInfo()
     {
         StartCoroutine(UpdatePortrait(attackRolePortrait,
-            HttpHandler.RemotePath + UserInfoManager._instance.GetAttackRolePortraitUri()));
+            HttpUtil.RemotePath + UserInfoManager._instance.GetAttackRolePortraitUri()));
 
         StartCoroutine(UpdatePortrait(cureRolePortrait,
-            HttpHandler.RemotePath + UserInfoManager._instance.GetCureRolePortraitUri()));
+            HttpUtil.RemotePath + UserInfoManager._instance.GetCureRolePortraitUri()));
 
         StartCoroutine(UpdatePortrait(defenseRolePortrait,
-            HttpHandler.RemotePath + UserInfoManager._instance.GetDefenseRolePortraitUri()));
+            HttpUtil.RemotePath + UserInfoManager._instance.GetDefenseRolePortraitUri()));
 
         attackRoleName.text = UserInfoManager._instance.GetAttackRoleName();
         defenseRoleName.text = UserInfoManager._instance.GetDefenseRoleName();

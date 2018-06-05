@@ -6,20 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/00_Login.unity
+    guid: 6f79b89c16db8554d830f2b9240d43c8
+  - enabled: 1
+    path: Assets/Scenes/00_Register.unity
+    guid: ab627d1040608e3439bb9f0c4aa1c256
+  - enabled: 1
     path: Assets/Scenes/01_Main.unity
     guid: ea8e60b058dcd4649b6f465599281959
   - enabled: 1
     path: Assets/Scenes/02_Dictionary.unity
     guid: 2841615ba0ba3db4ba19d9c205b3c202
   - enabled: 1
-    path: Assets/Scenes/04_Train.unity
-    guid: a7cb0a21f2f59994791fdb257c6e25bc
-  - enabled: 1
     path: Assets/Scenes/03_Adventure.unity
     guid: 75beee44ddf07414cb42e8ad227ca103
   - enabled: 1
+    path: Assets/Scenes/03_LevelSelect.unity
+    guid: 8030a4e2410659f4b9534bb64817c50b
+  - enabled: 1
+    path: Assets/Scenes/04_Train.unity
+    guid: a7cb0a21f2f59994791fdb257c6e25bc
+  - enabled: 1
     path: Assets/Scenes/05_RoleManager.unity
     guid: 1d86f0010d605ed4bab0d88b189d1df0
-  - enabled: 1
-    path: Assets/Scenes/06_LevelSelect.unity
-    guid: 8030a4e2410659f4b9534bb64817c50b

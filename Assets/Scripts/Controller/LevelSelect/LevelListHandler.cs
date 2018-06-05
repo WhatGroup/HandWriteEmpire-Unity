@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
+public class LevelListHandler : MonoBehaviour, HttpUtil.ICallBack
 {
     public GameObject LevelItemPrefab;
 
@@ -16,8 +16,6 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
 
     private List<LevelInfo> levelList;
 
-    //网络连接失败时，重新请求网络的时间
-    public float retryNetWorkTime = 4f;
 
     private void Start()
     {
@@ -39,14 +37,14 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
     //获取关卡的数据
     private void RequestLevelInfos()
     {
-        HttpHandler._instance.GetLevelInfos(this);
+        HttpUtil.GetUserLevelInfos(this, this);
     }
 
 
     public void OnRequestError(string error)
     {
         AndroidUtil.Toast("网络出错!\n" + error);
-        StartCoroutine(LaterRequest(retryNetWorkTime));
+        StartCoroutine(LaterRequest(HttpUtil.RetryNetWorkTime));
     }
 
     private IEnumerator LaterRequest(float second)
@@ -55,16 +53,18 @@ public class LevelListHandler : MonoBehaviour, HttpHandler.ICallBack
         RequestLevelInfos();
     }
 
-    public void OnRequestSuccess(string response)
+    public void OnRequestSuccess(long responseCode, string response)
     {
-        //加载关卡列表
-        var levelInfos =
-            JsonUtility.FromJson<LevelInfos>(GeneralUtils.JsonArrayToObject(response, "levelList"));
-        levelList = levelInfos.levelList;
-        foreach (var levelInfo in levelList) LevelDict.Instance.AddLevelInfo(levelInfo);
+        if (responseCode == 200)
+        {
+            //加载关卡列表
+            var levelInfos =
+                JsonUtility.FromJson<LevelInfos>(response);
+            levelList = levelInfos.userLevelInfos;
+            foreach (var levelInfo in levelList) LevelDict.Instance.AddLevelInfo(levelInfo);
 
-
-        initLevelListItem();
+            initLevelListItem();
+        }
     }
 
     private void initLevelListItem()

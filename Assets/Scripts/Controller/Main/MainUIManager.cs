@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
-public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
+public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
 {
     public Image portrait;
 
@@ -14,8 +16,6 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
     public Text defenseValue;
 
     public Text cureValue;
-
-    public int retryNetWorkTime;
 
     // Use this for initialization
     void Start()
@@ -33,13 +33,13 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
 
     private void RequestUserInfo()
     {
-        HttpHandler._instance.GetUserInfo(this);
+        HttpUtil.GetUserInfo(this, this);
     }
 
     public void OnRequestError(string error)
     {
         AndroidUtil.Toast("网络出错!\n" + error);
-        StartCoroutine(LaterRequest(retryNetWorkTime));
+        StartCoroutine(LaterRequest(HttpUtil.RetryNetWorkTime));
     }
 
     private IEnumerator LaterRequest(float second)
@@ -48,11 +48,26 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
         RequestUserInfo();
     }
 
-    public void OnRequestSuccess(string response)
+    public void OnRequestSuccess(long responseCode, string response)
     {
-        var userInfo = JsonUtility.FromJson<UserInfo>(response);
-        UserInfoManager._instance.SetUserInfo(userInfo);
-        UpdateUserInfo();
+        //TODO 不知道什么原因后台返回数据时多加一个字符
+        response = response.Remove(0, 1);
+        if (responseCode == 200)
+        {
+//            response = response.Replace("\\/", "/");
+//            response = response.Replace("\\u", "");
+            var userInfo = JsonUtility.FromJson<UserInfo>(response);
+            UserInfoManager._instance.SetUserInfo(userInfo);
+            UpdateUserInfo();
+        }
+        else if (responseCode == 403)
+        {
+//            print(response);
+            var errorInfo = JsonUtility.FromJson<ResponseInfo>(response);
+            AndroidUtil.Log(errorInfo.message);
+            AndroidUtil.Toast("登录过期，请重新登录");
+            BackHandler._instance.GoToLogin();
+        }
     }
 
     private void UpdateUserInfo()
@@ -62,7 +77,7 @@ public class MainUIManager : MonoBehaviour, HttpHandler.ICallBack
         defenseValue.text = userInfo.defenseValue + "";
         cureValue.text = userInfo.cureValue + "";
         //注意这里需要添加远程主机的地址，服务器返回的只有路径
-        StartCoroutine(UpdatePortrait(HttpHandler.RemotePath + userInfo.portraitPath));
+        StartCoroutine(UpdatePortrait(HttpUtil.RemotePath + userInfo.portraitPath));
     }
 
     IEnumerator UpdatePortrait(string url)

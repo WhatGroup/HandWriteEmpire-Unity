@@ -14,7 +14,7 @@ public class MainHandler : MonoBehaviour {
     public void OnClickAdventureBtn()
     {
         BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("06_LevelSelect");
+        SceneManager.LoadScene("03_LevelSelect");
     }
     public void OnClickTrainBtn()
     {

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = System.Random;
 
-public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
+public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
 {
     public static WordHandler _instance;
 
@@ -37,14 +37,10 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
     private bool isBtnActivite = false;
 
 
-    //网络连接失败时，重新请求网络的时间
-    public float retryNetWorkTime = 4f;
-
-
     private void Awake()
     {
         //如果HttpHandler没有加载过，即直接从冒险进入的话，则销毁该场景，跳到关卡选择模式
-//        if (HttpHandler._instance == null)
+//        if (HttpUtil._instance == null)
 //        {
 //            BackHandler._instance.PopScene();
 //            BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
@@ -105,14 +101,14 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
     //请求网络数据
     private void RequestInfo()
     {
-        HttpHandler._instance.GetWordInfo(this);
+        HttpUtil.GetWordInfo(this, this);
     }
 
     //网络请求失败回调,如果请求失败则反复请求网络，直到成功
     public void OnRequestError(string error)
     {
         AndroidUtil.Toast("网络出错!\n" + error);
-        StartCoroutine(LaterRequest(retryNetWorkTime));
+        StartCoroutine(LaterRequest(HttpUtil.RetryNetWorkTime));
     }
 
     private IEnumerator LaterRequest(float second)
@@ -122,7 +118,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
     }
 
     //网络请求成功回调
-    public void OnRequestSuccess(string response)
+    public void OnRequestSuccess(long responseCode, string response)
     {
         AdventureHandler._instance.isCalcTime = true;
         var infoArray = JsonUtility.FromJson<WordInfos>(GeneralUtils.JsonArrayToObject(response, "infos"));
@@ -242,7 +238,7 @@ public class WordHandler : MonoBehaviour, HttpHandler.ICallBack
             }
 
             //TODO 保存用户数据到网络
-            HttpHandler._instance.SaveLevelInfo();
+            HttpUtil.PostUserInfo(this, this);
         }
     }
 
