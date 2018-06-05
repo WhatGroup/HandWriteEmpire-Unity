@@ -169,6 +169,8 @@ public class AdventureHandler : MonoBehaviour
         //TODO 判断游戏是否胜利
         if (ScoreManager._instance.IsGameSuccess())
         {
+            //更新网络数据
+            WordHandler._instance.UpdateLevelData();
             GameSetting._instance.VictoryPanel.SetActive(true);
             SetVictoryData();
         }
@@ -177,6 +179,10 @@ public class AdventureHandler : MonoBehaviour
             GameSetting._instance.FailPanel.SetActive(true);
             SetFailData();
         }
+        //TODO 更新网络数据
+        HttpUtil.PostUserInfo(this);
+        HttpUtil.PostUserLevelInfos(this);
+        HttpUtil.PostErrorWordInfos(this);
     }
 
     private void SetFailData()
@@ -223,8 +229,11 @@ public class AdventureHandler : MonoBehaviour
 
         //奖励分
         rewardController.attackReward.text = "+" + ScoreManager._instance.RewordAttackValue();
+        UserInfoManager._instance.AttackValue += ScoreManager._instance.RewordAttackValue();
         rewardController.defenseReward.text = "+" + ScoreManager._instance.RewordDefenseValue();
+        UserInfoManager._instance.DefenseValue += ScoreManager._instance.RewordDefenseValue();
         rewardController.cureReward.text = "+" + ScoreManager._instance.RewordCureValue();
+        UserInfoManager._instance.CureValue += ScoreManager._instance.RewordCureValue();
         //旗子
         switch (ScoreManager._instance.GetRewardFlagNum())
         {
@@ -254,7 +263,6 @@ public class AdventureHandler : MonoBehaviour
 //                ScoreManager._instance.IsSuccess = true;
                 //TODO
                 ScoreManager._instance.AddDefeatEnemyCount();
-                WordHandler._instance.UpdateLevelData();
                 StartCoroutine(DelayShowGameOverPanel(2f));
             }
         }

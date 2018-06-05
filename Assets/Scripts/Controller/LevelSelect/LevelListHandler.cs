@@ -59,7 +59,7 @@ public class LevelListHandler : MonoBehaviour, HttpUtil.ICallBack
         {
             //加载关卡列表
             var levelInfos =
-                JsonUtility.FromJson<LevelInfos>(response);
+                JsonUtility.FromJson<UserLevelInfoList>(response);
             levelList = levelInfos.userLevelInfos;
             foreach (var levelInfo in levelList) LevelDict.Instance.AddLevelInfo(levelInfo);
 

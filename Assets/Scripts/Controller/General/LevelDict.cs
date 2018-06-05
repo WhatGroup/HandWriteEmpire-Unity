@@ -7,6 +7,7 @@ public class LevelDict
 {
     private Dictionary<int, LevelInfo> levelDict;
 
+
     private static LevelDict _instance;
 
     //设置选择的关卡，用于在冒险模式中判断选择了哪一个关卡
@@ -16,7 +17,11 @@ public class LevelDict
     {
         get
         {
-            if (_instance == null) _instance = new LevelDict();
+            if (_instance == null)
+            {
+                _instance = new LevelDict();
+            }
+
             return _instance;
         }
     }
@@ -62,5 +67,17 @@ public class LevelDict
     {
         var info = levelDict.TryGet(level);
         if (info != null) info.state = LevelInfo.CURRENT;
+    }
+
+    public List<LevelInfo> GetUserLevelInfos()
+    {
+        List<LevelInfo> userLevelInfos = new List<LevelInfo>();
+        int count = levelDict.Count;
+        for (int i = 1; i <= count; i++)
+        {
+            userLevelInfos.Add(levelDict.TryGet(i));
+        }
+
+        return userLevelInfos;
     }
 }

@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager _instance;
 
-    private List<WordInfo> errorWordList = new List<WordInfo>();
+    public List<WordInfo> errorWordList = new List<WordInfo>();
     private int deathRoleCount = 0;
     private int defeatEnemyCount = 0;
     private int beHurtCount = 0;

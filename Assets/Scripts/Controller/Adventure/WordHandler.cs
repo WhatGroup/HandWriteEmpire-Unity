@@ -236,9 +236,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
                 info.state = LevelInfo.OK;
                 LevelDict.Instance.UnlockLevel(selectLevel + 1);
             }
-
-            //TODO 保存用户数据到网络
-            HttpUtil.PostUserInfo(this, this);
+            
         }
     }
 

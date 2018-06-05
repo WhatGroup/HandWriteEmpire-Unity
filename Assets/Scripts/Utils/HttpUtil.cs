@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.WindowsStandalone;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = System.Random;
@@ -55,14 +56,14 @@ public class HttpUtil
     public static void Register(MonoBehaviour behaviour, string acccount, string paw, ICallBack callBack)
     {
         var registerUrl = RegisterPath + "?account=" + acccount + "&paw=" + paw;
-        behaviour.StartCoroutine(GetJson(registerUrl, callBack));
+        behaviour.StartCoroutine(GetInfo(registerUrl, callBack));
     }
 
     //登录
     public static void Login(MonoBehaviour behaviour, string acccount, string paw, ICallBack callBack)
     {
         var loginUrl = LoginPath + "?account=" + acccount + "&paw=" + paw;
-        behaviour.StartCoroutine(GetJson(loginUrl, callBack));
+        behaviour.StartCoroutine(GetInfo(loginUrl, callBack));
     }
 
     //获取用户数据
@@ -75,7 +76,7 @@ public class HttpUtil
         else
         {
             var userInfoUrl = GetUserInfoPath + "?token=" + Token;
-            behaviour.StartCoroutine(GetJson(userInfoUrl, callBack));
+            behaviour.StartCoroutine(GetInfo(userInfoUrl, callBack));
         }
     }
 
@@ -84,7 +85,7 @@ public class HttpUtil
     {
         var userLevelInfoRelativePath = UserInfoManager._instance.GetUserInfo().userLevelInfosPath;
         var wordInfoPath = RemotePath + userLevelInfoRelativePath;
-        behaviour.StartCoroutine(GetJson(wordInfoPath, callBack));
+        behaviour.StartCoroutine(GetInfo(wordInfoPath, callBack));
     }
 
     //获取单词数据
@@ -92,7 +93,7 @@ public class HttpUtil
     {
         var wordInfoRelativePath = LevelDict.Instance.GetLevelInfo(LevelDict.Instance.SelectLevel).wordInfoPath;
         var wordInfoPath = RemotePath + wordInfoRelativePath;
-        behaviour.StartCoroutine(GetJson(wordInfoPath, callBack));
+        behaviour.StartCoroutine(GetInfo(wordInfoPath, callBack));
     }
 
     public static void GetUserErrorWordInfos(MonoBehaviour behaviour, ICallBack callBack)
@@ -100,19 +101,50 @@ public class HttpUtil
     }
 
 
-    public static void PostUserInfo(MonoBehaviour behaviour, ICallBack callBack)
+    public static void PostUserInfo(MonoBehaviour behaviour)
     {
+        var json = JsonUtility.ToJson(UserInfoManager._instance.GetUserInfo());
+        behaviour.StartCoroutine(PostInfo(PostUserInfoPath, json));
     }
 
-    public static void PostUserLevelInfos(MonoBehaviour behaviour, ICallBack callBack)
+    public static void PostUserLevelInfos(MonoBehaviour behaviour)
     {
+        var json = JsonUtility.ToJson(new UserLevelInfoList(LevelDict.Instance.GetUserLevelInfos()));
+
+        var iparams = new List<IMultipartFormSection>();
+        iparams.Add(new MultipartFormDataSection("token", Token));
+        iparams.Add(new MultipartFormDataSection("userLevelInfos", json));
+        behaviour.StartCoroutine(PostInfo(PostUserLevelInfosPath, iparams));
     }
 
-    public static void PostErrorWordInfos(MonoBehaviour behaviour, ICallBack callBack)
+    public static void PostErrorWordInfos(MonoBehaviour behaviour)
     {
+        var json = JsonUtility.ToJson(new UserErrorWordInfos(ScoreManager._instance.errorWordList));
+        var iparams = new List<IMultipartFormSection>();
+        iparams.Add(new MultipartFormDataSection("token", Token));
+        iparams.Add(new MultipartFormDataSection("userErrorWordInfos", json));
+        behaviour.StartCoroutine(PostInfo(PostErrorWordInfosPath, iparams));
     }
 
-    private static IEnumerator GetJson(string url, ICallBack callBack)
+    private static IEnumerator PostInfo(string url, string json)
+    {
+        using (var www = UnityWebRequest.Post(PostUserInfoPath, json))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError) AndroidUtil.Toast("网络用户数据出错" + www.error);
+        }
+    }
+
+    private static IEnumerator PostInfo(string url, List<IMultipartFormSection> iparams)
+    {
+        using (var www = UnityWebRequest.Post(PostUserInfoPath, iparams))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError) AndroidUtil.Toast("网络关卡数据出错" + www.error);
+        }
+    }
+
+    private static IEnumerator GetInfo(string url, ICallBack callBack)
     {
         using (var www = UnityWebRequest.Get(url))
         {

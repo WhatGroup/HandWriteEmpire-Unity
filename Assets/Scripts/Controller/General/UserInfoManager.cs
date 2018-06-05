@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.Rendering;
 
 public class UserInfoManager
 {
@@ -98,16 +99,37 @@ public class UserInfoManager
     {
         return cureRole.roleHp.ToInt();
     }
+
     public int GetAttackRoleSkillValue()
     {
         return attackRole.roleSkillValue.ToInt();
     }
+
     public int GetDefenseRoleSkillValue()
     {
         return defenseRole.roleSkillValue.ToInt();
     }
+
     public int GetCureRoleSkillValue()
     {
         return cureRole.roleSkillValue.ToInt();
+    }
+
+    public int AttackValue
+    {
+        get { return userInfo.attackValue.ToInt(); }
+        set { userInfo.attackValue = (userInfo.attackValue.ToInt() + value) + ""; }
+    }
+
+    public int DefenseValue
+    {
+        get { return userInfo.defenseValue.ToInt(); }
+        set { userInfo.defenseValue = (userInfo.defenseValue.ToInt() + value) + ""; }
+    }
+
+    public int CureValue
+    {
+        get { return userInfo.cureValue.ToInt(); }
+        set { userInfo.cureValue = (userInfo.cureValue.ToInt() + value) + ""; }
     }
 }
