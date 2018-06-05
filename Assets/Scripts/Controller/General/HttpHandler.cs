@@ -7,7 +7,7 @@ using Random = System.Random;
 
 public class HttpHandler : MonoBehaviour
 {
-    public const string RemotePath = "http://139.199.88.206/";
+    public const string RemotePath = "http://139.199.88.206/hw/";
 
     //是否使用网络
     public bool isNetwork = true;

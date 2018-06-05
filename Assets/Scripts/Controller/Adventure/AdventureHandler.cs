@@ -28,13 +28,18 @@ public class AdventureHandler : MonoBehaviour
     public UnityArmatureComponent attackRole;
     public UnityArmatureComponent cureRole;
     public UnityArmatureComponent defenseRole;
+    [SerializeField] private int defenseRemainValue;
 
     //是否是新的识别
     private bool isNewRec = false;
 
     //是否是新的动画
-    private bool isNewAnim = false;
-    private string newAnimName = "";
+    private bool isAttackNewAnim = false;
+    private string newAttackAnimName = "";
+    private bool isDefenseNewAnim = false;
+    private string newDefenseAnimName = "";
+    private bool isCureNewAnim = false;
+    private string newCureAnimName = "";
 
     //Boss攻击是否计时
     [HideInInspector] public bool isCalcTime = false;
@@ -74,7 +79,14 @@ public class AdventureHandler : MonoBehaviour
 //                FadeInRoleAnim(cureRole, "behurt");
                 if (RoleLifeManager._instance.IsDefenseRoleAlive())
                 {
-                    FadeInRoleAnim(defenseRole, "behurt");
+                    if (defenseRemainValue > 0)
+                    {
+                        FadeInRoleAnim(defenseRole, "defencing_hurt");
+                    }
+                    else
+                    {
+                        FadeInRoleAnim(defenseRole, "behurt");
+                    }
                 }
                 else if (RoleLifeManager._instance.IsAttachRoleAlive())
                 {
@@ -113,7 +125,7 @@ public class AdventureHandler : MonoBehaviour
             if ("AttachBtn".Equals(btnName))
             {
                 FadeInRoleAnim(attackRole, "attack");
-                //动画播放完成造成伤害
+                //已经修改为在动画播放完成造成伤害
 //                EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
 //                if (!EnemyLifeManager._instance.IsEnemyAlive())
 //                {
@@ -130,7 +142,7 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("DefensenBtn".Equals(btnName))
             {
-                FadeInRoleAnim(defenseRole, "attack");
+                FadeInRoleAnim(defenseRole, "defence");
                 AndroidUtil.Toast("防御效果!!!");
             }
         }
@@ -261,7 +273,23 @@ public class AdventureHandler : MonoBehaviour
         }
 
 
-        OnAnimationEventHanler(attackRole);
+        if (isAttackNewAnim)
+        {
+            isAttackNewAnim = false;
+            if (!"".Equals(newAttackAnimName))
+            {
+                StartCoroutine(DelayAnimPlay(attackRole, newAttackAnimName, delayAnimPlayTime));
+                newAttackAnimName = "";
+            }
+        }
+        else
+        {
+            PlayRoleAnim(attackRole, "normal");
+            if (isNewRec)
+            {
+                isNewRec = false;
+            }
+        }
     }
 
     private void OnCureAnimationEventHandler(string type, EventObject eventObject)
@@ -280,18 +308,33 @@ public class AdventureHandler : MonoBehaviour
             }
         }
 
-        OnAnimationEventHanler(cureRole);
+        if (isCureNewAnim)
+        {
+            isCureNewAnim = false;
+            if (!"".Equals(newCureAnimName))
+            {
+                StartCoroutine(DelayAnimPlay(cureRole, newCureAnimName, delayAnimPlayTime));
+                newCureAnimName = "";
+            }
+        }
+        else
+        {
+            PlayRoleAnim(cureRole, "normal");
+            if (isNewRec)
+            {
+                isNewRec = false;
+            }
+        }
     }
 
     private void OnDefensenAnimationEventHandler(string type, EventObject eventObject)
     {
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
-        if (lastAnimationName == "attack")
+        if (lastAnimationName == "defence")
         {
-            //TODO 防御处理
+            defenseRemainValue = UserInfoManager._instance.GetDefenseRoleSkillValue();
         }
-
-        if (lastAnimationName == "behurt")
+        else if (lastAnimationName == "behurt")
         {
             RoleLifeManager._instance.HurtRole(RoleInfo.DEFENSE, bossAttackValue);
             if (!RoleLifeManager._instance.IsDefenseRoleAlive())
@@ -304,24 +347,38 @@ public class AdventureHandler : MonoBehaviour
                 }
             }
         }
-
-        OnAnimationEventHanler(defenseRole);
-    }
-
-    private void OnAnimationEventHanler(UnityArmatureComponent role)
-    {
-        if (isNewAnim)
+        else if (lastAnimationName == "defencing_hurt")
         {
-            isNewAnim = false;
-            if (!"".Equals(newAnimName))
+            defenseRemainValue -= bossBeHurtValue;
+            if (defenseRemainValue <= 0)
             {
-                StartCoroutine(DelayAnimPlay(role, newAnimName, delayAnimPlayTime));
-                newAnimName = "";
+                defenseRemainValue = 0;
+                FadeInRoleAnim(defenseRole, "defencing_finish");
+            }
+        }
+
+
+        //        OnAnimationEventHanler(defenseRole);
+        if (isDefenseNewAnim)
+        {
+            isDefenseNewAnim = false;
+            if (!"".Equals(newDefenseAnimName))
+            {
+                StartCoroutine(DelayAnimPlay(defenseRole, newDefenseAnimName, delayAnimPlayTime));
+                newDefenseAnimName = "";
+            }
+        }
+        else if (defenseRemainValue > 0)
+        {
+            PlayRoleAnim(defenseRole, "defencing_normal");
+            if (isNewRec)
+            {
+                isNewRec = false;
             }
         }
         else
         {
-            PlayRoleAnim(role, "normal");
+            PlayRoleAnim(defenseRole, "normal");
             if (isNewRec)
             {
                 isNewRec = false;
@@ -333,7 +390,7 @@ public class AdventureHandler : MonoBehaviour
     //TODO 如果同时显示播放多人失败动画的时候，手写板会冲突
     public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
     {
-        if (animName == "attack" || animName == "fail" || animName == "heal")
+        if (animName == "attack" || animName == "fail" || animName == "heal" || animName == "defence")
         {
 //            GameSetting._instance.SetHWRModule(false);
 //            GameSetting._instance.PlayAnimState = true;
@@ -341,8 +398,21 @@ public class AdventureHandler : MonoBehaviour
 
         if (role.animation.lastAnimationName != "normal")
         {
-            isNewAnim = true;
-            newAnimName = animName;
+            if (role == attackRole)
+            {
+                isAttackNewAnim = true;
+                newAttackAnimName = animName;
+            }
+            else if (role == defenseRole)
+            {
+                isDefenseNewAnim = true;
+                newDefenseAnimName = animName;
+            }
+            else if (role == cureRole)
+            {
+                isCureNewAnim = true;
+                newCureAnimName = animName;
+            }
         }
         else
         {
