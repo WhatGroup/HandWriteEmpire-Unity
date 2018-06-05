@@ -7,6 +7,8 @@ public class LifeBarController : MonoBehaviour
 {
     [SerializeField] private float fillAmount;
     [SerializeField] private Image content;
+    [SerializeField] private Transform headTransform;
+    [SerializeField] private Transform barTransform;
     public float MaxValue { get; set; }
 
     public float Value
@@ -17,6 +19,9 @@ public class LifeBarController : MonoBehaviour
     private void Update()
     {
         HandleBar();
+        Quaternion rotation = headTransform.localRotation;
+        rotation.z = -rotation.z;
+        barTransform.localRotation = rotation;
     }
 
     private void HandleBar()
