@@ -50,8 +50,10 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
 
     public void OnRequestSuccess(long responseCode, string response)
     {
+//        print(response);
         //TODO 不知道什么原因后台返回数据时多加一个字符
         response = response.Remove(0, 1);
+        print(response);
         if (responseCode == 200)
         {
 //            response = response.Replace("\\/", "/");

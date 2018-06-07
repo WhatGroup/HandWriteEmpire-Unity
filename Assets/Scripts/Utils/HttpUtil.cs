@@ -104,43 +104,47 @@ public class HttpUtil
     public static void PostUserInfo(MonoBehaviour behaviour)
     {
         var json = JsonUtility.ToJson(UserInfoManager._instance.GetUserInfo());
-        behaviour.StartCoroutine(PostInfo(PostUserInfoPath, json));
+        var iparams = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("token", Token),
+            new MultipartFormDataSection("userInfo", json)
+        };
+        behaviour.StartCoroutine(PostInfo(PostUserInfoPath, iparams));
+        Debug.Log(json);
     }
 
     public static void PostUserLevelInfos(MonoBehaviour behaviour)
     {
         var json = JsonUtility.ToJson(new UserLevelInfoList(LevelDict.Instance.GetUserLevelInfos()));
 
-        var iparams = new List<IMultipartFormSection>();
-        iparams.Add(new MultipartFormDataSection("token", Token));
-        iparams.Add(new MultipartFormDataSection("userLevelInfos", json));
+        var iparams = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("token", Token),
+            new MultipartFormDataSection("userLevelInfos", json)
+        };
         behaviour.StartCoroutine(PostInfo(PostUserLevelInfosPath, iparams));
+        Debug.Log(json);
     }
 
     public static void PostErrorWordInfos(MonoBehaviour behaviour)
     {
         var json = JsonUtility.ToJson(new UserErrorWordInfos(ScoreManager._instance.errorWordList));
-        var iparams = new List<IMultipartFormSection>();
-        iparams.Add(new MultipartFormDataSection("token", Token));
-        iparams.Add(new MultipartFormDataSection("userErrorWordInfos", json));
-        behaviour.StartCoroutine(PostInfo(PostErrorWordInfosPath, iparams));
-    }
-
-    private static IEnumerator PostInfo(string url, string json)
-    {
-        using (var www = UnityWebRequest.Post(PostUserInfoPath, json))
+        var iparams = new List<IMultipartFormSection>
         {
-            yield return www.SendWebRequest();
-            if (www.isNetworkError || www.isHttpError) AndroidUtil.Toast("网络用户数据出错" + www.error);
-        }
+            new MultipartFormDataSection("token", Token),
+            new MultipartFormDataSection("userErrorWordInfos", json)
+        };
+        behaviour.StartCoroutine(PostInfo(PostErrorWordInfosPath, iparams));
+        Debug.Log(json);
     }
 
     private static IEnumerator PostInfo(string url, List<IMultipartFormSection> iparams)
     {
-        using (var www = UnityWebRequest.Post(PostUserInfoPath, iparams))
+        using (var www = UnityWebRequest.Post(url, iparams))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) AndroidUtil.Toast("网络关卡数据出错" + www.error);
+            AndroidUtil.Toast(www.downloadHandler.text);
         }
     }
 
