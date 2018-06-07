@@ -21,43 +21,17 @@ public class LevelSelectUIManager : MonoBehaviour
 
     void UpdateInfo()
     {
-        StartCoroutine(UpdatePortrait(attackRolePortrait,
-            HttpUtil.RemotePath + UserInfoManager._instance.GetAttackRolePortraitUri()));
+        HttpUtil.ReplaceImageByNet(this, attackRolePortrait,
+            HttpUtil.RemotePath + UserInfoManager._instance.GetAttackRolePortraitUri());
 
-        StartCoroutine(UpdatePortrait(cureRolePortrait,
-            HttpUtil.RemotePath + UserInfoManager._instance.GetCureRolePortraitUri()));
+        HttpUtil.ReplaceImageByNet(this, cureRolePortrait,
+            HttpUtil.RemotePath + UserInfoManager._instance.GetCureRolePortraitUri());
 
-        StartCoroutine(UpdatePortrait(defenseRolePortrait,
-            HttpUtil.RemotePath + UserInfoManager._instance.GetDefenseRolePortraitUri()));
+        HttpUtil.ReplaceImageByNet(this, defenseRolePortrait,
+            HttpUtil.RemotePath + UserInfoManager._instance.GetDefenseRolePortraitUri());
 
         attackRoleName.text = UserInfoManager._instance.GetAttackRoleName();
         defenseRoleName.text = UserInfoManager._instance.GetDefenseRoleName();
         cureRoleName.text = UserInfoManager._instance.GetCureRoleName();
-    }
-
-    IEnumerator UpdatePortrait(Image rolePortrait, string url)
-    {
-        using (UnityWebRequest www = UnityWebRequest.Get(url))
-        {
-            yield return www.Send();
-            if (www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                int width = 1920;
-                int height = 1080;
-                byte[] results = www.downloadHandler.data;
-                Texture2D texture = new Texture2D(width, height);
-                texture.LoadImage(results);
-                yield return new WaitForSeconds(0.01f);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f));
-                rolePortrait.sprite = sprite;
-                yield return new WaitForSeconds(0.01f);
-                Resources.UnloadUnusedAssets();
-            }
-        }
     }
 }

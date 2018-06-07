@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.WindowsStandalone;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class HttpUtil
@@ -138,6 +138,38 @@ public class HttpUtil
         AndroidUtil.Log(json);
     }
 
+    //替换Image的图片为网络图片
+    public static void ReplaceImageByNet(MonoBehaviour behaviour, Image image, String url)
+    {
+        behaviour.StartCoroutine(ReplaceImage(image, url));
+    }
+
+    static IEnumerator ReplaceImage(Image image, string url)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                int width = 1920;
+                int height = 1080;
+                byte[] results = www.downloadHandler.data;
+                Texture2D texture = new Texture2D(width, height);
+                texture.LoadImage(results);
+                yield return new WaitForSeconds(0.01f);
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f));
+                image.sprite = sprite;
+                yield return new WaitForSeconds(0.01f);
+                Resources.UnloadUnusedAssets();
+            }
+        }
+    }
+
     private static IEnumerator PostInfo(string url, List<IMultipartFormSection> iparams)
     {
         using (var www = UnityWebRequest.Post(url, iparams))
@@ -147,6 +179,7 @@ public class HttpUtil
 //            AndroidUtil.Toast(www.downloadHandler.text);
         }
     }
+
 
     private static IEnumerator GetInfo(string url, ICallBack callBack)
     {

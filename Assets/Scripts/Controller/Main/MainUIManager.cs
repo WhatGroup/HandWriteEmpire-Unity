@@ -86,32 +86,6 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
         defenseValue.text = userInfo.defenseValue + "";
         cureValue.text = userInfo.cureValue + "";
         //注意这里需要添加远程主机的地址，服务器返回的只有路径
-        StartCoroutine(UpdatePortrait(HttpUtil.RemotePath + userInfo.portraitPath));
-    }
-
-    private IEnumerator UpdatePortrait(string url)
-    {
-        using (var www = UnityWebRequest.Get(url))
-        {
-            yield return www.Send();
-            if (www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                var width = 1920;
-                var height = 1080;
-                var results = www.downloadHandler.data;
-                var texture = new Texture2D(width, height);
-                texture.LoadImage(results);
-                yield return new WaitForSeconds(0.01f);
-                var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f));
-                portrait.sprite = sprite;
-                yield return new WaitForSeconds(0.01f);
-                Resources.UnloadUnusedAssets();
-            }
-        }
+        HttpUtil.ReplaceImageByNet(this, portrait, HttpUtil.RemotePath + userInfo.portraitPath);
     }
 }
