@@ -9,15 +9,16 @@ public class LoginManager : MonoBehaviour, HttpUtil.ICallBack
     public InputField accountInputField;
     public InputField pwdInputField;
 
-    void Awake()
+    private void Awake()
     {
-        string str = PlayerPrefs.GetString("Token");
+        var str = PlayerPrefs.GetString("Token");
         if (!GeneralUtils.IsStringEmpty(str))
         {
             HttpUtil.Token = str;
             BackHandler._instance.GoToMain();
         }
     }
+
 
     public void OnClickRegisterBtn()
     {

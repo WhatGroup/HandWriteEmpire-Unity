@@ -32,8 +32,8 @@ public class RegisterManager : MonoBehaviour, HttpUtil.ICallBack
 
     public void OnRequestSuccess(long responseCode, string response)
     {
-        print(response);
         response = response.Remove(0, 1);
+        AndroidUtil.Log(response);
         var responseInfo = JsonUtility.FromJson<ResponseInfo>(response);
         if (responseCode == 200)
         {

@@ -110,7 +110,7 @@ public class HttpUtil
             new MultipartFormDataSection("userInfo", json)
         };
         behaviour.StartCoroutine(PostInfo(PostUserInfoPath, iparams));
-        Debug.Log(json);
+        AndroidUtil.Log(json);
     }
 
     public static void PostUserLevelInfos(MonoBehaviour behaviour)
@@ -123,7 +123,7 @@ public class HttpUtil
             new MultipartFormDataSection("userLevelInfos", json)
         };
         behaviour.StartCoroutine(PostInfo(PostUserLevelInfosPath, iparams));
-        Debug.Log(json);
+        AndroidUtil.Log(json);
     }
 
     public static void PostErrorWordInfos(MonoBehaviour behaviour)
@@ -135,7 +135,7 @@ public class HttpUtil
             new MultipartFormDataSection("userErrorWordInfos", json)
         };
         behaviour.StartCoroutine(PostInfo(PostErrorWordInfosPath, iparams));
-        Debug.Log(json);
+        AndroidUtil.Log(json);
     }
 
     private static IEnumerator PostInfo(string url, List<IMultipartFormSection> iparams)
@@ -144,7 +144,7 @@ public class HttpUtil
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) AndroidUtil.Toast("网络关卡数据出错" + www.error);
-            AndroidUtil.Toast(www.downloadHandler.text);
+//            AndroidUtil.Toast(www.downloadHandler.text);
         }
     }
 

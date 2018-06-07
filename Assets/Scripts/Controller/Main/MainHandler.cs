@@ -33,6 +33,8 @@ public class MainHandler : MonoBehaviour
     public void OnClickLogoutBtn()
     {
         HttpUtil.ClearToken();
+        UserInfoManager._instance.ClearUserInfo();
+        LevelDict.Instance.ClearLevelData();
         BackHandler._instance.GoToLogin();
     }
 }

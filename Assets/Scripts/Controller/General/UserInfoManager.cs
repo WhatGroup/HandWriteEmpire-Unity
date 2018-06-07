@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Analytics;
 using UnityEngine.Experimental.Rendering;
 
 public class UserInfoManager
@@ -16,6 +17,14 @@ public class UserInfoManager
 
     private UserInfoManager()
     {
+    }
+    //注销时调用
+    public void ClearUserInfo()
+    {
+        userInfo = null;
+        attackRole = null;
+        defenseRole = null;
+        cureRole = null;
     }
 
 

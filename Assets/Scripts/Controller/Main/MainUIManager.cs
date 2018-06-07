@@ -18,16 +18,24 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
     public Text cureValue;
 
     // Use this for initialization
-    void Start()
+    private void Awake()
     {
-        if (UserInfoManager._instance.GetUserInfo() != null)
+        if (GeneralUtils.IsStringEmpty(HttpUtil.Token))
         {
-            UpdateUserInfo();
+            BackHandler._instance.GoToLogin();
         }
         else
         {
-            RequestUserInfo();
+            AndroidUtil.Log(HttpUtil.Token);
         }
+    }
+
+    private void Start()
+    {
+        if (UserInfoManager._instance.GetUserInfo() != null)
+            UpdateUserInfo();
+        else
+            RequestUserInfo();
     }
 
 
@@ -51,13 +59,12 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
     public void OnRequestSuccess(long responseCode, string response)
     {
 //        print(response);
-        //TODO 不知道什么原因后台返回数据时多加一个字符
+        //TODO 后台返回数据时多加一个字符,需要删除
         response = response.Remove(0, 1);
-        print(response);
+        AndroidUtil.Log(response);
+
         if (responseCode == 200)
         {
-//            response = response.Replace("\\/", "/");
-//            response = response.Replace("\\u", "");
             var userInfo = JsonUtility.FromJson<UserInfo>(response);
             UserInfoManager._instance.SetUserInfo(userInfo);
             UpdateUserInfo();
@@ -82,9 +89,9 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
         StartCoroutine(UpdatePortrait(HttpUtil.RemotePath + userInfo.portraitPath));
     }
 
-    IEnumerator UpdatePortrait(string url)
+    private IEnumerator UpdatePortrait(string url)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        using (var www = UnityWebRequest.Get(url))
         {
             yield return www.Send();
             if (www.isNetworkError)
@@ -93,13 +100,13 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
             }
             else
             {
-                int width = 1920;
-                int height = 1080;
-                byte[] results = www.downloadHandler.data;
-                Texture2D texture = new Texture2D(width, height);
+                var width = 1920;
+                var height = 1080;
+                var results = www.downloadHandler.data;
+                var texture = new Texture2D(width, height);
                 texture.LoadImage(results);
                 yield return new WaitForSeconds(0.01f);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f));
                 portrait.sprite = sprite;
                 yield return new WaitForSeconds(0.01f);

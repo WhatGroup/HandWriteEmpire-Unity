@@ -55,7 +55,7 @@ public class LevelListHandler : MonoBehaviour, HttpUtil.ICallBack
 
     public void OnRequestSuccess(long responseCode, string response)
     {
-        print(response);
+        AndroidUtil.Log(response);
         if (responseCode == 200)
         {
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -39,14 +40,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
 
     private void Awake()
     {
-        //如果HttpHandler没有加载过，即直接从冒险进入的话，则销毁该场景，跳到关卡选择模式
-//        if (HttpUtil._instance == null)
-//        {
-//            BackHandler._instance.PopScene();
-//            BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
-//            SceneManager.LoadScene("06_LevelSelect");
-//            return;
-//        }
         _instance = this;
     }
 
@@ -120,6 +113,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     //网络请求成功回调
     public void OnRequestSuccess(long responseCode, string response)
     {
+        AndroidUtil.Log(response);
         AdventureHandler._instance.isCalcTime = true;
         var infoArray = JsonUtility.FromJson<WordInfos>(GeneralUtils.JsonArrayToObject(response, "infos"));
         infos = infoArray.infos;
@@ -129,17 +123,18 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         UpdateWordInfo(infos[currentWord]);
         //显示手写识别模块
         GameSetting._instance.SetHWRModule(true);
-        //TODO 提示信息，需要删除
         AndroidUtil.Toast("该组长度:" + infos.Length);
     }
 
-    public void UpdateWordInfo(WordInfo Word)
+    public void UpdateWordInfo(WordInfo word)
     {
         currentCharacter = 0;
-        pinYinArray = Word.Pinyin.Split(' ');
-        characterArray = Word.Content.Split(' ');
-        AndroidUtil.Log("拼音: " + GeneralUtils.printArray(pinYinArray));
-        AndroidUtil.Log("内容: " + GeneralUtils.printArray(characterArray));
+        pinYinArray = word.Pinyin.Split(' ');
+        characterArray = word.Content.Split(' ');
+        AndroidUtil.Log(
+            "拼音: " + GeneralUtils.printArray(pinYinArray) +
+            "\n内容: " + GeneralUtils.printArray(characterArray) +
+            "\n详细: " + word.detail);
         for (var i = 0; i < pinYinArray.Length; i++)
         {
             characterGrids[i].pinyin.text = pinYinArray[i];
@@ -176,7 +171,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     {
         for (var i = 0; i < gridNums; i++)
         {
-            AndroidUtil.Log("对比:" + characterArray[i] + "," + characterGrids[i].content.text);
             if (!characterArray[i].Equals(characterGrids[i].content.text))
             {
                 //TODO 提示信息
@@ -236,7 +230,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
                 info.state = LevelInfo.OK;
                 LevelDict.Instance.UnlockLevel(selectLevel + 1);
             }
-            
         }
     }
 

@@ -25,13 +25,18 @@ public class LevelDict
             return _instance;
         }
     }
+    
 
     private LevelDict()
     {
         SelectLevel = 0;
         levelDict = new Dictionary<int, LevelInfo>();
     }
-
+    //注销时调用清除关卡数据
+    public void ClearLevelData()
+    {
+        levelDict.Clear();
+        }
     //添加关卡数据
     public void AddLevelInfo(LevelInfo levelInfo)
     {
