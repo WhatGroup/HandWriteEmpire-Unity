@@ -9,6 +9,8 @@ using Debug = UnityEngine.Debug;
 
 public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
 {
+    public GameObject personCenterPanelGo;
+
     public Image portrait;
 
     public Text attackValue;
@@ -87,5 +89,34 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
         cureValue.text = userInfo.cureValue + "";
         //注意这里需要添加远程主机的地址，服务器返回的只有路径
         HttpUtil.ReplaceImageByNet(this, portrait, userInfo.portraitPath);
+    }
+
+    public void OnClickLogoutBtn()
+    {
+        HttpUtil.ClearToken();
+        UserInfoManager._instance.ClearUserInfo();
+        LevelDict.Instance.ClearLevelData();
+        BackHandler._instance.GoToLogin();
+    }
+
+    public void OnClickClosePanelBtn()
+    {
+        personCenterPanelGo.SetActive(false);
+    }
+
+    public void OnClickOpenPanelBtn()
+    {
+        personCenterPanelGo.SetActive(true);
+    }
+
+    public void OnClickSaveBtn()
+    {
+        //TODO 保存用户数据
+        personCenterPanelGo.SetActive(false);
+    }
+
+    public void OnClickNotepadBtn()
+    {
+        //TODO 进入错字本
     }
 }

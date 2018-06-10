@@ -30,11 +30,4 @@ public class MainHandler : MonoBehaviour
         SceneManager.LoadScene("05_RoleManager");
     }
 
-    public void OnClickLogoutBtn()
-    {
-        HttpUtil.ClearToken();
-        UserInfoManager._instance.ClearUserInfo();
-        LevelDict.Instance.ClearLevelData();
-        BackHandler._instance.GoToLogin();
-    }
 }
