@@ -11,7 +11,7 @@ public class RoleLifeManager : MonoBehaviour
     [SerializeField] private BarStat cureRoleStat;
 
     // Use this for initialization
-    void Awake()
+    void Start()
     {
         initRoleLifeData();
         _instance = this;

@@ -141,6 +141,7 @@ public class HttpUtil
     //替换Image的图片为网络图片
     public static void ReplaceImageByNet(MonoBehaviour behaviour, Image image, String url)
     {
+        url = HttpUtil.RemotePath + url;
         behaviour.StartCoroutine(ReplaceImage(image, url));
     }
 

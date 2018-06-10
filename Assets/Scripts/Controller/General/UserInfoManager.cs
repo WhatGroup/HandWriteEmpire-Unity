@@ -18,6 +18,7 @@ public class UserInfoManager
     private UserInfoManager()
     {
     }
+
     //注销时调用
     public void ClearUserInfo()
     {
@@ -49,6 +50,37 @@ public class UserInfoManager
                 }
             }
         }
+    }
+
+    public RoleInfo AttackRoleInfo
+    {
+        get { return attackRole; }
+        set { attackRole = value; }
+    }
+
+    public RoleInfo DefenseRoleInfo
+    {
+        get { return defenseRole; }
+        set { defenseRole = value; }
+    }
+
+    public RoleInfo CureRoleInfo
+    {
+        get { return cureRole; }
+        set { cureRole = value; }
+    }
+
+    public RoleInfo GetRoleInfoById(int id)
+    {
+        foreach (var roleInfo in userInfo.roleInfos)
+        {
+            if (roleInfo.id.ToInt() == id)
+            {
+                return roleInfo;
+            }
+        }
+
+        return null;
     }
 
     public UserInfo GetUserInfo()

@@ -52,6 +52,8 @@ public class AdventureHandler : MonoBehaviour
 
     private void Awake()
     {
+        if (UserInfoManager._instance.GetUserInfo() == null) BackHandler._instance.GoToMain();
+
         _instance = this;
     }
 
@@ -78,20 +80,12 @@ public class AdventureHandler : MonoBehaviour
 //                FadeInRoleAnim(attackRole, "behurt");
 //                FadeInRoleAnim(cureRole, "behurt");
                 if (RoleLifeManager._instance.IsDefenseRoleAlive())
-                {
                     if (defenseRemainValue > 0)
-                    {
                         FadeInRoleAnim(defenseRole, "defencing_hurt");
-                    }
                     else
-                    {
                         FadeInRoleAnim(defenseRole, "behurt");
-                    }
-                }
                 else if (RoleLifeManager._instance.IsAttachRoleAlive())
-                {
                     FadeInRoleAnim(attackRole, "behurt");
-                }
 
                 ScoreManager._instance.AddBeHurtCount();
             }
@@ -179,6 +173,7 @@ public class AdventureHandler : MonoBehaviour
             GameSetting._instance.FailPanel.SetActive(true);
             SetFailData();
         }
+
         //TODO 更新网络数据
         HttpUtil.PostUserInfo(this);
         HttpUtil.PostUserLevelInfos(this);
@@ -191,37 +186,25 @@ public class AdventureHandler : MonoBehaviour
 
     private void SetVictoryData()
     {
-        GameObject victoryPanel = GameSetting._instance.VictoryPanel;
-        FlagStateController flagState = victoryPanel.GetComponent<FlagStateController>();
-        TaskStateContorller taskState = victoryPanel.GetComponent<TaskStateContorller>();
-        RewardController rewardController = victoryPanel.GetComponent<RewardController>();
+        var victoryPanel = GameSetting._instance.VictoryPanel;
+        var flagState = victoryPanel.GetComponent<FlagStateController>();
+        var taskState = victoryPanel.GetComponent<TaskStateContorller>();
+        var rewardController = victoryPanel.GetComponent<RewardController>();
         //任务完成情况
         if (ScoreManager._instance.IsDefeatAllEnemy())
-        {
             taskState.taskOne.GetComponent<Image>().sprite = taskState.rightSprite;
-        }
         else
-        {
             taskState.taskOne.GetComponent<Image>().sprite = taskState.errorSprite;
-        }
 
         if (ScoreManager._instance.IsLessErrorWord(4))
-        {
             taskState.taskTwo.GetComponent<Image>().sprite = taskState.rightSprite;
-        }
         else
-        {
             taskState.taskTwo.GetComponent<Image>().sprite = taskState.errorSprite;
-        }
 
         if (ScoreManager._instance.IsAllRoleLife())
-        {
             taskState.taskThree.GetComponent<Image>().sprite = taskState.rightSprite;
-        }
         else
-        {
             taskState.taskThree.GetComponent<Image>().sprite = taskState.errorSprite;
-        }
 
         taskState.taskOne.SetNativeSize();
         taskState.taskTwo.SetNativeSize();
@@ -271,7 +254,7 @@ public class AdventureHandler : MonoBehaviour
             RoleLifeManager._instance.HurtRole(RoleInfo.ATTACK, bossAttackValue);
             if (!RoleLifeManager._instance.IsAttachRoleAlive())
             {
-                GameObject attackRoleGo = GameObject.FindGameObjectWithTag("AttackRole");
+                var attackRoleGo = GameObject.FindGameObjectWithTag("AttackRole");
 
                 if (attackRoleGo != null)
                     attackRoleGo.SetActive(false);
@@ -293,10 +276,7 @@ public class AdventureHandler : MonoBehaviour
         else
         {
             PlayRoleAnim(attackRole, "normal");
-            if (isNewRec)
-            {
-                isNewRec = false;
-            }
+            if (isNewRec) isNewRec = false;
         }
     }
 
@@ -304,17 +284,10 @@ public class AdventureHandler : MonoBehaviour
     {
         var lastAnimationName = eventObject.armature.animation.lastAnimationName;
         if (lastAnimationName == "heal")
-        {
-            //TODO 治疗效果
             if (RoleLifeManager._instance.IsDefenseRoleAlive())
-            {
                 RoleLifeManager._instance.CureRole(RoleInfo.DEFENSE, UserInfoManager._instance.GetCureRoleSkillValue());
-            }
             else if (RoleLifeManager._instance.IsAttachRoleAlive())
-            {
                 RoleLifeManager._instance.CureRole(RoleInfo.ATTACK, UserInfoManager._instance.GetCureRoleSkillValue());
-            }
-        }
 
         if (isCureNewAnim)
         {
@@ -328,10 +301,7 @@ public class AdventureHandler : MonoBehaviour
         else
         {
             PlayRoleAnim(cureRole, "normal");
-            if (isNewRec)
-            {
-                isNewRec = false;
-            }
+            if (isNewRec) isNewRec = false;
         }
     }
 
@@ -348,11 +318,8 @@ public class AdventureHandler : MonoBehaviour
             if (!RoleLifeManager._instance.IsDefenseRoleAlive())
             {
                 ScoreManager._instance.AddDeathRoleCount();
-                GameObject defenseRoleGo = GameObject.FindGameObjectWithTag("DefenseRole");
-                if (defenseRoleGo != null)
-                {
-                    defenseRoleGo.SetActive(false);
-                }
+                var defenseRoleGo = GameObject.FindGameObjectWithTag("DefenseRole");
+                if (defenseRoleGo != null) defenseRoleGo.SetActive(false);
             }
         }
         else if (lastAnimationName == "defencing_hurt")
@@ -379,18 +346,12 @@ public class AdventureHandler : MonoBehaviour
         else if (defenseRemainValue > 0)
         {
             PlayRoleAnim(defenseRole, "defencing_normal");
-            if (isNewRec)
-            {
-                isNewRec = false;
-            }
+            if (isNewRec) isNewRec = false;
         }
         else
         {
             PlayRoleAnim(defenseRole, "normal");
-            if (isNewRec)
-            {
-                isNewRec = false;
-            }
+            if (isNewRec) isNewRec = false;
         }
     }
 

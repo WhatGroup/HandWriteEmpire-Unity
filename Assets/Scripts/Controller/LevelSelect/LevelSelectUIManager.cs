@@ -14,6 +14,14 @@ public class LevelSelectUIManager : MonoBehaviour
     public Text defenseRoleName;
     public Text cureRoleName;
 
+    void Awake()
+    {
+        if (UserInfoManager._instance.GetUserInfo() == null)
+        {
+            BackHandler._instance.GoToMain();
+        }
+    }
+
     void Start()
     {
         UpdateInfo();
@@ -22,13 +30,13 @@ public class LevelSelectUIManager : MonoBehaviour
     void UpdateInfo()
     {
         HttpUtil.ReplaceImageByNet(this, attackRolePortrait,
-            HttpUtil.RemotePath + UserInfoManager._instance.GetAttackRolePortraitUri());
+            UserInfoManager._instance.GetAttackRolePortraitUri());
 
         HttpUtil.ReplaceImageByNet(this, cureRolePortrait,
-            HttpUtil.RemotePath + UserInfoManager._instance.GetCureRolePortraitUri());
+            UserInfoManager._instance.GetCureRolePortraitUri());
 
         HttpUtil.ReplaceImageByNet(this, defenseRolePortrait,
-            HttpUtil.RemotePath + UserInfoManager._instance.GetDefenseRolePortraitUri());
+            UserInfoManager._instance.GetDefenseRolePortraitUri());
 
         attackRoleName.text = UserInfoManager._instance.GetAttackRoleName();
         defenseRoleName.text = UserInfoManager._instance.GetDefenseRoleName();

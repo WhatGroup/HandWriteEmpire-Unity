@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoleInfoManager : MonoBehaviour
+public class RoleItemInfoManager : MonoBehaviour
 {
     public Image roleLiHui;
 

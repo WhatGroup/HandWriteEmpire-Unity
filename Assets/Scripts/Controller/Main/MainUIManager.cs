@@ -86,6 +86,6 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
         defenseValue.text = userInfo.defenseValue + "";
         cureValue.text = userInfo.cureValue + "";
         //注意这里需要添加远程主机的地址，服务器返回的只有路径
-        HttpUtil.ReplaceImageByNet(this, portrait, HttpUtil.RemotePath + userInfo.portraitPath);
+        HttpUtil.ReplaceImageByNet(this, portrait, userInfo.portraitPath);
     }
 }

@@ -11,13 +11,15 @@ public class RoleHomeUIManager : MonoBehaviour
 
     public Text cureValue;
 
-    // Use this for initialization
-    void Start()
+    private void Awake()
     {
-        if (UserInfoManager._instance.GetUserInfo() != null)
-        {
-            UpdateUserInfo();
-        }
+        if (UserInfoManager._instance.GetUserInfo() == null) BackHandler._instance.GoToMain();
+    }
+
+    // Use this for initialization
+    private void Start()
+    {
+        if (UserInfoManager._instance.GetUserInfo() != null) UpdateUserInfo();
     }
 
     private void UpdateUserInfo()
@@ -29,7 +31,7 @@ public class RoleHomeUIManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
     }
 }
