@@ -37,8 +37,8 @@ public class RoleItemController : MonoBehaviour
         HttpUtil.ReplaceImageByNet(this, roleItemInfoManager.roleLiHui, roleInfo.roleLiHuiPath);
         roleItemInfoManager.hpValue.text = roleInfo.roleHp;
         roleItemInfoManager.roleName.text = roleInfo.roleName;
-        roleItemInfoManager.roleIntro.text = roleInfo.roleIntro;
-        roleItemInfoManager.roleSkillDesc.text = roleInfo.roleSkillDesc;
+        roleItemInfoManager.roleIntro.text = "\u3000\u3000" + roleInfo.roleIntro;
+        roleItemInfoManager.roleSkillDesc.text = "\u3000\u3000" + roleInfo.roleSkillDesc;
         switch (roleInfo.roleType)
         {
             case RoleInfo.ATTACK:
