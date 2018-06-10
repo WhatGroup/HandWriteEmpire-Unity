@@ -58,7 +58,7 @@ public class LoginManager : MonoBehaviour, HttpUtil.ICallBack
             BackHandler._instance.GoToMain();
             AndroidUtil.Toast("登录成功");
         }
-        else if (responseCode == 40)
+        else if (responseCode == 401)
         {
             AndroidUtil.Toast("用户名或密码错误");
         }
