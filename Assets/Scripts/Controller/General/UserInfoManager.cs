@@ -159,7 +159,7 @@ public class UserInfoManager
     public int AttackValue
     {
         get { return userInfo.attackValue.ToInt(); }
-        set { userInfo.attackValue = (userInfo.attackValue.ToInt() + value) + ""; }
+        set { userInfo.attackValue = value + ""; }
     }
 
     public int DefenseValue

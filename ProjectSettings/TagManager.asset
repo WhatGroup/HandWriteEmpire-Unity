@@ -9,6 +9,7 @@ TagManager:
   - CureRole
   - WordFrame1
   - WordFrame2
+  - Enemy
   layers:
   - Default
   - TransparentFX

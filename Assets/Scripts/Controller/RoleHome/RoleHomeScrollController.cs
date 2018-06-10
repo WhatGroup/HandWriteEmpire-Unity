@@ -19,7 +19,6 @@ public class RoleHomeScrollController : MonoBehaviour
 
     private int index = 0;
     
-
     void Update()
     {
         scrollLevel.horizontalNormalizedPosition =

@@ -87,17 +87,32 @@ public class ScoreManager : MonoBehaviour
 
     public int RewordAttackValue()
     {
-        return 10;
+        int level = LevelDict.Instance.SelectLevel;
+        int score = level * 20 - deathRoleCount * 5 - errorWordList.Count * 3 - beHurtCount;
+        if (score >= 5)
+            return score;
+        else
+            return 5;
     }
 
     public int RewordDefenseValue()
     {
-        return 15;
+        int level = LevelDict.Instance.SelectLevel;
+        int score = level * 20 - deathRoleCount * 10 - errorWordList.Count * 3 - beHurtCount;
+        if (score >= 5)
+            return score;
+        else
+            return 5;
     }
 
     public int RewordCureValue()
     {
-        return 20;
+        int level = LevelDict.Instance.SelectLevel;
+        int score = level * 20 - errorWordList.Count * 3 - beHurtCount;
+        if (score >= 5)
+            return score;
+        else
+            return 5;
     }
 
     public int GetRewardFlagNum()

@@ -28,6 +28,8 @@ public class AdventureHandler : MonoBehaviour
     public UnityArmatureComponent attackRole;
     public UnityArmatureComponent cureRole;
     public UnityArmatureComponent defenseRole;
+    public UnityArmatureComponent enemy;
+
     [SerializeField] private int defenseRemainValue;
 
     //是否是新的识别
@@ -61,11 +63,11 @@ public class AdventureHandler : MonoBehaviour
     {
         bossFireTime = BossFireTime;
 
-
         //设置动画监听
         attackRole.AddDBEventListener(EventObject.COMPLETE, OnAttackAnimationEventHandler);
         cureRole.AddDBEventListener(EventObject.COMPLETE, OnCureAnimationEventHandler);
         defenseRole.AddDBEventListener(EventObject.COMPLETE, OnDefensenAnimationEventHandler);
+        enemy.AddDBEventListener(EventObject.COMPLETE, OnEnemyAnimationEventHandler);
     }
 
     private void Update()
@@ -77,15 +79,14 @@ public class AdventureHandler : MonoBehaviour
             if (bossFireTime <= 0)
             {
                 bossFireTime = BossFireTime;
-//                FadeInRoleAnim(attackRole, "behurt");
-//                FadeInRoleAnim(cureRole, "behurt");
+                FadeInAnim(enemy, "attack");
                 if (RoleLifeManager._instance.IsDefenseRoleAlive())
                     if (defenseRemainValue > 0)
-                        FadeInRoleAnim(defenseRole, "defencing_hurt");
+                        FadeInAnim(defenseRole, "defencing_hurt");
                     else
-                        FadeInRoleAnim(defenseRole, "behurt");
+                        FadeInAnim(defenseRole, "behurt");
                 else if (RoleLifeManager._instance.IsAttachRoleAlive())
-                    FadeInRoleAnim(attackRole, "behurt");
+                    FadeInAnim(attackRole, "behurt");
 
                 ScoreManager._instance.AddBeHurtCount();
             }
@@ -100,7 +101,7 @@ public class AdventureHandler : MonoBehaviour
         {
             if ("AttachBtn".Equals(btnName))
             {
-                FadeInRoleAnim(attackRole, "fail");
+                FadeInAnim(attackRole, "fail");
             }
             else if ("CureBtn".Equals(btnName))
             {
@@ -110,7 +111,7 @@ public class AdventureHandler : MonoBehaviour
             else if ("DefensenBtn".Equals(btnName))
             {
                 //TODO 攻击角色错误动画
-                FadeInRoleAnim(defenseRole, "fail");
+                FadeInAnim(defenseRole, "fail");
             }
         }
         else
@@ -118,7 +119,8 @@ public class AdventureHandler : MonoBehaviour
             //TODO 修改为具体的效果
             if ("AttachBtn".Equals(btnName))
             {
-                FadeInRoleAnim(attackRole, "attack");
+                FadeInAnim(attackRole, "attack");
+                FadeInAnim(enemy, "behurt");
                 //已经修改为在动画播放完成造成伤害
 //                EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
 //                if (!EnemyLifeManager._instance.IsEnemyAlive())
@@ -131,12 +133,12 @@ public class AdventureHandler : MonoBehaviour
             }
             else if ("CureBtn".Equals(btnName))
             {
-                FadeInRoleAnim(cureRole, "heal");
+                FadeInAnim(cureRole, "heal");
                 AndroidUtil.Toast("治疗效果!!!");
             }
             else if ("DefensenBtn".Equals(btnName))
             {
-                FadeInRoleAnim(defenseRole, "defence");
+                FadeInAnim(defenseRole, "defence");
                 AndroidUtil.Toast("防御效果!!!");
             }
         }
@@ -241,10 +243,19 @@ public class AdventureHandler : MonoBehaviour
         {
             //敌人受伤显示
             EnemyLifeManager._instance.BeHurt(UserInfoManager._instance.GetAttackRoleSkillValue());
+
             if (!EnemyLifeManager._instance.IsEnemyAlive())
             {
 //                ScoreManager._instance.IsSuccess = true;
                 //TODO
+                //敌人消失
+                var enemyGo = GameObject.FindGameObjectWithTag("Enemy");
+                if (enemyGo != null)
+                {
+                    enemyGo.SetActive(false);
+                    bossFireTime = 987654321;
+                }
+
                 ScoreManager._instance.AddDefeatEnemyCount();
                 StartCoroutine(DelayShowGameOverPanel(2f));
             }
@@ -275,7 +286,7 @@ public class AdventureHandler : MonoBehaviour
         }
         else
         {
-            PlayRoleAnim(attackRole, "normal");
+            PlayAnim(attackRole, "normal");
             if (isNewRec) isNewRec = false;
         }
     }
@@ -300,7 +311,7 @@ public class AdventureHandler : MonoBehaviour
         }
         else
         {
-            PlayRoleAnim(cureRole, "normal");
+            PlayAnim(cureRole, "normal");
             if (isNewRec) isNewRec = false;
         }
     }
@@ -328,7 +339,7 @@ public class AdventureHandler : MonoBehaviour
             if (defenseRemainValue <= 0)
             {
                 defenseRemainValue = 0;
-                FadeInRoleAnim(defenseRole, "defencing_finish");
+                FadeInAnim(defenseRole, "defencing_finish");
             }
         }
 
@@ -345,19 +356,23 @@ public class AdventureHandler : MonoBehaviour
         }
         else if (defenseRemainValue > 0)
         {
-            PlayRoleAnim(defenseRole, "defencing_normal");
+            PlayAnim(defenseRole, "defencing_normal");
             if (isNewRec) isNewRec = false;
         }
         else
         {
-            PlayRoleAnim(defenseRole, "normal");
+            PlayAnim(defenseRole, "normal");
             if (isNewRec) isNewRec = false;
         }
     }
 
+    private void OnEnemyAnimationEventHandler(string type, EventObject eventObject)
+    {
+        PlayAnim(enemy, "normal");
+    }
 
     //TODO 如果同时显示播放多人失败动画的时候，手写板会冲突
-    public void FadeInRoleAnim(UnityArmatureComponent role, string animName)
+    public void FadeInAnim(UnityArmatureComponent role, string animName)
     {
         if (animName == "attack" || animName == "fail" || animName == "heal" || animName == "defence")
         {
@@ -389,7 +404,7 @@ public class AdventureHandler : MonoBehaviour
         }
     }
 
-    public void PlayRoleAnim(UnityArmatureComponent role, string animName)
+    public void PlayAnim(UnityArmatureComponent role, string animName)
     {
         role.animation.Play(animName, 1);
     }
@@ -397,6 +412,6 @@ public class AdventureHandler : MonoBehaviour
     private IEnumerator DelayAnimPlay(UnityArmatureComponent role, string animName, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        PlayRoleAnim(role, animName);
+        PlayAnim(role, animName);
     }
 }
