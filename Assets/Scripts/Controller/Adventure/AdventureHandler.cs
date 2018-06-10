@@ -9,9 +9,13 @@ using UnityEngine.UI;
 
 public class AdventureHandler : MonoBehaviour
 {
+    public AudioClip attackClip;
+    public AudioClip defenseClip;
+    public AudioClip cureClip;
+    public AudioClip enemyClip;
+
     public static AdventureHandler _instance;
-
-
+    
     //敌人攻击冷却时间
     public double BossFireTime;
 
@@ -80,6 +84,7 @@ public class AdventureHandler : MonoBehaviour
             {
                 bossFireTime = BossFireTime;
                 FadeInAnim(enemy, "attack");
+                AudioSource.PlayClipAtPoint(enemyClip, new Vector3());
                 if (RoleLifeManager._instance.IsDefenseRoleAlive())
                     if (defenseRemainValue > 0)
                         FadeInAnim(defenseRole, "defencing_hurt");
@@ -121,6 +126,7 @@ public class AdventureHandler : MonoBehaviour
             {
                 FadeInAnim(attackRole, "attack");
                 FadeInAnim(enemy, "behurt");
+                AudioSource.PlayClipAtPoint(attackClip,new Vector3());
                 //已经修改为在动画播放完成造成伤害
 //                EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
 //                if (!EnemyLifeManager._instance.IsEnemyAlive())
@@ -135,11 +141,13 @@ public class AdventureHandler : MonoBehaviour
             {
                 FadeInAnim(cureRole, "heal");
                 AndroidUtil.Toast("治疗效果!!!");
+                AudioSource.PlayClipAtPoint(cureClip, new Vector3());
             }
             else if ("DefensenBtn".Equals(btnName))
             {
                 FadeInAnim(defenseRole, "defence");
                 AndroidUtil.Toast("防御效果!!!");
+                AudioSource.PlayClipAtPoint(defenseClip, new Vector3());
             }
         }
 
