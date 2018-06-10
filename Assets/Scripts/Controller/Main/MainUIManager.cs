@@ -27,6 +27,8 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
 
     public Slider soundSlider;
 
+    private float saveVolume;
+
     // Use this for initialization
     private void Awake()
     {
@@ -135,14 +137,17 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
         {
             //打开声音
             soundSlider.interactable = true;
-            audioListener.enabled = true;
+            audioSource.volume = saveVolume;
+//            audioListener.enabled = true;
         }
         else
         {
             soundSlider.interactable = false;
-            audioListener.enabled = false;
+            audioSource.volume = 0;
+            saveVolume = soundSlider.value;
         }
     }
+
     public void OnDragSoundSlider()
     {
         audioSource.volume = soundSlider.value;
