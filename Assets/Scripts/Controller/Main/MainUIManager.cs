@@ -11,6 +11,10 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
 {
     public GameObject personCenterPanelGo;
 
+    public AudioListener audioListener;
+
+    public AudioSource audioSource;
+
     public Image portrait;
 
     public Text attackValue;
@@ -18,6 +22,10 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
     public Text defenseValue;
 
     public Text cureValue;
+
+    public Toggle soundToggle;
+
+    public Slider soundSlider;
 
     // Use this for initialization
     private void Awake()
@@ -118,5 +126,25 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
     public void OnClickNotepadBtn()
     {
         //TODO 进入错字本
+    }
+
+    public void OnClickSoundToggle()
+    {
+        //UI做反了
+        if (!soundToggle.isOn)
+        {
+            //打开声音
+            soundSlider.interactable = true;
+            audioListener.enabled = true;
+        }
+        else
+        {
+            soundSlider.interactable = false;
+            audioListener.enabled = false;
+        }
+    }
+    public void OnDragSoundSlider()
+    {
+        audioSource.volume = soundSlider.value;
     }
 }
