@@ -165,12 +165,12 @@ public class UserInfoManager
     public int DefenseValue
     {
         get { return userInfo.defenseValue.ToInt(); }
-        set { userInfo.defenseValue = (userInfo.defenseValue.ToInt() + value) + ""; }
+        set { userInfo.defenseValue = value + ""; }
     }
 
     public int CureValue
     {
         get { return userInfo.cureValue.ToInt(); }
-        set { userInfo.cureValue = (userInfo.cureValue.ToInt() + value) + ""; }
+        set { userInfo.cureValue =  value + ""; }
     }
 }
