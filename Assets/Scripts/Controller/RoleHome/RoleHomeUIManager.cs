@@ -11,6 +11,8 @@ public class RoleHomeUIManager : MonoBehaviour
 
     public Text cureValue;
 
+    public GameObject roleInfoPanel;
+
     private void Awake()
     {
         if (UserInfoManager._instance.GetUserInfo() == null) BackHandler._instance.GoToMain();
@@ -30,8 +32,8 @@ public class RoleHomeUIManager : MonoBehaviour
         cureValue.text = userInfo.cureValue + "";
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void OnClickCloseRoleInfoPanel()
     {
+        roleInfoPanel.SetActive(false);
     }
 }

@@ -1,31 +1,70 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ScrollController : MonoBehaviour
+public class RoleHomeScrollController : MonoBehaviour
 {
-    private ScrollRect scrollLevel;
+    public ScrollRect scrollLevel;
 
-    private void Start()
+    public Button btnPrevious;
+
+    public Button btnNext;
+
+    public Text pageText;
+
+    public float smoothSpeed = 10;
+
+    private float[] pageIndex = new float[] {0, 0.5f,1};
+
+    private int index = 0;
+    
+
+    void Update()
     {
-        scrollLevel = GetComponent<ScrollRect>();
+        scrollLevel.horizontalNormalizedPosition =
+            Mathf.Lerp(scrollLevel.horizontalNormalizedPosition, pageIndex[index], Time.deltaTime * smoothSpeed);
     }
 
-    void Update() 
+    public void OnClickPrevious()
     {
-        if (scrollLevel.horizontalNormalizedPosition < 0)
+        if (index > 0)
         {
-            scrollLevel.horizontalNormalizedPosition = 0;
+            if (index == pageIndex.Length - 1)
+            {
+                btnNext.interactable = true;
+            }
+
+            index--;
+            if (index == 0)
+            {
+                btnPrevious.interactable = false;
+            }
         }
-        else if (scrollLevel.horizontalNormalizedPosition > 1)
+
+        pageText.text = (index + 1) + "/3";
+    }
+
+    public void OnClickNext()
+    {
+        if (index < pageIndex.Length - 1)
         {
-            scrollLevel.horizontalNormalizedPosition = 1;
+            if (index == 0)
+            {
+                btnPrevious.interactable = true;
+            }
+
+            index++;
+            if (index == pageIndex.Length - 1)
+            {
+                btnNext.interactable = false;
+            }
         }
+
+        pageText.text = (index + 1) + "/3";
     }
 }
+
 //可实现滑动结束后定位到某个位置
 /*public class ScrollController : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
@@ -84,7 +123,7 @@ public class ScrollController : MonoBehaviour
             }
         }
 
-//        scrollLevel.horizontalNormalizedPosition = pageIndex[index];
+//      scrollLevel.horizontalNormalizedPosition = pageIndex[index];
         destionPos = pageIndex[index];
         isDraging = false;
     }

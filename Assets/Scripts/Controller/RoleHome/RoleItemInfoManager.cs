@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public class RoleItemInfoManager : MonoBehaviour
 {
+    public static RoleItemInfoManager _instance;
+
+    public Sprite attackSeal;
+
+    public Sprite defenseSeal;
+
+    public Sprite cureSeal;
+
+    public Sprite unknownLiHui;
+
     public Image roleLiHui;
 
     public Text hpValue;
@@ -18,12 +28,8 @@ public class RoleItemInfoManager : MonoBehaviour
     public Text roleName;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        _instance = this;
     }
 }
