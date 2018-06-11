@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -10,8 +11,6 @@ using Debug = UnityEngine.Debug;
 public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
 {
     public GameObject personCenterPanelGo;
-
-    public AudioListener audioListener;
 
     public AudioSource audioSource;
 
@@ -33,17 +32,32 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
     private void Awake()
     {
         if (GeneralUtils.IsStringEmpty(HttpUtil.Token))
-        {
             BackHandler._instance.GoToLogin();
-        }
         else
-        {
             AndroidUtil.Log(HttpUtil.Token);
-        }
+
+        //soundSlider.interactable = false;
     }
 
     private void Start()
     {
+        var sliderState = PrefsManager.SilderState;
+        var volume = PrefsManager.Volume;
+        soundSlider.value = volume;
+        if (sliderState.Equals("true"))
+        {
+            soundSlider.interactable = true;
+            soundToggle.isOn = false;
+            audioSource.volume = volume;
+        }
+        else
+        {
+            soundSlider.interactable = false;
+            soundToggle.isOn = true;
+            audioSource.volume = 0;
+            saveVolume = volume;
+        }
+
         if (UserInfoManager._instance.GetUserInfo() != null)
             UpdateUserInfo();
         else
@@ -138,18 +152,21 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
             //打开声音
             soundSlider.interactable = true;
             audioSource.volume = saveVolume;
-//            audioListener.enabled = true;
+            PrefsManager.SilderState = "true";
         }
         else
         {
+            //关闭声音
             soundSlider.interactable = false;
             audioSource.volume = 0;
             saveVolume = soundSlider.value;
+            PrefsManager.SilderState = "false";
         }
     }
 
     public void OnDragSoundSlider()
     {
         audioSource.volume = soundSlider.value;
+        PrefsManager.Volume = soundSlider.value;
     }
 }

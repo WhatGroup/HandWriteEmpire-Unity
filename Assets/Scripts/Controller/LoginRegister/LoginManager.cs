@@ -11,7 +11,7 @@ public class LoginManager : MonoBehaviour, HttpUtil.ICallBack
 
     private void Awake()
     {
-        var str = PlayerPrefs.GetString("Token");
+        var str = PrefsManager.Token;
         if (!GeneralUtils.IsStringEmpty(str))
         {
             HttpUtil.Token = str;

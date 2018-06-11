@@ -1087,7 +1087,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personCenterPanelGo: {fileID: 838312638}
-  audioListener: {fileID: 786552628}
   audioSource: {fileID: 786552632}
   portrait: {fileID: 654781608}
   attackValue: {fileID: 1009588528}
@@ -1318,7 +1317,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 3fbf17288d605a24d98bc48ff273911c, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

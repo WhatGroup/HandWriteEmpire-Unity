@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ public class HttpUtil
         {
             token = value;
             //保存到SharedPreferences，下次登录的时候不用获取
-            PlayerPrefs.SetString("Token", token);
+            PrefsManager.Token = token;
         }
     }
 
@@ -36,7 +37,7 @@ public class HttpUtil
     public static void ClearToken()
     {
         Token = "";
-        PlayerPrefs.DeleteKey("Token");
+        PrefsManager.Token = "";
     }
 
     public static int RetryNetWorkTime
@@ -139,15 +140,15 @@ public class HttpUtil
     }
 
     //替换Image的图片为网络图片
-    public static void ReplaceImageByNet(MonoBehaviour behaviour, Image image, String url)
+    public static void ReplaceImageByNet(MonoBehaviour behaviour, Image image, string url)
     {
-        url = HttpUtil.RemotePath + url;
+        url = RemotePath + url;
         behaviour.StartCoroutine(ReplaceImage(image, url));
     }
 
-    static IEnumerator ReplaceImage(Image image, string url)
+    private static IEnumerator ReplaceImage(Image image, string url)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        using (var www = UnityWebRequest.Get(url))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError)
@@ -156,13 +157,13 @@ public class HttpUtil
             }
             else
             {
-                int width = 1920;
-                int height = 1080;
-                byte[] results = www.downloadHandler.data;
-                Texture2D texture = new Texture2D(width, height);
+                var width = 1920;
+                var height = 1080;
+                var results = www.downloadHandler.data;
+                var texture = new Texture2D(width, height);
                 texture.LoadImage(results);
                 yield return new WaitForSeconds(0.01f);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f));
                 image.sprite = sprite;
                 yield return new WaitForSeconds(0.01f);
