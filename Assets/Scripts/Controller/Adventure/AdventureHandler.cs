@@ -15,7 +15,7 @@ public class AdventureHandler : MonoBehaviour
     public AudioClip enemyClip;
 
     public static AdventureHandler _instance;
-    
+
     //敌人攻击冷却时间
     public double BossFireTime;
 
@@ -84,7 +84,8 @@ public class AdventureHandler : MonoBehaviour
             {
                 bossFireTime = BossFireTime;
                 FadeInAnim(enemy, "attack");
-                AudioSource.PlayClipAtPoint(enemyClip, new Vector3());
+                if (PrefsManager.SilderState.Equals("ture"))
+                    AudioSource.PlayClipAtPoint(enemyClip, new Vector3(), PrefsManager.Volume);
                 if (RoleLifeManager._instance.IsDefenseRoleAlive())
                     if (defenseRemainValue > 0)
                         FadeInAnim(defenseRole, "defencing_hurt");
@@ -126,7 +127,8 @@ public class AdventureHandler : MonoBehaviour
             {
                 FadeInAnim(attackRole, "attack");
                 FadeInAnim(enemy, "behurt");
-                AudioSource.PlayClipAtPoint(attackClip,new Vector3());
+                if (PrefsManager.SilderState.Equals("ture"))
+                    AudioSource.PlayClipAtPoint(attackClip, new Vector3(), PrefsManager.Volume);
                 //已经修改为在动画播放完成造成伤害
 //                EnemyLifeManager._instance.BeHurt(bossBeHurtValue);
 //                if (!EnemyLifeManager._instance.IsEnemyAlive())
@@ -141,13 +143,15 @@ public class AdventureHandler : MonoBehaviour
             {
                 FadeInAnim(cureRole, "heal");
                 AndroidUtil.Toast("治疗效果!!!");
-                AudioSource.PlayClipAtPoint(cureClip, new Vector3());
+                if (PrefsManager.SilderState.Equals("ture"))
+                    AudioSource.PlayClipAtPoint(cureClip, new Vector3(), PrefsManager.Volume);
             }
             else if ("DefensenBtn".Equals(btnName))
             {
                 FadeInAnim(defenseRole, "defence");
                 AndroidUtil.Toast("防御效果!!!");
-                AudioSource.PlayClipAtPoint(defenseClip, new Vector3());
+                if (PrefsManager.SilderState.Equals("ture"))
+                    AudioSource.PlayClipAtPoint(defenseClip, new Vector3(), PrefsManager.Volume);
             }
         }
 
