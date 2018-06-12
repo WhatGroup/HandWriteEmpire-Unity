@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a64e5b0e436d4bed9780211ae245f7b, type: 3}
+  m_Name: NewProject-loading01_Data
+  m_EditorClassIdentifier: 
+  dataName: NewProject-loading01
+  dragonBonesJSON: {fileID: 4900000, guid: 0c9e18849a0838e47ad4413ceb65672a, type: 3}
+  textureAtlas:
+  - textureAtlasJSON: {fileID: 4900000, guid: a901069edac7bb54fa98bc24d514a415, type: 3}
+    texture: {fileID: 2800000, guid: 9edeeaa48da8eb449848b7a58ccff586, type: 3}
+    material: {fileID: 2100000, guid: fe79b8fdbf697f142b4f4894d8a5c334, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 7bc02c787e999af4db6a7efcb370132a, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 303d40fe45bb02c42b38b60f6ced8529, type: 3}
+    texture: {fileID: 2800000, guid: 3ac325ff59c3f6d409955c2f4edee85a, type: 3}
+    material: {fileID: 2100000, guid: 3cc5bb7d22b9fef47930f312b228019f, type: 2}
+    uiMaterial: {fileID: 2100000, guid: bc96355d0d700894387964ef141c343d, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 2e54cd3f455c09944a890d6fe4fcc87e, type: 3}
+    texture: {fileID: 2800000, guid: db13aaec0b4340649ba46a5b0ee028b4, type: 3}
+    material: {fileID: 2100000, guid: 777729d33b15823408e2113de99f6149, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 43e12820342f6864892321bcade6febe, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: a5eadddaf1488924ba211b89fb8e5060, type: 3}
+    texture: {fileID: 2800000, guid: 85e6e6152c0b5b84bb7af2286c8c820c, type: 3}
+    material: {fileID: 2100000, guid: 7ac5f7597384d5f4f9f9484347251565, type: 2}
+    uiMaterial: {fileID: 2100000, guid: e87da99a3e2cbfa46b75d039981d5342, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: ec1369f6ac2d08c41be83dd6d5d989e3, type: 3}
+    texture: {fileID: 2800000, guid: 3e9055ba6774a7c479959cba17698402, type: 3}
+    material: {fileID: 2100000, guid: 582516324c50adf40994ccf9fcc0f751, type: 2}
+    uiMaterial: {fileID: 2100000, guid: f45e23bd09507b84398966748bdbf6d1, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: af4dbb2ad0997854b919d82814de3d26, type: 3}
+    texture: {fileID: 2800000, guid: 43c6faf7b73f04c4abf7531e9e5655d0, type: 3}
+    material: {fileID: 2100000, guid: b2f7fd591c5e95a419ccd52c16d7e41f, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 029a702dced8d6848a2cc0efdc1e110e, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: c19d9d334120a214d81d78c7173f2d97, type: 3}
+    texture: {fileID: 2800000, guid: 4ebdb697d5a89904db9ee3a50027cb0f, type: 3}
+    material: {fileID: 2100000, guid: 39d5a2b3ff609c846a87130c9bc4f635, type: 2}
+    uiMaterial: {fileID: 2100000, guid: fa666de64859b334ea67b6b743309631, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: ff0e24131a1d1c94b8843f73257a4440, type: 3}
+    texture: {fileID: 2800000, guid: be609c48d23597641b9737d6fdbe53e0, type: 3}
+    material: {fileID: 2100000, guid: 6b193e6a7434b4f488776acbad77e160, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 0e3fee1a46533c944ad9058b65aae807, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 9113701889c4925489b165e4d551d4a2, type: 3}
+    texture: {fileID: 2800000, guid: b7a8c0d4b6a83dd46a09988140d69728, type: 3}
+    material: {fileID: 2100000, guid: 3234781c1d865bb458d71bf67ea6d64f, type: 2}
+    uiMaterial: {fileID: 2100000, guid: ac7d326c1014a0c44af2eab28c2c0944, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: beef5a82f88d54140ad8b60be7949f94, type: 3}
+    texture: {fileID: 2800000, guid: 479855761d8a86f45a89e7ad8e2b1872, type: 3}
+    material: {fileID: 2100000, guid: 75cdd60920292ac47b8f1e9deafe6e16, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 28c6082bb6a09514ab6fda4fc0814161, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 030dd875779e00446be77c51fca1dca8, type: 3}
+    texture: {fileID: 2800000, guid: f4c7c32a81bc6b640ac61a9ae98a30d1, type: 3}
+    material: {fileID: 2100000, guid: d8da702c868e1f74abac0020304f6e78, type: 2}
+    uiMaterial: {fileID: 2100000, guid: b5661252ae7a61b41af8022d4a7d41ed, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: c1fd93c66a7eb3a4db882798e6be706e, type: 3}
+    texture: {fileID: 2800000, guid: 1d7545bc367218344a457b99f626d214, type: 3}
+    material: {fileID: 2100000, guid: e1de0290a4347b94dafff5c8eb98d25a, type: 2}
+    uiMaterial: {fileID: 2100000, guid: bacc568269a50c044980e1a63011ee21, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 4b97ac0cb9c5262419d69253696c5e71, type: 3}
+    texture: {fileID: 2800000, guid: 0c886a846c1d88d4c8747063db831596, type: 3}
+    material: {fileID: 2100000, guid: 6652f5962f53f45459d69308767e8a31, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 4022a2899f794f94aa18b3c4b8524fd4, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 88d208e69a7e4654881e32f9cdd1cf1f, type: 3}
+    texture: {fileID: 2800000, guid: b08b42485772bbc48af8ad6b4e0c5c3f, type: 3}
+    material: {fileID: 2100000, guid: 4c94b757ce20a9642b2d43d95cd5c73f, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 147241fcbde45104d8e3dee1ccf74bcd, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 6fd964c50d76b1c4593cf39f545d3956, type: 3}
+    texture: {fileID: 2800000, guid: 7834bddcfaaeff642872ab1fe3729c3c, type: 3}
+    material: {fileID: 2100000, guid: c53027c0105e6b54090a72d76b9f0dee, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 2159beee0d780064cba8d027db768e15, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 3e35f67af1a6509418630132bdae7a53, type: 3}
+    texture: {fileID: 2800000, guid: 7998d1d4a5e476046a400280d0bf470d, type: 3}
+    material: {fileID: 2100000, guid: ea110ff01bcd1bb488be20f2ddde58b4, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 2e8604cd339a0764fab79cab2b6b11b1, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: a6065fcb7c32c2a43aa4183dd71a8cd8, type: 3}
+    texture: {fileID: 2800000, guid: 0850dab6ac4ad9947b4280db7eccc8a2, type: 3}
+    material: {fileID: 2100000, guid: 5c1a373abf81e5f48894989f2bb493e2, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 3da5dd05c0fb4c94bbb2c6de454b9710, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 7ceabb893c621e54aa79b43e654cf3d3, type: 3}
+    texture: {fileID: 2800000, guid: 7d9e8239e259b02459ffb37afc3bef9b, type: 3}
+    material: {fileID: 2100000, guid: 00b434b2de75697488022b1683fc197a, type: 2}
+    uiMaterial: {fileID: 2100000, guid: ee3b3cf52361ddc498fb8020a630766b, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: ab64850b8a4129840b41da6079f4f197, type: 3}
+    texture: {fileID: 2800000, guid: ef7a610f2ff5c824e97b12606f37f5ca, type: 3}
+    material: {fileID: 2100000, guid: 4b141e0411718804ab9a5c979b1fe762, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 2814b9529452b02418c1745785490c57, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 0672c1dc5516dea45b30db8380aac67f, type: 3}
+    texture: {fileID: 2800000, guid: 3cc3a70eb5426074d8b2c36ecd1f5ab4, type: 3}
+    material: {fileID: 2100000, guid: 55ae670432d0cf1459bdbe6532d04cbd, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 8fe4e714b9f3c7b4b892a842724b24c3, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: dc781ee71dc55c64999f0b0df81eaa4e, type: 3}
+    texture: {fileID: 2800000, guid: 518df27777ede0b4493aa60e61af4742, type: 3}
+    material: {fileID: 2100000, guid: 4d278910a1cf29c43a34ced1c3bd9b28, type: 2}
+    uiMaterial: {fileID: 2100000, guid: 8770351964bf5ab4fa6d672f0979f7f1, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: eae4c47d66039f246881fc9660109302, type: 3}
+    texture: {fileID: 2800000, guid: d5d98a3a3748ebb46a9c9f71d9bd5c67, type: 3}
+    material: {fileID: 2100000, guid: 20e088c899fd5aa40979ae59f7494855, type: 2}
+    uiMaterial: {fileID: 2100000, guid: fdb684da4fd3a4f4ba5ab433140d7ab8, type: 2}

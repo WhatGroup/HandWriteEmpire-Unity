@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
@@ -142,6 +143,10 @@ public class MainUIManager : MonoBehaviour, HttpUtil.ICallBack
     public void OnClickNotepadBtn()
     {
         //TODO 进入错字本
+
+        //将场景添加到返回栈，实现在Unity下通过返回键返回上一个场景
+        BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("01_Notepad");
     }
 
     public void OnClickSoundToggle()

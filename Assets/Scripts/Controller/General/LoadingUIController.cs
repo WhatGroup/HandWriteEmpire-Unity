@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadingUIController : MonoBehaviour
 {
-    void Start()
-    {
-        StartCoroutine(StartGame());
-    }
+    public Text loadingScaleText;
 
-    private IEnumerator StartGame()
+    public Slider loadingBar;
+
+    public int speed;
+
+
+    private void Update()
     {
-        yield return new WaitForSeconds(2f);
-        BackHandler._instance.GoToAdventure();
+        loadingBar.value += Time.deltaTime * speed;
+        loadingScaleText.text = (int) loadingBar.value + "%";
+        if (loadingBar.value >= 100) BackHandler._instance.GoToAdventure();
     }
 }

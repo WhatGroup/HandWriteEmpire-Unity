@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DragonBones;
 using UnityEngine;
 using UnityEngine.UI;
+using Transform = UnityEngine.Transform;
 
 public class LevelListHandler : MonoBehaviour, HttpUtil.ICallBack
 {
+
     public GameObject LevelItemPrefab;
 
     public GameObject LevelListGo;
@@ -58,7 +61,6 @@ public class LevelListHandler : MonoBehaviour, HttpUtil.ICallBack
         AndroidUtil.Log(response);
         if (responseCode == 200)
         {
-
             //加载关卡列表
             var levelInfos =
                 JsonUtility.FromJson<UserLevelInfoList>(response);

@@ -31,6 +31,7 @@ public class ClickHandler : MonoBehaviour
     {
         LevelDict.Instance.SelectLevel = level;
         BackHandler._instance.AddScene(SceneManager.GetActiveScene().name);
+        
         SceneManager.LoadScene("03_Loading");
     }
 

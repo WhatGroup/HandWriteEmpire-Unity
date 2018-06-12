@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DragonBones;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class LevelSelectUIManager : MonoBehaviour
 {
+    public static LevelSelectUIManager _instance;
+
+    public UnityArmatureComponent beginLoadingAnim;
+
     public Image attackRolePortrait;
     public Image defenseRolePortrait;
     public Image cureRolePortrait;
@@ -16,6 +21,7 @@ public class LevelSelectUIManager : MonoBehaviour
 
     void Awake()
     {
+        _instance = this;
         if (UserInfoManager._instance.GetUserInfo() == null)
         {
             BackHandler._instance.GoToMain();
@@ -25,6 +31,7 @@ public class LevelSelectUIManager : MonoBehaviour
     void Start()
     {
         UpdateInfo();
+//        beginLoadingAnim.AddDBEventListener();
     }
 
     void UpdateInfo()
