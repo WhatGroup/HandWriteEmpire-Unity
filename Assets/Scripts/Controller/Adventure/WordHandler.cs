@@ -123,7 +123,7 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
         UpdateWordInfo(infos[currentWord]);
         //显示手写识别模块
         GameSetting._instance.SetHWRModule(true);
-        AndroidUtil.Toast("该组长度:" + infos.Length);
+//        AndroidUtil.Toast("该组长度:" + infos.Length);
     }
 
     public void UpdateWordInfo(WordInfo word)
@@ -170,7 +170,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     public bool JudgeResult()
     {
         for (var i = 0; i < gridNums; i++)
-        {
             if (!characterArray[i].Equals(characterGrids[i].content.text))
             {
                 //TODO 提示信息
@@ -178,7 +177,6 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
                 ScoreManager._instance.AddErrorWordList(infos[currentCharacter]);
                 return false;
             }
-        }
 
         return true;
     }
@@ -204,17 +202,11 @@ public class WordHandler : MonoBehaviour, HttpUtil.ICallBack
     private void GameOverHandler()
     {
         GameSetting._instance.SetHWRModule(false);
-        GameObject wordFrame1 = GameObject.FindGameObjectWithTag("WordFrame1");
-        if (wordFrame1)
-        {
-            wordFrame1.SetActive(false);
-        }
+        var wordFrame1 = GameObject.FindGameObjectWithTag("WordFrame1");
+        if (wordFrame1) wordFrame1.SetActive(false);
 
-        GameObject wordFrame2 = GameObject.FindGameObjectWithTag("WordFrame2");
-        if (wordFrame2)
-        {
-            wordFrame2.SetActive(false);
-        }
+        var wordFrame2 = GameObject.FindGameObjectWithTag("WordFrame2");
+        if (wordFrame2) wordFrame2.SetActive(false);
     }
 
     public void UpdateLevelData()

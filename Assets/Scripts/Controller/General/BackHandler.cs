@@ -49,4 +49,9 @@ public class BackHandler
     {
         SceneManager.LoadScene("00_Register");
     }
+
+    public void GoToAdventure()
+    {
+        SceneManager.LoadScene("03_Adventure");
+    }
 }
