@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +15,14 @@ public class RoleHomeUIManager : MonoBehaviour
 
     public GameObject roleInfoPanel;
 
+    [HideInInspector] public static RoleHomeUIManager _instance;
+
+    [HideInInspector] public string currentDragRole;
+
+
     private void Awake()
     {
+        _instance = this;
         if (UserInfoManager._instance.GetUserInfo() == null) BackHandler._instance.GoToMain();
     }
 

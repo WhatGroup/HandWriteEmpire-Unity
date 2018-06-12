@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DragonBones;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,8 +28,12 @@ public class RoleItemInfoManager : MonoBehaviour
 
     public Text roleName;
 
+    public GameObject attackRole;
+    public GameObject cureRole;
+    public GameObject defenseRole;
+
     // Use this for initialization
-    void Awake()
+    private void Awake()
     {
         _instance = this;
     }
