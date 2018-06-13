@@ -137,19 +137,19 @@ public class AdventureHandler : MonoBehaviour
 //                    StartCoroutine(DelayShowGameOverPanel(2f));
 //                }
 
-                AndroidUtil.Toast("攻击效果!!!");
+//                AndroidUtil.Toast("攻击效果!!!");
             }
             else if ("CureBtn".Equals(btnName))
             {
                 FadeInAnim(cureRole, "heal");
-                AndroidUtil.Toast("治疗效果!!!");
+//                AndroidUtil.Toast("治疗效果!!!");
                 if (PrefsManager.SilderState.Equals("ture"))
                     AudioSource.PlayClipAtPoint(cureClip, new Vector3(), PrefsManager.Volume);
             }
             else if ("DefensenBtn".Equals(btnName))
             {
                 FadeInAnim(defenseRole, "defence");
-                AndroidUtil.Toast("防御效果!!!");
+//                AndroidUtil.Toast("防御效果!!!");
                 if (PrefsManager.SilderState.Equals("ture"))
                     AudioSource.PlayClipAtPoint(defenseClip, new Vector3(), PrefsManager.Volume);
             }
