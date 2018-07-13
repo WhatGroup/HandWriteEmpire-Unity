@@ -13,4 +13,14 @@ Android Studio 3.1
 7.	扣血系统：利用角色和敌人的攻击力和防御值等数据来实现主角和敌人的扣血机制
 8.	敌人AI：实现计时器功能，在一定的时间间隔内发动攻击
 9.	动画控制系统：利用攻击、防御、治疗以及暂停继续等按钮并结合是否被攻击等数据控制各个角色以及敌人的动画
-10.	登录注销逻辑：用户登录后保存应用的登录状态，后续无需登录，切换账号可通过注销功能实现
+10.	登录注销逻辑：用户登录后保存应用的登录状态，后续无需登录，切换账号可通过注销功能实现 
+#### 效果图
+![个人中心](https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/EffectPicures/main.png)
+
+![设置](https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/EffectPicures/person_center.png)
+
+![错字本](https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/EffectPicures/error_book.png)
+
+![战斗模式](https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/EffectPicures/adventure.png)
+
+![角色选择](https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/EffectPicures/role_select.png)
