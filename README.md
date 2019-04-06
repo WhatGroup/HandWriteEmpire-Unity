@@ -1,6 +1,8 @@
 ## 手写帝国
 一款手写汉字打怪类游戏，使用Unity结合Android Studio开发(此为Unity部分)
-*演示视频地址:https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/20180613_093407.mp4*
+*演示视频地址:https://github.com/WhatGroup/HandWriteEmpire-Unity/blob/master/20180613_093407.mp4* 
+
+*备注：目前后台已经没有部署，如果测试，需要自行搭建后台及修改代码内的后台地址，后台工程地址请[点这里](https://github.com/WhatGroup/HandWriteEmpire-Backstage)*
 ## IDE信息
 Unity 2017.3.0f3(64bit)   
 Android Studio 3.1
